@@ -1,0 +1,9 @@
+C:\Users\boucheka\Documents\Junior Spring\csse376\Stratego\ClassLibrary1\bin\Debug\ClassLibrary1.dll
+C:\Users\boucheka\Documents\Junior Spring\csse376\Stratego\ClassLibrary1\bin\Debug\ClassLibrary1.pdb
+C:\Users\boucheka\Documents\Junior Spring\csse376\Stratego\ClassLibrary1\bin\Debug\nunit.framework.dll
+C:\Users\boucheka\Documents\Junior Spring\csse376\Stratego\ClassLibrary1\bin\Debug\Stratego.dll
+C:\Users\boucheka\Documents\Junior Spring\csse376\Stratego\ClassLibrary1\bin\Debug\Stratego.pdb
+C:\Users\boucheka\Documents\Junior Spring\csse376\Stratego\ClassLibrary1\bin\Debug\nunit.framework.xml
+C:\Users\boucheka\Documents\Junior Spring\csse376\Stratego\ClassLibrary1\obj\Debug\StrategoTesting.csprojResolveAssemblyReference.cache
+C:\Users\boucheka\Documents\Junior Spring\csse376\Stratego\ClassLibrary1\obj\Debug\ClassLibrary1.dll
+C:\Users\boucheka\Documents\Junior Spring\csse376\Stratego\ClassLibrary1\obj\Debug\ClassLibrary1.pdb

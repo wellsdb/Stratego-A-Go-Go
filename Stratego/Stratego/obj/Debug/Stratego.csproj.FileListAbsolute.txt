@@ -1,0 +1,5 @@
+C:\Users\boucheka\Documents\Junior Spring\csse376\Stratego\Stratego\bin\Debug\Stratego.dll
+C:\Users\boucheka\Documents\Junior Spring\csse376\Stratego\Stratego\bin\Debug\Stratego.pdb
+C:\Users\boucheka\Documents\Junior Spring\csse376\Stratego\Stratego\obj\Debug\Stratego.csprojResolveAssemblyReference.cache
+C:\Users\boucheka\Documents\Junior Spring\csse376\Stratego\Stratego\obj\Debug\Stratego.dll
+C:\Users\boucheka\Documents\Junior Spring\csse376\Stratego\Stratego\obj\Debug\Stratego.pdb
