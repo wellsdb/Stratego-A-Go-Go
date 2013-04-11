@@ -33,14 +33,25 @@ namespace Stratego
         }
         public Piece getSpace(int v, int h)
         {
-            return b[h, v].getPiece();
+            return b[v, h].getPiece();
         }
         public void placePiece(Piece p, int v, int h)
         {
-            b[h, v].setPiece(p);
+            b[v, h].setPiece(p);
         }
         public bool isMoveValid(int v, int h, int dir, int dist)
         {
+            Piece p = b[v,h].getPiece();
+
+            if (dir == 0 && v + dist > 9) return false;
+            if (dir == 1 && h + dist > 9) return false;
+            if (dir == 2 && v - dist < 0) return false;
+            if (dir == 3 && h - dist < 0) return false;
+
+            if (p.getRank() == 0 && dist > 0) return false;
+            if (p.getRank() == 11 && dist > 0) return false;
+            if(p.getRank() != 2 && dist>1) return false;
+
             return true;
         }
     }
