@@ -39,7 +39,6 @@ namespace StrategoTesting
             b.placePiece(new Piece((int)Piece.team.red, 10), 9, 5);
             Assert.False(b.isMoveValid(9, 5, (int)Board.dir.N, 1));
         }
-
         [Test()]
         public void southRedOneOpenSpaceTrue()
         {
@@ -68,7 +67,6 @@ namespace StrategoTesting
             b.placePiece(new Piece((int)Piece.team.red, 10), 0, 5);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.S, 1));
         }
-
         [Test()]
         public void eastRedOneOpenSpaceTrue()
         {
@@ -97,7 +95,6 @@ namespace StrategoTesting
             b.placePiece(new Piece((int)Piece.team.red, 10), 9, 5);
             Assert.False(b.isMoveValid(9, 5, (int)Board.dir.E, 1));
         }
-
         [Test()]
         public void westRedOneOpenSpaceTrue()
         {
@@ -126,7 +123,6 @@ namespace StrategoTesting
             b.placePiece(new Piece((int)Piece.team.red, 10), 0, 5);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.W, 1));
         }
-
         [Test()]
         public void northBlueOneOpenSpaceTrue()
         {
@@ -155,7 +151,6 @@ namespace StrategoTesting
             b.placePiece(new Piece((int)Piece.team.blue, 10), 9, 5);
             Assert.False(b.isMoveValid(9, 5, (int)Board.dir.S, 1));
         }
-
         [Test()]
         public void southBlueOneOpenSpaceTrue()
         {
@@ -184,7 +179,6 @@ namespace StrategoTesting
             b.placePiece(new Piece((int)Piece.team.blue, 10), 0, 5);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.S, 1));
         }
-
         [Test()]
         public void eastBlueOneOpenSpaceTrue()
         {
@@ -213,7 +207,6 @@ namespace StrategoTesting
             b.placePiece(new Piece((int)Piece.team.blue, 10), 9, 5);
             Assert.False(b.isMoveValid(9, 5, (int)Board.dir.E, 1));
         }
-
         [Test()]
         public void westBlueOneOpenSpaceTrue()
         {
@@ -242,69 +235,416 @@ namespace StrategoTesting
             b.placePiece(new Piece((int)Piece.team.blue, 10), 0, 5);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.W, 1));
         }
+        [Test()]
+        public void northRedMarshalMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.red, 10), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.N, 2));
+        }
+        [Test()]
+        public void southRedMarshalMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.red, 10), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.S, 2));
+        }
+        [Test()]
+        public void eastRedMarshalMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.red, 10), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 2));
+        }
+        [Test()]
+        public void westRedMarshalMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.red, 10), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.W, 2));
+        }
+        [Test()]
+        public void northBlueMarshalMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.blue, 10), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.N, 2));
+        }
+        [Test()]
+        public void southBlueMarshalMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.blue, 10), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.S, 2));
+        }
+        [Test()]
+        public void eastBlueMarshalMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.blue, 10), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 2));
+        }
+        [Test()]
+        public void westBlueMarshalMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.blue, 10), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.W, 2));
+        }
+        [Test()]
+        public void northRedGeneralMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.red, 9), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.N, 2));
+        }
+        [Test()]
+        public void southRedGeneralMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.red, 9), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.S, 2));
+        }
+        [Test()]
+        public void eastRedGeneralMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.red, 9), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 2));
+        }
+        [Test()]
+        public void westRedGeneralMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.red, 9), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.W, 2));
+        }
+        [Test()]
+        public void northBlueGeneralMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.blue, 9), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.N, 2));
+        }
+        [Test()]
+        public void southBlueGeneralMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.blue, 9), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.S, 2));
+        }
+        [Test()]
+        public void eastBlueGeneralMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.blue, 9), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 2));
+        }
+        [Test()]
+        public void westBlueGeneralMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.blue, 9), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.W, 2));
+        }
+        [Test()]
+        public void northRedBombMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.red, 11), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.N, 2));
+        }
+        [Test()]
+        public void southRedBombMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.red, 11), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.S, 2));
+        }
+        [Test()]
+        public void eastRedBombMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.red, 11), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 2));
+        }
+        [Test()]
+        public void westRedBombMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.red, 11), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.W, 2));
+        }
+        [Test()]
+        public void northBlueBombMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.blue, 11), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.N, 2));
+        }
+        [Test()]
+        public void southBlueBombMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.blue, 11), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.S, 2));
+        }
+        [Test()]
+        public void eastBlueBombMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.blue, 11), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 2));
+        }
+        [Test()]
+        public void westBlueBombMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.blue, 11), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.W, 2));
+        }
+        [Test()]
+        public void northRedFlagMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.red, 0), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.N, 2));
+        }
+        [Test()]
+        public void southRedFlagMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.red, 0), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.S, 2));
+        }
+        [Test()]
+        public void eastRedFlagMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.red, 0), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 2));
+        }
+        [Test()]
+        public void westRedFlagMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.red, 0), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.W, 2));
+        }
+        [Test()]
+        public void northBlueFlagMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.blue, 0), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.N, 2));
+        }
+        [Test()]
+        public void southBlueFlagMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.blue, 0), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.S, 2));
+        }
+        [Test()]
+        public void eastBlueFlagMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.blue, 0), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 2));
+        }
+        [Test()]
+        public void westBlueFlagMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.blue, 0), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.W, 2));
+        }
 
-        //    [Test()]
-        //    public void scoutMultipleOpenSpaceForwardTrue()
-        //    {
-        //        Board b = new Board();
-        //        b.placePiece(new Piece(0, 2), 0, 5);
-        //        Assert.True(b.isMoveValid(0, 5,0,3));
-        //    }
-        //    [Test()]
-        //    public void nonScoutOpenMultipleSpaceForwardFalse()
-        //    {
-        //        Board b = new Board();
-        //        b.placePiece(new Piece(0, 4), 0, 5);
-        //        Assert.False(b.isMoveValid(0, 5, 0, 8));
-        //    }
-        //    [Test()]
-        //    public void scoutOpenSpaceSidewaysTrue()
-        //    {
-        //        Board b = new Board();
-        //        b.placePiece(new Piece(0, 2), 0, 5);
-        //        Assert.True(b.isMoveValid(0, 5, 5, 5));
-        //    }
-        //    [Test()]
-        //    public void scoutOpenSpaceDiagonalFalse()
-        //    {
-        //        Board b = new Board();
-        //        b.placePiece(new Piece(0, 2), 0, 5);
-        //        Assert.False(b.isMoveValid(0, 5, 5, 8));
-        //    }
-        //    [Test()]
-        //    public void nonScoutOpenSpaceDiagonalFalse()
-        //    {
-        //        Board b = new Board();
-        //        b.placePiece(new Piece(0, 2), 0, 5);
-        //        Assert.False(b.isMoveValid(0, 5, 5, 8));
-        //    }
-        //    [Test()]
-        //    public void forwardLake()
-        //    {
-        //        Board b = new Board();
-        //        b.placePiece(new Piece(2, 10), 0, 5);
-        //        b.placePiece(new Piece(0, 10), 0, 4);
-        //        Assert.False(b.isMoveValid(0, 4, 0, 5));
-        //    }
-        //    [Test()]
-        //    public void movefromEmptySpace()
-        //    {
-        //        Board b = new Board();
-        //        Assert.False(b.isMoveValid(0, 4, 0, 5));
-        //    }
-        //    [Test()]
-        //    public void testgetSpace()
-        //    {
-        //        Board b = new Board();
-        //        b.placePiece(new Piece(2, 10), 0, 5);
-        //        Assert.True(b.getSpace(0, 5).Equals(new Piece(2, 10)));
-        //    }
-        //    [Test()]
-        //    public void testNonScoutMovementLimit()
-        //    {
-        //        Board b = new Board();
-        //        b.placePiece(new Piece(0, 10), 0, 5);
-        //        Assert.False(b.isMoveValid(0, 5, 0, 8));
-        //    }
+        [Test()]
+        public void northRedSpyMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.red, 1), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.N, 2));
+        }
+        [Test()]
+        public void southRedSpyMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.red, 1), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.S, 2));
+        }
+        [Test()]
+        public void eastRedSpyMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.red, 1), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 2));
+        }
+        [Test()]
+        public void westRedSpyMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.red, 1), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.W, 2));
+        }
+        [Test()]
+        public void northBlueSpyMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.blue, 1), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.N, 2));
+        }
+        [Test()]
+        public void southBlueSpyMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.blue, 1), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.S, 2));
+        }
+        [Test()]
+        public void eastBlueSpyMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.blue, 1), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 2));
+        }
+        [Test()]
+        public void westBlueSpyMobilityLimitFalse()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.blue, 1), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.W, 2));
+        }
+
+        [Test()]
+        public void northRedScoutMobilityLimitTrue()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.red, 2), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.N, 2));
+        }
+        [Test()]
+        public void southRedScoutMobilityLimitTrue()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.red, 2), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.S, 2));
+        }
+        [Test()]
+        public void eastRedScoutMobilityLimitTrue()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.red, 2), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 2));
+        }
+        [Test()]
+        public void westRedScoutMobilityLimitTrue()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.red, 2), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.W, 2));
+        }
+        [Test()]
+        public void northBlueScoutMobilityLimitTrue()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.blue, 2), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.N, 2));
+        }
+        [Test()]
+        public void southBlueScoutMobilityLimitTrue()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.blue, 2), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.S, 2));
+        }
+        [Test()]
+        public void eastBlueScoutMobilityLimitTrue()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.blue, 2), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 2));
+        }
+        [Test()]
+        public void westBlueScoutMobilityLimitTrue()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece((int)Piece.team.blue, 2), 5, 5);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.W, 2));
+        }
+        [Test()]
+        public void westEdgeSouthGetSpaceTrue()
+        {
+            Board b = new Board();
+            Piece p = new Piece((int)Piece.team.blue, 2);
+            b.placePiece(p, 1, 0);
+            Assert.True(p.Equals(b.getSpace(1, 0)));
+        }
+        [Test()]
+        public void westEdgeNorthGetSpaceTrue()
+        {
+            Board b = new Board();
+            Piece p = new Piece((int)Piece.team.blue, 2);
+            b.placePiece(p, 8, 0);
+            Assert.True(p.Equals(b.getSpace(8, 0)));
+        }
+        [Test()]
+        public void southEdgeWestGetSpaceTrue()
+        {
+            Board b = new Board();
+            Piece p = new Piece((int)Piece.team.blue, 2);
+            b.placePiece(p, 0, 1);
+            Assert.True(p.Equals(b.getSpace(0, 1)));
+        }
+        [Test()]
+        public void southEdgeEastGetSpaceTrue()
+        {
+            Board b = new Board();
+            Piece p = new Piece((int)Piece.team.blue, 2);
+            b.placePiece(p, 0, 8);
+            Assert.True(p.Equals(b.getSpace(0, 8)));
+        }
+        [Test()]
+        public void northEdgeEastGetSpaceTrue()
+        {
+            Board b = new Board();
+            Piece p = new Piece((int)Piece.team.blue, 2);
+            b.placePiece(p, 9, 1);
+            Assert.True(p.Equals(b.getSpace(9, 1)));
+        }
+        [Test()]
+        public void northEdgeWestGetSpaceTrue()
+        {
+            Board b = new Board();
+            Piece p = new Piece((int)Piece.team.blue, 2);
+            b.placePiece(p, 9, 8);
+            Assert.True(p.Equals(b.getSpace(9, 8)));
+        }
+        [Test()]
+        public void eastEdgeSouthGetSpaceTrue()
+        {
+            Board b = new Board();
+            Piece p = new Piece((int)Piece.team.blue, 2);
+            b.placePiece(p, 1, 9);
+            Assert.True(p.Equals(b.getSpace(1, 9)));
+        }
+        [Test()]
+        public void eastEdgeNorthGetSpaceTrue()
+        {
+            Board b = new Board();
+            Piece p = new Piece((int)Piece.team.blue, 2);
+            b.placePiece(p, 8, 9);
+            Assert.True(p.Equals(b.getSpace(8, 9)));
+        }
+        [Test()]
+        public void getSpaceFalse()
+        {
+            Board b = new Board();
+            Piece p = new Piece((int)Piece.team.blue, 2);
+            Piece q = new Piece((int)Piece.team.red, 2);
+            b.placePiece(p, 5, 5);
+            Assert.True(q.Equals(b.getSpace(8, 9)));
+        }
     }
 }
