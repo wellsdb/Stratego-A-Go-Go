@@ -8,52 +8,55 @@ namespace Stratego
 {
     public class Player
     {
+
+        public static  readonly Int16 DEFAULT_PIECECOUNT = 40;
+        public static readonly String DEFUALT_NAME = "Napoleon";
+
         private Int16 pieceCount;
         private String name;
-        private Boolean hasColors;
 
         public Player()
         {
+            this.pieceCount = DEFAULT_PIECECOUNT;
+            this.name = DEFUALT_NAME;
         }
 
         public Player(String name)
         {
-
+            this.pieceCount = DEFAULT_PIECECOUNT;
+            this.name = name;
         }
 
         public Player(Int16 pieceCount, String name)
         {
-
+            this.pieceCount = pieceCount;
+            this.name = name;
         }
 
         public void setName(String name)
         {
-            
+            this.name = name;
         }
 
         public Int16 getPieceCount()
         {
-            return -1;
+            return this.pieceCount;
         }
 
         public void addPiece()
         {
+            this.pieceCount++;
         }
 
         public void removePiece()
         {
+            this.pieceCount--;
         }
 
         public String getName()
         {
-            return null;
+            return this.name;
         }
-
-        public Boolean getHasColors()
-        {
-            return false;
-        }
-
-
+        
     }
 }
