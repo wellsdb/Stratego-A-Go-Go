@@ -8,20 +8,21 @@ namespace Stratego
 {
     public class Cell
     {
-        private Boolean terrain { get; set; }
-        private Piece piece { get; set; }
+        public enum Terrain { Land, Lake };
+        private Piece piece;
+        private Terrain terrain;
 
         public void setPiece(Piece piece)
         {
             this.piece = piece;
         }
 
-        public void setTerrain(Boolean terrain)
+        public void setTerrain(Terrain terrain)
         {
             this.terrain = terrain;
         }
 
-        public Boolean getTerrain()
+        public Terrain getTerrain()
         {
             return this.terrain;
         }
@@ -34,11 +35,11 @@ namespace Stratego
 
         public Cell()
         {
-            this.terrain = false;
+            this.terrain = Terrain.Land;
             this.piece = null;
         }
 
-        public Cell(Boolean terrain)
+        public Cell(Terrain terrain)
         {
             this.terrain = terrain;
             this.piece = null;
@@ -46,11 +47,11 @@ namespace Stratego
 
         public Cell(Piece piece)
         {
-            this.terrain = false;
+            this.terrain = Terrain.Land;
             this.piece = piece;
         }
 
-        public Cell(Boolean terrain, Piece piece)
+        public Cell(Terrain terrain, Piece piece)
         {
             this.terrain = terrain;
             this.piece = piece;

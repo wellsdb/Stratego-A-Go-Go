@@ -23,18 +23,18 @@ namespace StrategoTesting
         [Test()]
         public void TestThatCellTerrainGetsSetsAndInitializesCorrectly()
         {
-            Cell target1 = new Cell(false);
-            Cell target2 = new Cell(true);
-            Cell target3 = new Cell(false);
-            Cell target4 = new Cell(true);
+            Cell target1 = new Cell(Cell.Terrain.Land);
+            Cell target2 = new Cell(Cell.Terrain.Lake);
+            Cell target3 = new Cell(Cell.Terrain.Land);
+            Cell target4 = new Cell(Cell.Terrain.Lake);
 
-            target3.setTerrain(true);
-            target4.setTerrain(false);
+            target3.setTerrain(Cell.Terrain.Lake);
+            target4.setTerrain(Cell.Terrain.Land);
 
-            Assert.AreEqual(false, target1.getTerrain());
-            Assert.AreEqual(true, target2.getTerrain());
-            Assert.AreEqual(true, target3.getTerrain());
-            Assert.AreEqual(false, target4.getTerrain());
+            Assert.AreEqual(Cell.Terrain.Land, target1.getTerrain());
+            Assert.AreEqual(Cell.Terrain.Lake, target2.getTerrain());
+            Assert.AreEqual(Cell.Terrain.Lake, target3.getTerrain());
+            Assert.AreEqual(Cell.Terrain.Land, target4.getTerrain());
         }
 
         [Test()]
