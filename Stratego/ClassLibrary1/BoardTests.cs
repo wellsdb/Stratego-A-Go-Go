@@ -306,12 +306,5 @@ namespace StrategoTesting
         //        b.placePiece(new Piece(0, 10), 0, 5);
         //        Assert.False(b.isMoveValid(0, 5, 0, 8));
         //    }
-        //    [Test()]
-        //    public void testPieceEqualsFalse()
-        //    {
-        //        Piece p = new Piece(0, 10);
-        //        Piece q = new Piece(1, 10);
-        //        Assert.False(p.Equals(q));
-        //    }
     }
 }

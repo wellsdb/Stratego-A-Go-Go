@@ -9,6 +9,7 @@ namespace Stratego
     public class Piece
     {
         public enum team { red, blue };
+        public enum rank { flag, spy, scout, miner, sergeant, lieutenant, captain, major, colonel, general, marshal, bomb };
 
         private int t, r;
 
