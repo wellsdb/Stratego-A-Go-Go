@@ -10,7 +10,7 @@ namespace Stratego
     {
 
         public static  readonly Int16 DEFAULT_PIECECOUNT = 40;
-        public static readonly String DEFUALT_NAME = "Napoleon";
+        public static readonly String DEFAULT_NAME = "Napoleon";
 
         private Int16 pieceCount;
         private String name;
@@ -18,7 +18,7 @@ namespace Stratego
         public Player()
         {
             this.pieceCount = DEFAULT_PIECECOUNT;
-            this.name = DEFUALT_NAME;
+            this.name = DEFAULT_NAME;
         }
 
         public Player(String name)
