@@ -38,8 +38,8 @@ namespace StrategoTesting
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT, target.getPlayerPieceCount(1));
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT, target.getPlayerPieceCount(2));
 
-            Assert.AreEqual(1, target.getTurnCount());
-            Assert.AreEqual(1, target.getCurrentTurn());
+            Assert.AreEqual(0, target.getTurnCount());
+            Assert.AreEqual(0, target.getCurrentTurn());
         }
 
         [Test()]
@@ -85,6 +85,13 @@ namespace StrategoTesting
         [Test()]
         public void TestThatGameStartsCorrectly()
         {
+            Game target = new Game();
+
+            target.startGame();
+
+            Assert.AreEqual(1, target.getTurnCount());
+            Assert.AreEqual(1, target.getCurrentTurn());
+
         }
 
         [Test()]

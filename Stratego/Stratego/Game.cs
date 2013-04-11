@@ -100,8 +100,8 @@ namespace Stratego
 
             //move is valid, so perform move
             //get the values of the moving piece
-            int movingPieceTeam = this.board.getSpace(h, v).getTeam();
-            int movingPieceRank = this.board.getSpace(h, v).getRank();
+            int movingPieceTeam = this.board.getSpace(v, h).getTeam();
+            int movingPieceRank = this.board.getSpace(v, h).getRank();
 
             //place an empty piece on the old cell
             this.board.placePiece(null, v, h);
@@ -122,11 +122,11 @@ namespace Stratego
                     break;
                 case Board.dir.E:
                     newV = v;
-                    newH = h - distance;
+                    newH = h + distance;
                     break;
                 case Board.dir.W:
                     newV = v;
-                    newH = h + distance;
+                    newH = h - distance;
                     break;
             }
 

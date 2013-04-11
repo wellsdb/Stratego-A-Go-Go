@@ -35,6 +35,10 @@ namespace Stratego
         {
             return b[v, h].getPiece();
         }
+        public Cell getCell(int v, int h)
+        {
+            return b[v, h];
+        }
         public void placePiece(Piece p, int v, int h)
         {
             b[v, h].setPiece(p);
@@ -77,11 +81,22 @@ namespace Stratego
 
         public bool isVictory(int v, int h, int dir, int dist)
         {
-            if (dir == 0) return (b[v + 1, h].getPiece().getRank() == 0);
-            if (dir == 2) return (b[v - 1, h].getPiece().getRank() == 0);
-            if (dir == 1) return (b[v, h + 1].getPiece().getRank() == 0);
-            if (dir == 3) return (b[v, h - 1].getPiece().getRank() == 0);
-            return isMoveValid(v, h, dir, dist);
+            Piece piece = null;
+
+            if (dir == 0) 
+                piece = b[v + 1, h].getPiece();
+            if (dir == 2) 
+                piece = b[v - 1, h].getPiece();
+            if (dir == 1)
+                piece = b[v, h + 1].getPiece();
+            if (dir == 3) 
+                piece = b[v, h - 1].getPiece();
+
+            if (piece == null)
+                return false;
+            else if (piece.getRank() == 0)
+                return isMoveValid(v, h, dir, dist);
+            return false;
         }
     }
 }

@@ -33,5 +33,23 @@ namespace Stratego
             if (t == p.getTeam() && r == p.getRank()) return true;
             return false;
         }
+
+        public String toString()
+        {
+            if (this == null)
+                return "||";
+            
+            String team;
+            String rank;
+
+            if (this.t == 2)
+                team = "B";
+            else
+                team = "R";
+
+            rank = ((int)this.r).ToString();
+
+            return team + rank;
+        }
     }
 }
