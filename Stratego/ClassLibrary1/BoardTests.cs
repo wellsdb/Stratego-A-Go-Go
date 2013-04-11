@@ -646,5 +646,65 @@ namespace StrategoTesting
             b.placePiece(p, 5, 5);
             Assert.False(q.Equals(b.getSpace(5,5)));
         }
+        [Test()]
+        public void moveIntoLakeFalse()
+        {
+            Board b = new Board();
+            Piece p = new Piece((int)Piece.team.blue, 2);
+            b.placePiece(p, 3, 6);
+            Assert.False(b.isMoveValid(3, 6, (int)Board.dir.N, 1));
+        }
+        [Test()]
+        public void moveScoutOverLakeFalse()
+        {
+            Board b = new Board();
+            Piece p = new Piece((int)Piece.team.blue, 2);
+            b.placePiece(p, 3, 6);
+            Assert.False(b.isMoveValid(3, 6, (int)Board.dir.N, 3));
+        }
+        [Test()]
+        public void moveScoutWayOverLakeFalse()
+        {
+            Board b = new Board();
+            Piece p = new Piece((int)Piece.team.blue, 2);
+            b.placePiece(p, 3, 6);
+            Assert.False(b.isMoveValid(3, 6, (int)Board.dir.N, 5));
+        }
+        [Test()]
+        public void moveScoutOverSameTeamPieceHigherRankedFalse()
+        {
+            Board b = new Board();
+            Piece p = new Piece((int)Piece.team.blue, 2);
+            b.placePiece(p, 0, 5);
+            b.placePiece(new Piece((int)Piece.team.blue, 10), 0, 6);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 3));
+        }
+        [Test()]
+        public void moveScoutOverSameTeamPieceLowerRankedFalse()
+        {
+            Board b = new Board();
+            Piece p = new Piece((int)Piece.team.blue, 2);
+            b.placePiece(p, 0, 5);
+            b.placePiece(new Piece((int)Piece.team.blue, 0), 0, 6);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 3));
+        }
+        [Test()]
+        public void moveScoutOverOppositeTeamPieceHigherRankedFalse()
+        {
+            Board b = new Board();
+            Piece p = new Piece((int)Piece.team.blue, 2);
+            b.placePiece(p, 0, 5);
+            b.placePiece(new Piece((int)Piece.team.red, 10), 0, 6);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 3));
+        }
+        [Test()]
+        public void moveScoutOverOppositeTeamPieceLowerRankedFalse()
+        {
+            Board b = new Board();
+            Piece p = new Piece((int)Piece.team.blue, 2);
+            b.placePiece(p, 0, 5);
+            b.placePiece(new Piece((int)Piece.team.red, 0), 0, 6);
+            Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 3));
+        }
     }
 }
