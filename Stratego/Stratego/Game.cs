@@ -24,14 +24,14 @@ namespace Stratego
 
         }
 
-        public Boolean movePiece(Boolean team, Int16[,] startingCell, Board.Direction direction, Int16 distance)
+        public Boolean movePiece(Boolean team, Int16[,] startingCell, Board.dir direction, Int16 distance)
         {
             return false;
         }
 
         public Boolean checkVictory()
         {
-
+            return false;
         }
 
         public void endGame()
