@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="C:\Users\wellsdb\Documents\Visual Studio 2010\Projects\StrategoTest\bin\Debug\StrategoTest.exe" total="3" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2013-03-24" time="13:45:00">
+  <environment nunit-version="2.5.10.11092" clr-version="4.0.30319.296" os-version="Microsoft Windows NT 6.1.7601 Service Pack 1" platform="Win32NT" cwd="C:\Users\wellsdb\Documents\Visual Studio 2010\Projects\StrategoTest\bin\Debug" machine-name="WELLSDB-1" user="wellsdb" user-domain="WELLSDB-1" />
+  <culture-info current-culture="en-US" current-uiculture="en-US" />
+  <test-suite type="Assembly" name="C:\Users\wellsdb\Documents\Visual Studio 2010\Projects\StrategoTest\bin\Debug\StrategoTest.exe" executed="True" result="Success" success="True" time="5.043" asserts="0">
+    <results>
+      <test-suite type="Namespace" name="NUnitTest1" executed="True" result="Success" success="True" time="5.031" asserts="0">
+        <results>
+          <test-suite type="TestFixture" name="TestFixture1" executed="True" result="Success" success="True" time="5.029" asserts="0">
+            <results>
+              <test-case name="NUnitTest1.TestFixture1.TestBoardInitializes" executed="True" result="Success" success="True" time="0.157" asserts="101" />
+              <test-case name="NUnitTest1.TestFixture1.TestThatArrayRemainsUnchangedIfNoInput" executed="True" result="Success" success="True" time="2.833" asserts="100" />
+              <test-case name="NUnitTest1.TestFixture1.TestThatClickChangesArray" executed="True" result="Success" success="True" time="2.006" asserts="100" />
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>
