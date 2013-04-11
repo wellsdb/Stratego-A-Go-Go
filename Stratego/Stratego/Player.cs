@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Stratego
 {
-    class Player
+    public class Player
     {
         private Int16 pieceCount;
         private String name;
@@ -18,6 +18,12 @@ namespace Stratego
 
         public Player(String name)
         {
+
+        }
+
+        public Player(Int16 pieceCount, String name)
+        {
+
         }
 
         public void setName(String name)
@@ -28,6 +34,14 @@ namespace Stratego
         public Int16 getPieceCount()
         {
             return -1;
+        }
+
+        public void addPiece()
+        {
+        }
+
+        public void removePiece()
+        {
         }
 
         public String getName()
