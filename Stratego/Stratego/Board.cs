@@ -74,5 +74,10 @@ namespace Stratego
 
             return true;
         }
+
+        public bool isVictory(int v, int h, int dir, int dist)
+        {
+            return false;
+        }
     }
 }
