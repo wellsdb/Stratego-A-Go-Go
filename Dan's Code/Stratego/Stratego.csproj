@@ -78,9 +78,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="2photseatbutton.bmp" />
-    <Content Include="exitbutton.bmp" />
-    <Content Include="tuitorialbutton.bmp" />
+    <Content Include="2photseatbutton.bmp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="exitbutton.bmp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tuitorialbutton.bmp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
+  <TopNode>[0-1009]C:\Users\wellsdb\CSSE376\Stratego\Dan's Code\StrategoTest\bin\Debug\StrategoTest.exe</TopNode>
+  <SelectedNode>[0-1009]C:\Users\wellsdb\CSSE376\Stratego\Dan's Code\StrategoTest\bin\Debug\StrategoTest.exe</SelectedNode>
+  <ExcludeCategories>false</ExcludeCategories>
+  <Nodes>
+    <Node UniqueName="[0-1009]C:\Users\wellsdb\CSSE376\Stratego\Dan's Code\StrategoTest\bin\Debug\StrategoTest.exe" Expanded="true" />
+    <Node UniqueName="[0-1010]NUnitTest1" Expanded="true" />
+    <Node UniqueName="[0-1005]NUnitTest1.TestFixture1" Expanded="true" />
+    <Node UniqueName="[0-1000]NUnitTest1.TestMenu" Expanded="true" />
+  </Nodes>
+</VisualState>

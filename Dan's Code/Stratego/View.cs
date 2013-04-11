@@ -19,7 +19,65 @@ namespace Stratego
         public View(Board board)
         {
             game = board;
+            mode = 0;
             InitializeComponent();
+        }
+
+        private void HotseatButtonClick(object sender, MouseEventArgs e)
+        {
+            if (mode == 0)
+            {
+                mode = 2;
+                hotseatbutton.Visible = false;
+                tuitorialbutton.Visible = false;
+                exitbutton.Visible = false;
+
+                returntomenubutton.Visible = true;
+
+                board.Visible = true;
+                board.Invalidate();
+            }
+        }
+
+        private void TuitorialButtonClick(object sender, MouseEventArgs e)
+        {
+            if (mode == 0)
+            {
+                mode = 3;
+                hotseatbutton.Visible = false;
+                tuitorialbutton.Visible = false;
+                exitbutton.Visible = false;
+
+                returntomenubutton.Visible = true;
+
+                board.Invalidate();
+            }
+        }
+
+        private void ExitButtonClick(object sender, MouseEventArgs e)
+        {
+            if (mode == 0)
+            {
+                mode = 9;
+                this.Close();
+            }
+        }
+
+        private void BackToMenuClick(object sender, MouseEventArgs e)
+        {
+            if (mode == 2 | mode == 3)
+            {
+                mode = 0;
+
+                hotseatbutton.Visible = true;
+                tuitorialbutton.Visible = true;
+                exitbutton.Visible = true;
+
+                returntomenubutton.Visible = false;
+
+                board.Visible = false;
+                board.Invalidate();
+            }
         }
 
         private void panel1_MouseClick(object sender, MouseEventArgs e)
@@ -33,41 +91,41 @@ namespace Stratego
             this.game.board[x, y] = 10;
 
 
-            panel1.Invalidate();
+            board.Invalidate();
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
+            if(mode == 2){
+                Graphics g = board.CreateGraphics();
+                Pen black = new Pen(Color.Black);
 
-            Graphics g = panel1.CreateGraphics();
-            Pen black = new Pen(Color.Black);
+                SolidBrush bempty = new SolidBrush(Color.Green);
+                SolidBrush blake = new SolidBrush(Color.Aquamarine);
+                SolidBrush bclick = new SolidBrush(Color.BlanchedAlmond);
 
-            SolidBrush bempty = new SolidBrush(Color.Green);
-            SolidBrush blake = new SolidBrush(Color.Aquamarine);
-            SolidBrush bclick = new SolidBrush(Color.BlanchedAlmond);
-
-            for (int i = 0; i < 10; i++)
-            {
-                for (int j = 0; j < 10; j++)
+                for (int i = 0; i < 10; i++)
                 {
-                    if (this.game.board[i, j].Equals(0))
+                    for (int j = 0; j < 10; j++)
                     {
-                        g.DrawRectangle(black, i * 40, j * 40, 40, 40);
-                        g.FillRectangle(bempty, i * 40 + 1, j * 40 + 1, 39, 39);
-                    }
-                    else if (this.game.board[i, j].Equals(20))
-                    {
-                        g.DrawRectangle(black, i * 40, j * 40, 40, 40);
-                        g.FillRectangle(blake, i * 40 + 1, j * 40 + 1, 39, 39);
-                    }
-                    else
-                    {
-                        g.DrawRectangle(black, i * 40, j * 40, 40, 40);
-                        g.FillRectangle(bclick, i * 40 + 1, j * 40 + 1, 39, 39);
+                        if (this.game.board[i, j].Equals(0))
+                        {
+                            g.DrawRectangle(black, i * 40, j * 40, 40, 40);
+                            g.FillRectangle(bempty, i * 40 + 1, j * 40 + 1, 39, 39);
+                        }
+                        else if (this.game.board[i, j].Equals(20))
+                        {
+                            g.DrawRectangle(black, i * 40, j * 40, 40, 40);
+                            g.FillRectangle(blake, i * 40 + 1, j * 40 + 1, 39, 39);
+                        }
+                        else
+                        {
+                            g.DrawRectangle(black, i * 40, j * 40, 40, 40);
+                            g.FillRectangle(bclick, i * 40 + 1, j * 40 + 1, 39, 39);
+                        }
                     }
                 }
             }
-
 
         }
     }
