@@ -77,7 +77,11 @@ namespace Stratego
 
         public bool isVictory(int v, int h, int dir, int dist)
         {
-            return false;
+            if (dir == 0) return (b[v + 1, h].getPiece().getRank() == 0);
+            if (dir == 2) return (b[v - 1, h].getPiece().getRank() == 0);
+            if (dir == 1) return (b[v, h + 1].getPiece().getRank() == 0);
+            if (dir == 3) return (b[v, h - 1].getPiece().getRank() == 0);
+            return isMoveValid(v, h, dir, dist);
         }
     }
 }

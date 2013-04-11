@@ -712,7 +712,7 @@ namespace StrategoTesting
             Board b = new Board();
             b.placePiece(new Piece((int)Piece.team.red, 10), 0, 5);
             b.placePiece(new Piece((int)Piece.team.blue, 0), 0, 6);
-            Assert.True(b.isMoveValid(0, 5, (int)Board.dir.E, 1));
+            Assert.True(b.isVictory(0, 5, (int)Board.dir.E, 1));
         }
         [Test()]
         public void victorySignalBlueonRedTrue()
@@ -720,7 +720,7 @@ namespace StrategoTesting
             Board b = new Board();
             b.placePiece(new Piece((int)Piece.team.blue, 10), 0, 5);
             b.placePiece(new Piece((int)Piece.team.red, 0), 0, 6);
-            Assert.True(b.isMoveValid(0, 5, (int)Board.dir.E, 1));
+            Assert.True(b.isVictory(0, 5, (int)Board.dir.E, 1));
         }
         [Test()]
         public void victorySignalFalse()
@@ -728,7 +728,7 @@ namespace StrategoTesting
             Board b = new Board();
             b.placePiece(new Piece((int)Piece.team.red, 10), 0, 4);
             b.placePiece(new Piece((int)Piece.team.blue, 0), 0, 6);
-            Assert.True(b.isMoveValid(0, 5, (int)Board.dir.E, 1));
+            Assert.True(b.isVictory(0, 5, (int)Board.dir.E, 1));
         }
     }
 }
