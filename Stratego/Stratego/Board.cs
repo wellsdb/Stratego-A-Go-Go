@@ -10,7 +10,7 @@ namespace Stratego
     {
         public enum dir { N, E, S, W };
 
-        Piece[,] b = new Piece[10, 10];
+        Cell[,] b = new Cell[10, 10];
 
         public Board()
         {
@@ -18,17 +18,26 @@ namespace Stratego
             {
                 for (int k = 0; k < 10; k++)
                 {
-                    b[i, k] = null;
+
+                    b[i, k] = new Cell();
                 }
             }
+            b[4, 2].setTerrain(Cell.Terrain.Lake);
+            b[4, 3].setTerrain(Cell.Terrain.Lake);
+            b[5, 2].setTerrain(Cell.Terrain.Lake);
+            b[5, 3].setTerrain(Cell.Terrain.Lake);
+            b[4, 6].setTerrain(Cell.Terrain.Lake);
+            b[4, 7].setTerrain(Cell.Terrain.Lake);
+            b[5, 6].setTerrain(Cell.Terrain.Lake);
+            b[5, 7].setTerrain(Cell.Terrain.Lake);
         }
         public Piece getSpace(int v, int h)
         {
-            return b[h, v];
+            return b[h, v].getPiece();
         }
         public void placePiece(Piece p, int v, int h)
         {
-            b[h, v] = p;
+            b[h, v].setPiece(p);
         }
         public bool isMoveValid(int v, int h, int dir, int dist)
         {

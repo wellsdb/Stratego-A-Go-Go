@@ -246,21 +246,21 @@ namespace StrategoTesting
         public void southRedMarshalMobilityLimitFalse()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.red, 10), 5, 5);
+            b.placePiece(new Piece((int)Piece.team.red, 10), 5, 4);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.S, 2));
         }
         [Test()]
         public void eastRedMarshalMobilityLimitFalse()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.red, 10), 5, 5);
+            b.placePiece(new Piece((int)Piece.team.red, 10), 6, 4);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 2));
         }
         [Test()]
         public void westRedMarshalMobilityLimitFalse()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.red, 10), 5, 5);
+            b.placePiece(new Piece((int)Piece.team.red, 10), 6, 5);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.W, 2));
         }
         [Test()]
@@ -281,14 +281,14 @@ namespace StrategoTesting
         public void eastBlueMarshalMobilityLimitFalse()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.blue, 10), 5, 5);
+            b.placePiece(new Piece((int)Piece.team.blue, 10), 6, 4);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 2));
         }
         [Test()]
         public void westBlueMarshalMobilityLimitFalse()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.blue, 10), 5, 5);
+            b.placePiece(new Piece((int)Piece.team.blue, 10), 6, 5);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.W, 2));
         }
         [Test()]
@@ -309,14 +309,14 @@ namespace StrategoTesting
         public void eastRedGeneralMobilityLimitFalse()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.red, 9), 5, 5);
+            b.placePiece(new Piece((int)Piece.team.red, 9), 6, 4);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 2));
         }
         [Test()]
         public void westRedGeneralMobilityLimitFalse()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.red, 9), 5, 5);
+            b.placePiece(new Piece((int)Piece.team.red, 9), 6, 5);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.W, 2));
         }
         [Test()]
@@ -337,14 +337,14 @@ namespace StrategoTesting
         public void eastBlueGeneralMobilityLimitFalse()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.blue, 9), 5, 5);
+            b.placePiece(new Piece((int)Piece.team.blue, 9), 6, 4);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 2));
         }
         [Test()]
         public void westBlueGeneralMobilityLimitFalse()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.blue, 9), 5, 5);
+            b.placePiece(new Piece((int)Piece.team.blue, 9), 6, 5);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.W, 2));
         }
         [Test()]
@@ -365,14 +365,14 @@ namespace StrategoTesting
         public void eastRedBombMobilityLimitFalse()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.red, 11), 5, 5);
+            b.placePiece(new Piece((int)Piece.team.red, 11), 6, 4);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 2));
         }
         [Test()]
         public void westRedBombMobilityLimitFalse()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.red, 11), 5, 5);
+            b.placePiece(new Piece((int)Piece.team.red, 11), 6, 5);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.W, 2));
         }
         [Test()]
@@ -393,14 +393,14 @@ namespace StrategoTesting
         public void eastBlueBombMobilityLimitFalse()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.blue, 11), 5, 5);
+            b.placePiece(new Piece((int)Piece.team.blue, 11), 6, 5);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 2));
         }
         [Test()]
         public void westBlueBombMobilityLimitFalse()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.blue, 11), 5, 5);
+            b.placePiece(new Piece((int)Piece.team.blue, 11), 6, 5);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.W, 2));
         }
         [Test()]
@@ -421,14 +421,14 @@ namespace StrategoTesting
         public void eastRedFlagMobilityLimitFalse()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.red, 0), 5, 5);
+            b.placePiece(new Piece((int)Piece.team.red, 0), 6, 4);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 2));
         }
         [Test()]
         public void westRedFlagMobilityLimitFalse()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.red, 0), 5, 5);
+            b.placePiece(new Piece((int)Piece.team.red, 0), 6, 5);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.W, 2));
         }
         [Test()]
@@ -449,14 +449,14 @@ namespace StrategoTesting
         public void eastBlueFlagMobilityLimitFalse()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.blue, 0), 5, 5);
+            b.placePiece(new Piece((int)Piece.team.blue, 0), 6, 4);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 2));
         }
         [Test()]
         public void westBlueFlagMobilityLimitFalse()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.blue, 0), 5, 5);
+            b.placePiece(new Piece((int)Piece.team.blue, 0), 6, 5);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.W, 2));
         }
 
@@ -478,14 +478,14 @@ namespace StrategoTesting
         public void eastRedSpyMobilityLimitFalse()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.red, 1), 5, 5);
+            b.placePiece(new Piece((int)Piece.team.red, 1), 6, 4);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 2));
         }
         [Test()]
         public void westRedSpyMobilityLimitFalse()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.red, 1), 5, 5);
+            b.placePiece(new Piece((int)Piece.team.red, 1), 6, 5);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.W, 2));
         }
         [Test()]
@@ -506,14 +506,14 @@ namespace StrategoTesting
         public void eastBlueSpyMobilityLimitFalse()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.blue, 1), 5, 5);
+            b.placePiece(new Piece((int)Piece.team.blue, 1), 6, 4);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 2));
         }
         [Test()]
         public void westBlueSpyMobilityLimitFalse()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.blue, 1), 5, 5);
+            b.placePiece(new Piece((int)Piece.team.blue, 1), 6, 5);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.W, 2));
         }
 
@@ -535,14 +535,14 @@ namespace StrategoTesting
         public void eastRedScoutMobilityLimitTrue()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.red, 2), 5, 5);
+            b.placePiece(new Piece((int)Piece.team.red, 2), 6, 4);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 2));
         }
         [Test()]
         public void westRedScoutMobilityLimitTrue()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.red, 2), 5, 5);
+            b.placePiece(new Piece((int)Piece.team.red, 2), 6, 5);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.W, 2));
         }
         [Test()]
@@ -563,14 +563,14 @@ namespace StrategoTesting
         public void eastBlueScoutMobilityLimitTrue()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.blue, 2), 5, 5);
+            b.placePiece(new Piece((int)Piece.team.blue, 2), 6, 5);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.E, 2));
         }
         [Test()]
         public void westBlueScoutMobilityLimitTrue()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.blue, 2), 5, 5);
+            b.placePiece(new Piece((int)Piece.team.blue, 2), 6, 5);
             Assert.False(b.isMoveValid(0, 5, (int)Board.dir.W, 2));
         }
         [Test()]

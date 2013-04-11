@@ -13,6 +13,8 @@ namespace Stratego
 
         private int t, r;
 
+        public Piece(){}
+
         public Piece(int team, int rank)
         {
             t = team;
