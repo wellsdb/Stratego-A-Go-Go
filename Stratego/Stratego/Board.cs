@@ -8,6 +8,8 @@ namespace Stratego
 {
     public class Board
     {
+        public enum dir { N, E, S, W };
+
         Piece[,] b = new Piece[10, 10];
 
         public Board()
@@ -20,33 +22,16 @@ namespace Stratego
                 }
             }
         }
-        public Piece getSpace(int h, int v)
+        public Piece getSpace(int v, int h)
         {
             return b[h, v];
         }
-        public void placePiece(Piece p, int h, int v)
+        public void placePiece(Piece p, int v, int h)
         {
             b[h, v] = p;
         }
-        public bool isMoveValid(int h, int v, int hn, int vn)
+        public bool isMoveValid(int v, int h, int dir, int dist)
         {
-            if ((h - hn != 0) && (v - vn != 0)) //Can't move diagonally
-            {
-                return false;
-            }
-            if (b[h, v] == null)
-            {
-                return false;
-            }
-            Piece p = b[h, v];
-            if (b[hn, vn] != null && b[hn, vn].getTeam() == 2) //Can't land in lake
-            {
-                return false;
-            }
-            if ((p.getRank() != 2) && (Math.Max(Math.Abs(h - hn), Math.Abs(v - vn)) > 1)) //No rank other than scouts can move more than one space
-            {
-                return false;
-            }
             return true;
         }
     }

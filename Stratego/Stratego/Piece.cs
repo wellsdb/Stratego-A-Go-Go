@@ -6,33 +6,33 @@ using System.Threading.Tasks;
 
 namespace Stratego
 {
-    public class Piece
+    public class Board
     {
-        private int rank;
-        private int team;
+        public enum dir { N, E, S, W };
 
-        public Piece()
-        {
+        Piece[,] b = new Piece[10, 10];
 
-        }
-
-        public Piece(int t, int r)
+        public Board()
         {
-            team = t;
-            rank = r;
+            for (int i = 0; i < 10; i++)
+            {
+                for (int k = 0; k < 10; k++)
+                {
+                    b[i, k] = null;
+                }
+            }
         }
-        public int getTeam()
+        public Piece getSpace(int v, int h)
         {
-            return team;
+            return b[h, v];
         }
-        public int getRank()
+        public void placePiece(Piece p, int v, int h)
         {
-            return rank;
+            b[h, v] = p;
         }
-        public bool Equals(Piece p)
+        public bool isMoveValid(int v, int h, int dir, int dist)
         {
-            if (p.getTeam() == team && p.getRank() == rank) return true;
-            return false;
+            return true;
         }
     }
 }
