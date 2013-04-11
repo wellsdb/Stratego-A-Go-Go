@@ -85,8 +85,8 @@ namespace StrategoTesting
         public void eastRedOneOpenSpaceOneAwayFromEdgeTrue()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.red, 10), 5, 7);
-            Assert.True(b.isMoveValid(5, 7, (int)Board.dir.E, 1));
+            b.placePiece(new Piece((int)Piece.team.red, 10), 7, 5);
+            Assert.True(b.isMoveValid(7, 5, (int)Board.dir.E, 1));
         }
         [Test()]
         public void eastRedOneOpenSpaceOverEdgeFalse()
@@ -113,8 +113,8 @@ namespace StrategoTesting
         public void westRedOneOpenSpaceOneAwayFromEdgeTrue()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.red, 10), 5, 2);
-            Assert.True(b.isMoveValid(5, 2, (int)Board.dir.W, 1));
+            b.placePiece(new Piece((int)Piece.team.red, 10), 2, 5);
+            Assert.True(b.isMoveValid(2, 5, (int)Board.dir.W, 1));
         }
         [Test()]
         public void westRedOneOpenSpaceOverEdgeFalse()
@@ -197,8 +197,8 @@ namespace StrategoTesting
         public void eastBlueOneOpenSpaceOneAwayFromEdgeTrue()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.blue, 10), 5, 7);
-            Assert.True(b.isMoveValid(5, 7, (int)Board.dir.E, 1));
+            b.placePiece(new Piece((int)Piece.team.blue, 10), 7, 5);
+            Assert.True(b.isMoveValid(7, 5, (int)Board.dir.E, 1));
         }
         [Test()]
         public void eastBlueOneOpenSpaceOverEdgeFalse()
@@ -225,8 +225,8 @@ namespace StrategoTesting
         public void westBlueOneOpenSpaceOneAwayFromEdgeTrue()
         {
             Board b = new Board();
-            b.placePiece(new Piece((int)Piece.team.blue, 10), 5, 2);
-            Assert.True(b.isMoveValid(5, 2, (int)Board.dir.W, 1));
+            b.placePiece(new Piece((int)Piece.team.blue, 10), 2, 5);
+            Assert.True(b.isMoveValid(2, 5, (int)Board.dir.W, 1));
         }
         [Test()]
         public void westBlueOneOpenSpaceOverEdgeFalse()

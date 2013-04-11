@@ -52,6 +52,26 @@ namespace Stratego
             if (p.getRank() == 11 && dist > 0) return false;
             if(p.getRank() != 2 && dist>1) return false;
 
+            for (int i = 0; i <= dist; i++)
+            {
+                if (dir == 0 && b[v + i, h].getTerrain() == Cell.Terrain.Lake) return false;
+                if (dir == 2 && b[v - i, h].getTerrain() == Cell.Terrain.Lake) return false;
+                if (dir == 1 && b[v, h + i].getTerrain() == Cell.Terrain.Lake) return false;
+                if (dir == 3 && b[v, h - i].getTerrain() == Cell.Terrain.Lake) return false;
+                
+            }
+
+            if (dist > 1)
+            {
+                for (int i = 1; i <= dist; i++)
+                {
+                    if (dir == 0 && b[v + i, h].getPiece() != null) return false;
+                    if (dir == 2 && b[v - i, h].getPiece() != null) return false;
+                    if (dir == 1 && b[v, h + i].getPiece() != null) return false;
+                    if (dir == 3 && b[v, h - i].getPiece() != null) return false;
+                }
+            }
+
             return true;
         }
     }
