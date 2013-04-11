@@ -3,37 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System;
 using Stratego;
 using NUnit.Framework;
+using Rhino.Mocks;
 
 namespace StrategoTesting
 {
     [TestFixture()]
     public class CellTest
     {
+        private MockRepository mocks;
 
         [SetUp()]
         public void Setup()
         {
-            //nothing yet
+            mocks = new MockRepository();
         }
 
         [Test()]
         public void TestThatCellTerrainGetsSetsAndInitializesCorrectly()
         {
-            Object target1 = new Cell(0);
-            Object target2 = new Cell(1);
-            Object target3 = new Cell(0);
-            Object target4 = new Cell(1);
+            Cell target1 = new Cell(Cell.Terrain.Land);
+            Cell target2 = new Cell(Cell.Terrain.Lake);
+            Cell target3 = new Cell(Cell.Terrain.Land);
+            Cell target4 = new Cell(Cell.Terrain.Lake);
 
-            target3.setTerrain(1);
-            target4.setTerrain(0);
+            target3.setTerrain(Cell.Terrain.Lake);
+            target4.setTerrain(Cell.Terrain.Land);
 
-            Assert.AreEqual(0, target1.getTerrain());
-            Assert.AreEqual(1, target2.getTerrain());
-            Assert.AreEqual(1, target3.getTerrain());
-            Assert.AreEqual(0, target4.getTerrain());
+            Assert.AreEqual(Cell.Terrain.Land, target1.getTerrain());
+            Assert.AreEqual(Cell.Terrain.Lake, target2.getTerrain());
+            Assert.AreEqual(Cell.Terrain.Lake, target3.getTerrain());
+            Assert.AreEqual(Cell.Terrain.Land, target4.getTerrain());
         }
 
         [Test()]
@@ -45,10 +46,10 @@ namespace StrategoTesting
             Piece dummyPiece1 = mocks.Stub<Piece>();
             Piece dummyPiece2 = mocks.Stub<Piece>();
 
-            Object target1 = new Cell(dummyPiece1);
-            Object target2 = new Cell(dummyPiece2);
-            Object target3 = new Cell();
-            Object target4 = new Cell();
+            Cell target1 = new Cell(dummyPiece1);
+            Cell target2 = new Cell(dummyPiece2);
+            Cell target3 = new Cell();
+            Cell target4 = new Cell();
 
             target3.setPiece(dummyPiece1);
             target4.setPiece(dummyPiece2);
