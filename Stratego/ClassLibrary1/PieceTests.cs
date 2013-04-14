@@ -207,5 +207,192 @@ namespace StrategoTesting
             Piece q = new Piece(Piece.Team.blue, Piece.Rank.spy);
             Assert.False(p.Equals(q));
         }
+
+        [Test()]
+        public void testBattleAggressorHigherRank()
+        {
+            Piece agg1 = new Piece(Piece.Team.blue, Piece.Rank.miner);
+            Piece agg2 = new Piece(Piece.Team.blue, Piece.Rank.sergeant);
+            Piece agg3 = new Piece(Piece.Team.blue, Piece.Rank.lieutenant);
+            Piece agg4 = new Piece(Piece.Team.blue, Piece.Rank.captain);
+            Piece agg5 = new Piece(Piece.Team.blue, Piece.Rank.major);
+            Piece agg6 = new Piece(Piece.Team.blue, Piece.Rank.colonel);
+            Piece agg7 = new Piece(Piece.Team.blue, Piece.Rank.general);
+            Piece agg8 = new Piece(Piece.Team.blue, Piece.Rank.marshal);
+
+            Piece def1 = new Piece(Piece.Team.red, Piece.Rank.scout);
+            Piece def2 = new Piece(Piece.Team.red, Piece.Rank.miner);
+            Piece def3 = new Piece(Piece.Team.red, Piece.Rank.sergeant);
+            Piece def4 = new Piece(Piece.Team.red, Piece.Rank.lieutenant);
+            Piece def5 = new Piece(Piece.Team.red, Piece.Rank.captain);
+            Piece def6 = new Piece(Piece.Team.red, Piece.Rank.major);
+            Piece def7 = new Piece(Piece.Team.red, Piece.Rank.colonel);
+            Piece def8 = new Piece(Piece.Team.red, Piece.Rank.general);
+
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg1, def1));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg2, def2));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg3, def3));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg4, def4));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg5, def5));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg6, def6));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg7, def7));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg8, def8));
+
+        }
+
+        [Test()]
+        public void testBattleDefenderHigherRank()
+        {
+            Piece def1 = new Piece(Piece.Team.blue, Piece.Rank.miner);
+            Piece def2 = new Piece(Piece.Team.blue, Piece.Rank.sergeant);
+            Piece def3 = new Piece(Piece.Team.blue, Piece.Rank.lieutenant);
+            Piece def4 = new Piece(Piece.Team.blue, Piece.Rank.captain);
+            Piece def5 = new Piece(Piece.Team.blue, Piece.Rank.major);
+            Piece def6 = new Piece(Piece.Team.blue, Piece.Rank.colonel);
+            Piece def7 = new Piece(Piece.Team.blue, Piece.Rank.general);
+            Piece def8 = new Piece(Piece.Team.blue, Piece.Rank.marshal);
+
+            Piece agg1 = new Piece(Piece.Team.red, Piece.Rank.scout);
+            Piece agg2 = new Piece(Piece.Team.red, Piece.Rank.miner);
+            Piece agg3 = new Piece(Piece.Team.red, Piece.Rank.sergeant);
+            Piece agg4 = new Piece(Piece.Team.red, Piece.Rank.lieutenant);
+            Piece agg5 = new Piece(Piece.Team.red, Piece.Rank.captain);
+            Piece agg6 = new Piece(Piece.Team.red, Piece.Rank.major);
+            Piece agg7 = new Piece(Piece.Team.red, Piece.Rank.colonel);
+            Piece agg8 = new Piece(Piece.Team.red, Piece.Rank.general);
+
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg1, def1));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg2, def2));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg3, def3));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg4, def4));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg5, def5));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg6, def6));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg7, def7));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg8, def8));
+        }
+
+        [Test()]
+        public void testBattleSameRank()
+        {
+            Piece agg0 = new Piece(Piece.Team.red, Piece.Rank.spy);
+            Piece agg1 = new Piece(Piece.Team.red, Piece.Rank.scout);
+            Piece agg2 = new Piece(Piece.Team.red, Piece.Rank.miner);
+            Piece agg3 = new Piece(Piece.Team.red, Piece.Rank.sergeant);
+            Piece agg4 = new Piece(Piece.Team.red, Piece.Rank.lieutenant);
+            Piece agg5 = new Piece(Piece.Team.red, Piece.Rank.captain);
+            Piece agg6 = new Piece(Piece.Team.red, Piece.Rank.major);
+            Piece agg7 = new Piece(Piece.Team.red, Piece.Rank.colonel);
+            Piece agg8 = new Piece(Piece.Team.red, Piece.Rank.general);
+            Piece agg9 = new Piece(Piece.Team.red, Piece.Rank.marshal);
+
+            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg0, agg0));
+            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg1, agg1));
+            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg2, agg2));
+            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg3, agg3));
+            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg4, agg4));
+            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg5, agg5));
+            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg6, agg6));
+            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg7, agg7));
+            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg8, agg8));
+            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg9, agg9));
+        }
+
+        [Test()]
+        public void testBattleSpyVsRegularRanks()
+        {
+            Piece blueSpy = new Piece(Piece.Team.blue, Piece.Rank.spy);
+            Piece redSpy = new Piece(Piece.Team.red, Piece.Rank.spy);
+
+            Piece def1 = new Piece(Piece.Team.blue, Piece.Rank.miner);
+            Piece def2 = new Piece(Piece.Team.blue, Piece.Rank.sergeant);
+            Piece def3 = new Piece(Piece.Team.blue, Piece.Rank.lieutenant);
+
+            Piece agg1 = new Piece(Piece.Team.red, Piece.Rank.captain);
+            Piece agg2 = new Piece(Piece.Team.red, Piece.Rank.major);
+            Piece agg3 = new Piece(Piece.Team.red, Piece.Rank.colonel);
+
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueSpy, def1));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueSpy, def2));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueSpy, def3));
+
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg1, redSpy));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg2, redSpy));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg3, redSpy));
+        }
+
+        [Test()]
+        public void testBattleSpyVsMarshal()
+        {
+            Piece blueSpy = new Piece(Piece.Team.blue, Piece.Rank.spy);
+            Piece redSpy = new Piece(Piece.Team.red, Piece.Rank.spy);
+            Piece blueMarshal = new Piece(Piece.Team.blue, Piece.Rank.marshal);
+            Piece redMarshal = new Piece(Piece.Team.red, Piece.Rank.marshal);
+
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(blueSpy, redMarshal));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueMarshal, redSpy));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(redSpy, blueMarshal));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redMarshal, blueSpy));
+        }
+
+        [Test()]
+        public void testBattleBombsVsRegularRanks()
+        {
+            Piece blueBomb = new Piece(Piece.Team.blue, Piece.Rank.bomb);
+            Piece redBomb = new Piece(Piece.Team.red, Piece.Rank.bomb);
+
+            Piece redAgg0 = new Piece(Piece.Team.red, Piece.Rank.spy);
+            Piece redAgg1 = new Piece(Piece.Team.red, Piece.Rank.scout);
+            Piece redAgg3 = new Piece(Piece.Team.red, Piece.Rank.sergeant);
+            Piece redAgg4 = new Piece(Piece.Team.red, Piece.Rank.lieutenant);
+            Piece redAgg5 = new Piece(Piece.Team.red, Piece.Rank.captain);
+            Piece redAgg6 = new Piece(Piece.Team.red, Piece.Rank.major);
+            Piece redAgg7 = new Piece(Piece.Team.red, Piece.Rank.colonel);
+            Piece redAgg8 = new Piece(Piece.Team.red, Piece.Rank.general);
+            Piece redAgg9 = new Piece(Piece.Team.red, Piece.Rank.marshal);
+
+            Piece blueAgg0 = new Piece(Piece.Team.blue, Piece.Rank.spy);
+            Piece blueAgg1 = new Piece(Piece.Team.blue, Piece.Rank.scout);
+            Piece blueAgg3 = new Piece(Piece.Team.blue, Piece.Rank.sergeant);
+            Piece blueAgg4 = new Piece(Piece.Team.blue, Piece.Rank.lieutenant);
+            Piece blueAgg5 = new Piece(Piece.Team.blue, Piece.Rank.captain);
+            Piece blueAgg6 = new Piece(Piece.Team.blue, Piece.Rank.major);
+            Piece blueAgg7 = new Piece(Piece.Team.blue, Piece.Rank.colonel);
+            Piece blueAgg8 = new Piece(Piece.Team.blue, Piece.Rank.general);
+            Piece blueAgg9 = new Piece(Piece.Team.blue, Piece.Rank.marshal);
+
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg0, blueBomb));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg1, blueBomb));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg3, blueBomb));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg4, blueBomb));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg5, blueBomb));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg6, blueBomb));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg7, blueBomb));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg8, blueBomb));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg9, blueBomb));
+            
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg0, redBomb));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg1, redBomb));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg3, redBomb));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg4, redBomb));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg5, redBomb));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg6, redBomb));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg7, redBomb));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg8, redBomb));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg9, redBomb));
+        }
+
+        [Test()]
+        public void testBattleBombsVsMiners()
+        {
+            Piece blueBomb = new Piece(Piece.Team.blue, Piece.Rank.bomb);
+            Piece redBomb = new Piece(Piece.Team.red, Piece.Rank.bomb);
+
+            Piece blueMiner = new Piece(Piece.Team.blue, Piece.Rank.miner);
+            Piece redMiner = new Piece(Piece.Team.red, Piece.Rank.miner);
+
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(blueMiner, redBomb));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(redMiner, blueBomb));
+        }
+
     }
 }

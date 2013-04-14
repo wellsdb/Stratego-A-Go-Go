@@ -10,6 +10,7 @@ namespace Stratego
     {
         public enum Team { none, red, blue };
         public enum Rank { flag, spy, scout, miner, sergeant, lieutenant, captain, major, colonel, general, marshal, bomb };
+        public enum Combat { win, loss, tie };
 
         private Team team;
         private Rank rank;
@@ -51,6 +52,11 @@ namespace Stratego
             rank = ((int)this.rank).ToString();
 
             return team + rank;
+        }
+
+        public static Combat Battle(Piece aggressor, Piece defender)
+        {
+            return Combat.loss;
         }
     }
 }

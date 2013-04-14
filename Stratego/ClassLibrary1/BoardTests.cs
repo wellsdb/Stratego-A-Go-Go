@@ -851,6 +851,19 @@ namespace StrategoTesting
         }
 
         [Test()]
+        public void TestThatEventReturnsTie()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.sergeant), 2, 2);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.lieutenant), 7, 7);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.sergeant), 1, 2);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.lieutenant), 7, 8);
+
+            Assert.AreEqual(Board.Event.Tie, b.moveEvent(2, 2, Board.Direction.S, 1));
+            Assert.AreEqual(Board.Event.Tie, b.moveEvent(7, 8, Board.Direction.W, 1));
+        }
+
+        [Test()]
         public void TestThatSpyBeatsMarshal()
         {
             Board b = new Board();

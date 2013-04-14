@@ -9,7 +9,7 @@ namespace Stratego
     public class Board
     {
         public enum Direction { N, E, S, W };
-        public enum Event { GoodMove, BadMove, Win, Loss, Flag };
+        public enum Event { GoodMove, BadMove, Win, Loss, Tie, Flag };
 
         Cell[,] cells = new Cell[10, 10];
 
@@ -101,6 +101,41 @@ namespace Stratego
             }
 
             //moving onto an ally checks
+            int[] dest = Board.DestinationCalc(v, h, dir, dist);
+
+            Piece destinationP = cells[dest[0], dest[1]].getPiece();
+            if (destinationP != null)
+                if (destinationP.getTeam() == p.getTeam())
+                    return false;
+
+            return true;
+        }
+
+        public Event moveEvent(int v, int h, Direction dir, int dist)
+        {
+            if (!this.isMoveValid(v,h,dir,dist))
+                return Event.BadMove;
+
+            int[] dest = Board.DestinationCalc(v, h, dir, dist);
+            Piece destPiece = cells[dest[0], dest[1]].getPiece();
+
+            if (destPiece == null)
+                return Event.GoodMove;
+
+            Piece currentPiece = cells[v, h].getPiece();
+
+            Piece.Combat battleResult = Piece.Battle(currentPiece, destPiece);
+
+            if (battleResult == Piece.Combat.win)
+                return Event.Win;
+            else if (battleResult == Piece.Combat.loss)
+                return Event.Loss;
+            else
+                return Event.Tie;
+        }
+
+        public static int[] DestinationCalc(int v, int h, Direction dir, int dist)
+        {
             int destinationH = h;
             int destinationV = v;
 
@@ -120,18 +155,9 @@ namespace Stratego
                     break;
             }
 
-            Piece destinationP = cells[destinationV, destinationH].getPiece();
-            if (destinationP != null)
-                if (destinationP.getTeam() == p.getTeam())
-                    return false;
+            int[] coords = {destinationV, destinationH};
 
-            return true;
-        }
-
-        public Event moveEvent(int v, int h, Direction dir, int dist)
-        {
-            //TODO fill in
-            return Event.BadMove;
+            return coords;
         }
 
         public bool isVictory(int v, int h, Direction dir, int dist)
