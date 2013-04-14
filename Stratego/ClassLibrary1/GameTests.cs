@@ -95,9 +95,37 @@ namespace StrategoTesting
         }
 
         [Test()]
+        public void TestThatBoardIsMockedProperly()
+        {
+            //Board mockBoard = mocks.CreateMock<Board>();
+
+            //Expect.Call( mockBoard.getSpace ).Return(new Piece());
+            //mocks.ReplayAll();
+
+            //Board mockBoard = mocks.Stub<Board>();
+            
+            //using (mocks.Record())
+            //{
+            //    mockBoard.isMoveValid(3, 3, Board.Direction.N, 1);
+            //    LastCall.Return(true);
+            //}
+            
+            //Expect.Call(mockBoard.isMoveValid(3, 3, Board.Direction.N, 1)).Return(true);
+           // mocks.ReplayAll();
+
+           // Game target = new Game(mockBoard);
+
+           // Boolean[] hi = { true, false };
+            //hi[1] = false;
+
+           // Assert.IsTrue(target.movePiece(Piece.Team.red, 3, 3, Board.Direction.N, 1)[0]);
+
+        }
+
+
+        [Test()]
         public void TestThatMovePieceFunctionsCorrectlyForSuccessfulMove()
         {
-            mocks = new MockRepository();
             Board mockBoard = mocks.Stub<Board>();
             
             Int16 startVertOne = 3;
@@ -115,7 +143,7 @@ namespace StrategoTesting
 
             using (mocks.Record())
             {
-                mockBoard.isMoveValid(startVertOne, startHorizOne, directionOne, distanceOne);
+                mockBoard.isMoveValid(3, 3, Board.Direction.N, 1);
                 LastCall.Return(true);
 
                 mockBoard.isMoveValid(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
@@ -152,7 +180,6 @@ namespace StrategoTesting
         [Test()]
         public void TestThatMovePieceFunctionsCorrectlyForBattleVictory()
         {
-            mocks = new MockRepository();
             Board mockBoard = mocks.Stub<Board>();
 
             Game target = new Game(mockBoard);
@@ -211,7 +238,6 @@ namespace StrategoTesting
         [Test()]
         public void TestThatMovePieceFunctionsCorrectlyForBattleLoss()
         {
-            mocks = new MockRepository();
             Board mockBoard = mocks.Stub<Board>();
 
             Int16 startVertOne = 1;
@@ -269,7 +295,6 @@ namespace StrategoTesting
         [Test()]
         public void TestThatMovePieceFunctionsCorrectlyForFailedMove()
         {
-            mocks = new MockRepository();
             Board mockBoard = mocks.Stub<Board>();
 
             Game target = new Game(mockBoard);
@@ -328,7 +353,6 @@ namespace StrategoTesting
         public void TestThatMovePieceFunctionsCorrectlyForFlagCapture()
         {
 
-            mocks = new MockRepository();
             Board mockBoardOne = mocks.Stub<Board>();
             Board mockBoardTwo = mocks.Stub<Board>();
 
@@ -389,7 +413,6 @@ namespace StrategoTesting
         [Test()]
         public void TestThatSwapTurnFunctionsCorrectly()
         {
-            mocks = new MockRepository();
             Board mockBoard = mocks.Stub<Board>();
 
             Game target = new Game(mockBoard);

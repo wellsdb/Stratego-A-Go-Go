@@ -9,8 +9,9 @@ namespace Stratego
     public class Board
     {
         public enum Direction { N, E, S, W };
+        public enum Event { GoodMove, BadMove, Win, Loss, Flag };
 
-        Cell[,] b = new Cell[10, 10];
+        Cell[,] cells = new Cell[10, 10];
 
         public Board()
         {
@@ -19,64 +20,93 @@ namespace Stratego
                 for (int k = 0; k < 10; k++)
                 {
 
-                    b[i, k] = new Cell();
+                    cells[i, k] = new Cell();
                 }
             }
-            b[4, 2].setTerrain(Cell.Terrain.Lake);
-            b[4, 3].setTerrain(Cell.Terrain.Lake);
-            b[5, 2].setTerrain(Cell.Terrain.Lake);
-            b[5, 3].setTerrain(Cell.Terrain.Lake);
-            b[4, 6].setTerrain(Cell.Terrain.Lake);
-            b[4, 7].setTerrain(Cell.Terrain.Lake);
-            b[5, 6].setTerrain(Cell.Terrain.Lake);
-            b[5, 7].setTerrain(Cell.Terrain.Lake);
+            cells[4, 2].setTerrain(Cell.Terrain.Lake);
+            cells[4, 3].setTerrain(Cell.Terrain.Lake);
+            cells[5, 2].setTerrain(Cell.Terrain.Lake);
+            cells[5, 3].setTerrain(Cell.Terrain.Lake);
+            cells[4, 6].setTerrain(Cell.Terrain.Lake);
+            cells[4, 7].setTerrain(Cell.Terrain.Lake);
+            cells[5, 6].setTerrain(Cell.Terrain.Lake);
+            cells[5, 7].setTerrain(Cell.Terrain.Lake);
         }
-        public Piece getSpace(int v, int h)
+        public Piece getPiece(int v, int h)
         {
-            return b[v, h].getPiece();
+            return cells[v, h].getPiece();
         }
         public Cell getCell(int v, int h)
         {
-            return b[v, h];
+            return cells[v, h];
         }
         public void placePiece(Piece p, int v, int h)
         {
-            b[v, h].setPiece(p);
+            cells[v, h].setPiece(p);
         }
         public bool isMoveValid(int v, int h, Direction dir, int dist)
         {
-            Piece p = b[v,h].getPiece();
+            Piece p = cells[v,h].getPiece();
 
+            //edge of the board checks
             if (dir == Direction.N && v + dist > 9) return false;
             if (dir == Direction.E && h + dist > 9) return false;
             if (dir == Direction.S && v - dist < 0) return false;
             if (dir == Direction.W && h - dist < 0) return false;
 
-            if (p.getRank() == Piece.Rank.flag && dist > 0) return false;
-            if (p.getRank() == Piece.Rank.bomb && dist > 0) return false;
-            if(p.getRank() != Piece.Rank.scout && dist>1) return false;
+            //if (p.getRank() == Piece.Rank.flag && dist > 0) return false;
+            //if (p.getRank() == Piece.Rank.bomb && dist > 0) return false;
 
+            //rank checks
+            if (p.getRank() == Piece.Rank.flag) return false;
+            if (p.getRank() == Piece.Rank.bomb) return false;
+            if(p.getRank() != Piece.Rank.scout && dist > 1) return false;
+
+            //lake checks
             for (int i = 0; i <= dist; i++)
             {
-                if (dir == Direction.N && b[v + i, h].getTerrain() == Cell.Terrain.Lake) return false;
-                if (dir == Direction.S && b[v - i, h].getTerrain() == Cell.Terrain.Lake) return false;
-                if (dir == Direction.E && b[v, h + i].getTerrain() == Cell.Terrain.Lake) return false;
-                if (dir == Direction.W && b[v, h - i].getTerrain() == Cell.Terrain.Lake) return false;
-                
+                if (dir == Direction.N && cells[v + i, h].getTerrain() == Cell.Terrain.Lake) return false;
+                if (dir == Direction.S && cells[v - i, h].getTerrain() == Cell.Terrain.Lake) return false;
+                if (dir == Direction.E && cells[v, h + i].getTerrain() == Cell.Terrain.Lake) return false;
+                if (dir == Direction.W && cells[v, h - i].getTerrain() == Cell.Terrain.Lake) return false;
             }
 
+            //piece in the middle of the move checks
             if (dist > 1)
             {
-                for (int i = 1; i <= dist; i++)
+                if (dir == Direction.N)
                 {
-                    if (dir == Direction.N && b[v + i, h].getPiece() != null) return false;
-                    if (dir == Direction.S && b[v - i, h].getPiece() != null) return false;
-                    if (dir == Direction.E && b[v, h + i].getPiece() != null) return false;
-                    if (dir == Direction.S && b[v, h - i].getPiece() != null) return false;
+                    for (int i = 1; i <= dist; i++)
+                       if (cells[v + i, h].getPiece() != null)
+                           return false;
+                }
+                if (dir == Direction.S)
+                {
+                    for (int i = 1; i <= dist; i++)
+                       if (cells[v - i, h].getPiece() != null)
+                           return false;
+                }
+                if (dir == Direction.E)
+                {
+                    for (int i = 1; i <= dist; i++)
+                       if (cells[v, h + i].getPiece() != null)
+                           return false;
+                }
+                if (dir == Direction.W)
+                {
+                    for (int i = 1; i <= dist; i++)
+                       if (cells[v, h - i].getPiece() != null)
+                           return false;
                 }
             }
 
             return true;
+        }
+
+        public Event MovePiece(int v, int h, Direction dir, int dist)
+        {
+            //TODO fill in
+            return Event.BadMove;
         }
 
         public bool isVictory(int v, int h, Direction dir, int dist)
@@ -84,13 +114,13 @@ namespace Stratego
             Piece piece = null;
 
             if (dir == Direction.N) 
-                piece = b[v + 1, h].getPiece();
+                piece = cells[v + 1, h].getPiece();
             if (dir == Direction.S) 
-                piece = b[v - 1, h].getPiece();
+                piece = cells[v - 1, h].getPiece();
             if (dir == Direction.E)
-                piece = b[v, h + 1].getPiece();
+                piece = cells[v, h + 1].getPiece();
             if (dir == Direction.W) 
-                piece = b[v, h - 1].getPiece();
+                piece = cells[v, h - 1].getPiece();
 
             if (piece == null)
                 return false;

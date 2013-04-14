@@ -85,7 +85,7 @@ namespace Stratego
         public Boolean[] movePiece(Piece.Team team, Int16 v, Int16 h, Board.Direction direction, Int16 distance)
         {
             //check if piece belongs to the current player
-            if (this.board.getSpace(v, h).getTeam() != this.currentTeam)
+            if (this.board.getPiece(v, h).getTeam() != this.currentTeam)
                 return new Boolean[2] {false, false};
 
             //check if move is valid
@@ -100,8 +100,8 @@ namespace Stratego
 
             //move is valid, so perform move
             //get the values of the moving piece
-            Piece.Team movingPieceTeam = this.board.getSpace(v, h).getTeam();
-            Piece.Rank movingPieceRank = this.board.getSpace(v, h).getRank();
+            Piece.Team movingPieceTeam = this.board.getPiece(v, h).getTeam();
+            Piece.Rank movingPieceRank = this.board.getPiece(v, h).getRank();
 
             //place an empty piece on the old cell
             this.board.placePiece(null, v, h);

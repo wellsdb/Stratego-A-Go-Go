@@ -579,7 +579,7 @@ namespace StrategoTesting
             Board b = new Board();
             Piece p = new Piece(Piece.Team.blue, Piece.Rank.scout);
             b.placePiece(p, 1, 0);
-            Assert.True(p.Equals(b.getSpace(1, 0)));
+            Assert.True(p.Equals(b.getPiece(1, 0)));
         }
         [Test()]
         public void westEdgeNorthGetSpaceTrue()
@@ -587,7 +587,7 @@ namespace StrategoTesting
             Board b = new Board();
             Piece p = new Piece(Piece.Team.blue, Piece.Rank.scout);
             b.placePiece(p, 8, 0);
-            Assert.True(p.Equals(b.getSpace(8, 0)));
+            Assert.True(p.Equals(b.getPiece(8, 0)));
         }
         [Test()]
         public void southEdgeWestGetSpaceTrue()
@@ -595,7 +595,7 @@ namespace StrategoTesting
             Board b = new Board();
             Piece p = new Piece(Piece.Team.blue, Piece.Rank.scout);
             b.placePiece(p, 0, 1);
-            Assert.True(p.Equals(b.getSpace(0, 1)));
+            Assert.True(p.Equals(b.getPiece(0, 1)));
         }
         [Test()]
         public void southEdgeEastGetSpaceTrue()
@@ -603,7 +603,7 @@ namespace StrategoTesting
             Board b = new Board();
             Piece p = new Piece(Piece.Team.blue, Piece.Rank.scout);
             b.placePiece(p, 0, 8);
-            Assert.True(p.Equals(b.getSpace(0, 8)));
+            Assert.True(p.Equals(b.getPiece(0, 8)));
         }
         [Test()]
         public void northEdgeEastGetSpaceTrue()
@@ -611,7 +611,7 @@ namespace StrategoTesting
             Board b = new Board();
             Piece p = new Piece(Piece.Team.blue, Piece.Rank.scout);
             b.placePiece(p, 9, 1);
-            Assert.True(p.Equals(b.getSpace(9, 1)));
+            Assert.True(p.Equals(b.getPiece(9, 1)));
         }
         [Test()]
         public void northEdgeWestGetSpaceTrue()
@@ -619,7 +619,7 @@ namespace StrategoTesting
             Board b = new Board();
             Piece p = new Piece(Piece.Team.blue, Piece.Rank.scout);
             b.placePiece(p, 9, 8);
-            Assert.True(p.Equals(b.getSpace(9, 8)));
+            Assert.True(p.Equals(b.getPiece(9, 8)));
         }
         [Test()]
         public void eastEdgeSouthGetSpaceTrue()
@@ -627,7 +627,7 @@ namespace StrategoTesting
             Board b = new Board();
             Piece p = new Piece(Piece.Team.blue, Piece.Rank.scout);
             b.placePiece(p, 1, 9);
-            Assert.True(p.Equals(b.getSpace(1, 9)));
+            Assert.True(p.Equals(b.getPiece(1, 9)));
         }
         [Test()]
         public void eastEdgeNorthGetSpaceTrue()
@@ -635,7 +635,7 @@ namespace StrategoTesting
             Board b = new Board();
             Piece p = new Piece(Piece.Team.blue, Piece.Rank.scout);
             b.placePiece(p, 8, 9);
-            Assert.True(p.Equals(b.getSpace(8, 9)));
+            Assert.True(p.Equals(b.getPiece(8, 9)));
         }
         [Test()]
         public void getSpaceFalse()
@@ -644,7 +644,7 @@ namespace StrategoTesting
             Piece p = new Piece(Piece.Team.blue, Piece.Rank.scout);
             Piece q = new Piece(Piece.Team.red, Piece.Rank.scout);
             b.placePiece(p, 5, 5);
-            Assert.False(q.Equals(b.getSpace(5,5)));
+            Assert.False(q.Equals(b.getPiece(5,5)));
         }
         [Test()]
         public void moveIntoLakeFalse()
@@ -685,7 +685,7 @@ namespace StrategoTesting
             Board b = new Board();
             Piece p = new Piece(Piece.Team.blue, Piece.Rank.scout);
             b.placePiece(p, 0, 5);
-            b.placePiece(new Piece(Piece.Team.blue, 0), 0, 6);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.flag), 0, 6);
             Assert.False(b.isMoveValid(0, 5, Board.Direction.E, 3));
         }
         [Test()]
@@ -703,7 +703,7 @@ namespace StrategoTesting
             Board b = new Board();
             Piece p = new Piece(Piece.Team.blue, Piece.Rank.scout);
             b.placePiece(p, 0, 5);
-            b.placePiece(new Piece(Piece.Team.red, 0), 0, 6);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.flag), 0, 6);
             Assert.False(b.isMoveValid(0, 5, Board.Direction.E, 3));
         }
         [Test()]
@@ -711,7 +711,7 @@ namespace StrategoTesting
         {
             Board b = new Board();
             b.placePiece(new Piece(Piece.Team.red, Piece.Rank.marshal), 0, 5);
-            b.placePiece(new Piece(Piece.Team.blue, 0), 0, 6);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.flag), 0, 6);
             Assert.True(b.isVictory(0, 5, Board.Direction.E, 1));
         }
         [Test()]
@@ -719,7 +719,7 @@ namespace StrategoTesting
         {
             Board b = new Board();
             b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.marshal), 0, 5);
-            b.placePiece(new Piece(Piece.Team.red, 0), 0, 6);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.flag), 0, 6);
             Assert.True(b.isVictory(0, 5, Board.Direction.E, 1));
         }
         [Test()]
@@ -727,8 +727,45 @@ namespace StrategoTesting
         {
             Board b = new Board();
             b.placePiece(new Piece(Piece.Team.red, Piece.Rank.marshal), 0, 4);
-            b.placePiece(new Piece(Piece.Team.blue, 0), 0, 6);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.flag), 0, 6);
             Assert.True(b.isVictory(0, 5, Board.Direction.E, 1));
+        }
+
+        [Test()]
+        public void TestIsMoveValidOntoAllyCell()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.marshal), 1, 3);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), 1, 2);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), 1, 4);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), 0, 3);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), 2, 3);
+            Assert.False(b.isMoveValid(1, 3, Board.Direction.N, 1));
+            Assert.False(b.isMoveValid(1, 3, Board.Direction.S, 1));
+            Assert.False(b.isMoveValid(1, 3, Board.Direction.E, 1));
+            Assert.False(b.isMoveValid(1, 3, Board.Direction.W, 1));
+        }
+
+        [Test()]
+        public void TestIsMoveValidOntoEnemyCell()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.marshal), 1, 3);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.scout), 1, 2);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.scout), 1, 4);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.scout), 0, 3);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.scout), 2, 3);
+            Assert.True(b.isMoveValid(1, 3, Board.Direction.N, 1));
+            Assert.True(b.isMoveValid(1, 3, Board.Direction.S, 1));
+            Assert.True(b.isMoveValid(1, 3, Board.Direction.E, 1));
+            Assert.True(b.isMoveValid(1, 3, Board.Direction.W, 1));
+        }
+
+        [Test()]
+        public void TestThatBoardEventsGoodMoveWorks()
+        {
+            Board target = new Board();
+
         }
     }
 }
