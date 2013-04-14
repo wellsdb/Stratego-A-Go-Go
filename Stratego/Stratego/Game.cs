@@ -12,7 +12,7 @@ namespace Stratego
         private Player playerOne;
         private Player playerTwo;
         private Int16 turnCount;
-        private Int16 currentTeam;
+        private Piece.Team currentTeam;
 
         public Game()
         {
@@ -20,7 +20,7 @@ namespace Stratego
             this.playerOne = new Player();
             this.playerTwo = new Player();
             this.turnCount = 0;
-            this.currentTeam = 0;
+            this.currentTeam = Piece.Team.none;
         }
 
         public Game(Board board)
@@ -29,7 +29,7 @@ namespace Stratego
             this.playerOne = new Player();
             this.playerTwo = new Player();
             this.turnCount = 0;
-            this.currentTeam = 0;
+            this.currentTeam = Piece.Team.none;
         }
 
         public Board getBoard()
@@ -69,7 +69,7 @@ namespace Stratego
             return this.turnCount;
         }
 
-        public Int16 getCurrentTurn()
+        public Piece.Team getCurrentTurn()
         {
             return this.currentTeam;
         }
@@ -77,31 +77,31 @@ namespace Stratego
         public void startGame()
         {
             this.turnCount = 1;
-            this.currentTeam = 1;
+            this.currentTeam = Piece.Team.red;
         }
 
         //returns true if the move is allowed and performed
         //returns false if the move is not allowed and not performed
-        public Boolean[] movePiece(Int16 team, Int16 v, Int16 h, Board.dir direction, Int16 distance)
+        public Boolean[] movePiece(Piece.Team team, Int16 v, Int16 h, Board.Direction direction, Int16 distance)
         {
             //check if piece belongs to the current player
             if (this.board.getSpace(v, h).getTeam() != this.currentTeam)
                 return new Boolean[2] {false, false};
 
             //check if move is valid
-            Boolean valid = this.board.isMoveValid(v, h, (int)direction, distance);
+            Boolean valid = this.board.isMoveValid(v, h, direction, distance);
 
             //if move is invalid, return false
             if (!valid)
                 return new Boolean[2] { false, false };
 
             //move is valid, so check victory
-            Boolean victory = this.board.isVictory(v, h, (int)direction, distance);
+            Boolean victory = this.board.isVictory(v, h, direction, distance);
 
             //move is valid, so perform move
             //get the values of the moving piece
-            int movingPieceTeam = this.board.getSpace(v, h).getTeam();
-            int movingPieceRank = this.board.getSpace(v, h).getRank();
+            Piece.Team movingPieceTeam = this.board.getSpace(v, h).getTeam();
+            Piece.Rank movingPieceRank = this.board.getSpace(v, h).getRank();
 
             //place an empty piece on the old cell
             this.board.placePiece(null, v, h);
@@ -112,19 +112,19 @@ namespace Stratego
 
             switch (direction)
             {
-                case Board.dir.N:
+                case Board.Direction.N:
                     newV = v + distance;
                     newH = h;
                     break;
-                case Board.dir.S:
+                case Board.Direction.S:
                     newV = v - distance;
                     newH = h;
                     break;
-                case Board.dir.E:
+                case Board.Direction.E:
                     newV = v;
                     newH = h + distance;
                     break;
-                case Board.dir.W:
+                case Board.Direction.W:
                     newV = v;
                     newH = h - distance;
                     break;
@@ -145,11 +145,11 @@ namespace Stratego
 
         private void swapTurn()
         {
-            if (this.currentTeam == 1)
-                this.currentTeam = 2;
+            if (this.currentTeam == Piece.Team.red)
+                this.currentTeam = Piece.Team.blue;
             else
             {
-                this.currentTeam = 1;
+                this.currentTeam = Piece.Team.red;
                 this.turnCount++;
             }
         }
@@ -159,7 +159,7 @@ namespace Stratego
             return false;
         }
 
-        public void endGame(Int16 currentTeam)
+        public void endGame(Piece.Team currentTeam)
         {
 
         }

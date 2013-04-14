@@ -8,7 +8,7 @@ namespace Stratego
 {
     public class Board
     {
-        public enum dir { N, E, S, W };
+        public enum Direction { N, E, S, W };
 
         Cell[,] b = new Cell[10, 10];
 
@@ -43,25 +43,25 @@ namespace Stratego
         {
             b[v, h].setPiece(p);
         }
-        public bool isMoveValid(int v, int h, int dir, int dist)
+        public bool isMoveValid(int v, int h, Direction dir, int dist)
         {
             Piece p = b[v,h].getPiece();
 
-            if (dir == 0 && v + dist > 9) return false;
-            if (dir == 1 && h + dist > 9) return false;
-            if (dir == 2 && v - dist < 0) return false;
-            if (dir == 3 && h - dist < 0) return false;
+            if (dir == Direction.N && v + dist > 9) return false;
+            if (dir == Direction.E && h + dist > 9) return false;
+            if (dir == Direction.S && v - dist < 0) return false;
+            if (dir == Direction.W && h - dist < 0) return false;
 
-            if (p.getRank() == 0 && dist > 0) return false;
-            if (p.getRank() == 11 && dist > 0) return false;
-            if(p.getRank() != 2 && dist>1) return false;
+            if (p.getRank() == Piece.Rank.flag && dist > 0) return false;
+            if (p.getRank() == Piece.Rank.bomb && dist > 0) return false;
+            if(p.getRank() != Piece.Rank.scout && dist>1) return false;
 
             for (int i = 0; i <= dist; i++)
             {
-                if (dir == 0 && b[v + i, h].getTerrain() == Cell.Terrain.Lake) return false;
-                if (dir == 2 && b[v - i, h].getTerrain() == Cell.Terrain.Lake) return false;
-                if (dir == 1 && b[v, h + i].getTerrain() == Cell.Terrain.Lake) return false;
-                if (dir == 3 && b[v, h - i].getTerrain() == Cell.Terrain.Lake) return false;
+                if (dir == Direction.N && b[v + i, h].getTerrain() == Cell.Terrain.Lake) return false;
+                if (dir == Direction.S && b[v - i, h].getTerrain() == Cell.Terrain.Lake) return false;
+                if (dir == Direction.E && b[v, h + i].getTerrain() == Cell.Terrain.Lake) return false;
+                if (dir == Direction.W && b[v, h - i].getTerrain() == Cell.Terrain.Lake) return false;
                 
             }
 
@@ -69,27 +69,27 @@ namespace Stratego
             {
                 for (int i = 1; i <= dist; i++)
                 {
-                    if (dir == 0 && b[v + i, h].getPiece() != null) return false;
-                    if (dir == 2 && b[v - i, h].getPiece() != null) return false;
-                    if (dir == 1 && b[v, h + i].getPiece() != null) return false;
-                    if (dir == 3 && b[v, h - i].getPiece() != null) return false;
+                    if (dir == Direction.N && b[v + i, h].getPiece() != null) return false;
+                    if (dir == Direction.S && b[v - i, h].getPiece() != null) return false;
+                    if (dir == Direction.E && b[v, h + i].getPiece() != null) return false;
+                    if (dir == Direction.S && b[v, h - i].getPiece() != null) return false;
                 }
             }
 
             return true;
         }
 
-        public bool isVictory(int v, int h, int dir, int dist)
+        public bool isVictory(int v, int h, Direction dir, int dist)
         {
             Piece piece = null;
 
-            if (dir == 0) 
+            if (dir == Direction.N) 
                 piece = b[v + 1, h].getPiece();
-            if (dir == 2) 
+            if (dir == Direction.S) 
                 piece = b[v - 1, h].getPiece();
-            if (dir == 1)
+            if (dir == Direction.E)
                 piece = b[v, h + 1].getPiece();
-            if (dir == 3) 
+            if (dir == Direction.W) 
                 piece = b[v, h - 1].getPiece();
 
             if (piece == null)

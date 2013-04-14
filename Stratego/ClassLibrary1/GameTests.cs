@@ -39,7 +39,7 @@ namespace StrategoTesting
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT, target.getPlayerPieceCount(2));
 
             Assert.AreEqual(0, target.getTurnCount());
-            Assert.AreEqual(0, target.getCurrentTurn());
+            Assert.AreEqual(Piece.Team.none, target.getCurrentTurn());
         }
 
         [Test()]
@@ -90,7 +90,7 @@ namespace StrategoTesting
             target.startGame();
 
             Assert.AreEqual(1, target.getTurnCount());
-            Assert.AreEqual(1, target.getCurrentTurn());
+            Assert.AreEqual(Piece.Team.red, target.getCurrentTurn());
 
         }
 
@@ -100,16 +100,14 @@ namespace StrategoTesting
             mocks = new MockRepository();
             Board mockBoard = mocks.Stub<Board>();
             
-            Game target = new Game(mockBoard);
-
             Int16 startVertOne = 3;
             Int16 startHorizOne = 3;
             Int16 startVertTwo = 4;
             Int16 startHorizTwo = 3;
             Int16 distanceOne = 1;
             Int16 distanceTwo = 2;
-            Board.dir directionOne = Board.dir.N;
-            Board.dir directionTwo = Board.dir.E;
+            Board.Direction directionOne = Board.Direction.N;
+            Board.Direction directionTwo = Board.Direction.E;
             Int16 endVertOne = 4;
             Int16 endHorizOne = 3;
             Int16 endVertTwo = 4;
@@ -117,16 +115,16 @@ namespace StrategoTesting
 
             using (mocks.Record())
             {
-                mockBoard.isMoveValid(startVertOne, startHorizOne, (int)directionOne, distanceOne);
+                mockBoard.isMoveValid(startVertOne, startHorizOne, directionOne, distanceOne);
                 LastCall.Return(true);
 
-                mockBoard.isMoveValid(startVertTwo, startHorizTwo, (int)directionTwo, distanceTwo);
+                mockBoard.isMoveValid(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
                 LastCall.Return(true);
 
-                //mockBoard.movePiece(startVertOne, startHorizOne, (int)directionOne, distanceOne);
+                //mockBoard.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
                 //LastCall.Return( //Successful Move value
 
-                //mockBoard.movePiece(startVertTwo, startHorizTwo, (int)directionTwo, distanceTwo);
+                //mockBoard.movePiece(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
                 //LastCall.Return( //Successful Move value
 
                 //mockBoard.getSpace(startVertOne, startHorizOne);
@@ -143,9 +141,11 @@ namespace StrategoTesting
                 
             }
 
-            target.movePiece(1, startVertOne, startHorizOne, directionOne, distanceOne);
+            Game target = new Game(mockBoard);
 
-            target.movePiece(2, startVertTwo, endHorizTwo, directionTwo, distanceTwo);
+            target.movePiece(Piece.Team.red, startVertOne, startHorizOne, directionOne, distanceOne);
+
+            target.movePiece(Piece.Team.blue, startVertTwo, endHorizTwo, directionTwo, distanceTwo);
 
         }
 
@@ -163,8 +163,8 @@ namespace StrategoTesting
             Int16 startHorizTwo = 1;
             Int16 distanceOne = 1;
             Int16 distanceTwo = 2;
-            Board.dir directionOne = Board.dir.S;
-            Board.dir directionTwo = Board.dir.W;
+            Board.Direction directionOne = Board.Direction.S;
+            Board.Direction directionTwo = Board.Direction.W;
             Int16 endVertOne = 0;
             Int16 endHorizOne = 8;
             Int16 endVertTwo = 8;
@@ -172,16 +172,16 @@ namespace StrategoTesting
 
             using (mocks.Record())
             {
-                mockBoard.isMoveValid(startVertOne, startHorizOne, (int)directionOne, distanceOne);
+                mockBoard.isMoveValid(startVertOne, startHorizOne, directionOne, distanceOne);
                 LastCall.Return(true);
 
-                mockBoard.isMoveValid(startVertTwo, startHorizTwo, (int)directionTwo, distanceTwo);
+                mockBoard.isMoveValid(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
                 LastCall.Return(true);
 
-                //mockBoard.movePiece(startVertOne, startHorizOne, (int)directionOne, distanceOne);
+                //mockBoard.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
                 //LastCall.Return( //Battle victory value
 
-                //mockBoard.movePiece(startVertTwo, startHorizTwo, (int)directionTwo, distanceTwo);
+                //mockBoard.movePiece(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
                 //LastCall.Return( //Battle victory  value
 
                 //mockBoard.getSpace(startVertOne, startHorizOne);
@@ -198,11 +198,11 @@ namespace StrategoTesting
 
             }
 
-            target.movePiece(1, startVertOne, startHorizOne, directionOne, distanceOne);
+            target.movePiece(Piece.Team.red, startVertOne, startHorizOne, directionOne, distanceOne);
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT, target.getPlayerPieceCount(1));
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT - 1, target.getPlayerPieceCount(2));
 
-            target.movePiece(2, startVertTwo, endHorizTwo, directionTwo, distanceTwo);
+            target.movePiece(Piece.Team.blue, startVertTwo, endHorizTwo, directionTwo, distanceTwo);
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT, target.getPlayerPieceCount(2));
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT - 1, target.getPlayerPieceCount(1));
 
@@ -214,16 +214,14 @@ namespace StrategoTesting
             mocks = new MockRepository();
             Board mockBoard = mocks.Stub<Board>();
 
-            Game target = new Game(mockBoard);
-
             Int16 startVertOne = 1;
             Int16 startHorizOne = 8;
             Int16 startVertTwo = 8;
             Int16 startHorizTwo = 1;
             Int16 distanceOne = 1;
             Int16 distanceTwo = 2;
-            Board.dir directionOne = Board.dir.S;
-            Board.dir directionTwo = Board.dir.W;
+            Board.Direction directionOne = Board.Direction.S;
+            Board.Direction directionTwo = Board.Direction.W;
             Int16 endVertOne = 0;
             Int16 endHorizOne = 8;
             Int16 endVertTwo = 8;
@@ -231,16 +229,16 @@ namespace StrategoTesting
 
             using (mocks.Record())
             {
-                mockBoard.isMoveValid(startVertOne, startHorizOne, (int)directionOne, distanceOne);
+                mockBoard.isMoveValid(startVertOne, startHorizOne, directionOne, distanceOne);
                 LastCall.Return(true);
 
-                mockBoard.isMoveValid(startVertTwo, startHorizTwo, (int)directionTwo, distanceTwo);
+                mockBoard.isMoveValid(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
                 LastCall.Return(true);
 
-                //mockBoard.movePiece(startVertOne, startHorizOne, (int)directionOne, distanceOne);
+                //mockBoard.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
                 //LastCall.Return( //Battle defeat value
 
-                //mockBoard.movePiece(startVertTwo, startHorizTwo, (int)directionTwo, distanceTwo);
+                //mockBoard.movePiece(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
                 //LastCall.Return( //Battle defeat  value
 
                 //mockBoard.getSpace(startVertOne, startHorizOne);
@@ -257,11 +255,13 @@ namespace StrategoTesting
 
             }
 
-            target.movePiece(1, startVertOne, startHorizOne, directionOne, distanceOne);
+            Game target = new Game(mockBoard);
+
+            target.movePiece(Piece.Team.red, startVertOne, startHorizOne, directionOne, distanceOne);
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT, target.getPlayerPieceCount(2));
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT - 1, target.getPlayerPieceCount(1));
 
-            target.movePiece(2, startVertTwo, endHorizTwo, directionTwo, distanceTwo);
+            target.movePiece(Piece.Team.blue, startVertTwo, endHorizTwo, directionTwo, distanceTwo);
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT, target.getPlayerPieceCount(1));
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT - 1, target.getPlayerPieceCount(2));
         }
@@ -280,8 +280,8 @@ namespace StrategoTesting
             Int16 startHorizTwo = 1;
             Int16 distanceOne = 1;
             Int16 distanceTwo = 2;
-            Board.dir directionOne = Board.dir.S;
-            Board.dir directionTwo = Board.dir.W;
+            Board.Direction directionOne = Board.Direction.S;
+            Board.Direction directionTwo = Board.Direction.W;
             Int16 endVertOne = 0;
             Int16 endHorizOne = 8;
             Int16 endVertTwo = 8;
@@ -289,16 +289,16 @@ namespace StrategoTesting
 
             using (mocks.Record())
             {
-                mockBoard.isMoveValid(startVertOne, startHorizOne, (int)directionOne, distanceOne);
+                mockBoard.isMoveValid(startVertOne, startHorizOne, directionOne, distanceOne);
                 LastCall.Return(true);
 
-                mockBoard.isMoveValid(startVertTwo, startHorizTwo, (int)directionTwo, distanceTwo);
+                mockBoard.isMoveValid(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
                 LastCall.Return(true);
 
-                //mockBoard.movePiece(startVertOne, startHorizOne, (int)directionOne, distanceOne);
+                //mockBoard.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
                 //LastCall.Return( //Battle victory value
 
-                //mockBoard.movePiece(startVertTwo, startHorizTwo, (int)directionTwo, distanceTwo);
+                //mockBoard.movePiece(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
                 //LastCall.Return( //Battle victory  value
 
                 //mockBoard.getSpace(startVertOne, startHorizOne);
@@ -315,11 +315,11 @@ namespace StrategoTesting
 
             }
 
-            target.movePiece(1, startVertOne, startHorizOne, directionOne, distanceOne);
+            target.movePiece(Piece.Team.red, startVertOne, startHorizOne, directionOne, distanceOne);
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT, target.getPlayerPieceCount(1));
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT - 1, target.getPlayerPieceCount(2));
 
-            target.movePiece(2, startVertTwo, endHorizTwo, directionTwo, distanceTwo);
+            target.movePiece(Piece.Team.blue, startVertTwo, endHorizTwo, directionTwo, distanceTwo);
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT, target.getPlayerPieceCount(2));
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT - 1, target.getPlayerPieceCount(1));
         }
@@ -341,8 +341,8 @@ namespace StrategoTesting
             Int16 startHorizTwo = 1;
             Int16 distanceOne = 1;
             Int16 distanceTwo = 2;
-            Board.dir directionOne = Board.dir.S;
-            Board.dir directionTwo = Board.dir.W;
+            Board.Direction directionOne = Board.Direction.S;
+            Board.Direction directionTwo = Board.Direction.W;
             Int16 endVertOne = 0;
             Int16 endHorizOne = 8;
             Int16 endVertTwo = 8;
@@ -350,16 +350,16 @@ namespace StrategoTesting
 
             using (mocks.Record())
             {
-                mockBoardOne.isMoveValid(startVertOne, startHorizOne, (int)directionOne, distanceOne);
+                mockBoardOne.isMoveValid(startVertOne, startHorizOne, directionOne, distanceOne);
                 LastCall.Return(true);
 
-                mockBoardTwo.isMoveValid(startVertTwo, startHorizTwo, (int)directionTwo, distanceTwo);
+                mockBoardTwo.isMoveValid(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
                 LastCall.Return(true);
 
-                //mockBoardOne.movePiece(startVertOne, startHorizOne, (int)directionOne, distanceOne);
+                //mockBoardOne.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
                 //LastCall.Return( //flag capture value
 
-                //mockBoardTwo.movePiece(startVertTwo, startHorizTwo, (int)directionTwo, distanceTwo);
+                //mockBoardTwo.movePiece(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
                 //LastCall.Return( //flag capture value
 
                 //mockBoardOne.getSpace(startVertOne, startHorizOne);
@@ -376,11 +376,11 @@ namespace StrategoTesting
 
             }
 
-            targetOne.movePiece(1, startVertOne, startHorizOne, directionOne, distanceOne);
+            targetOne.movePiece(Piece.Team.red, startVertOne, startHorizOne, directionOne, distanceOne);
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT, targetOne.getPlayerPieceCount(1));
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT - 1, targetOne.getPlayerPieceCount(2));
 
-            targetTwo.movePiece(2, startVertTwo, endHorizTwo, directionTwo, distanceTwo);
+            targetTwo.movePiece(Piece.Team.blue, startVertTwo, endHorizTwo, directionTwo, distanceTwo);
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT, targetTwo.getPlayerPieceCount(2));
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT - 1, targetTwo.getPlayerPieceCount(1));
 
@@ -400,8 +400,8 @@ namespace StrategoTesting
             Int16 startHorizTwo = 3;
             Int16 distanceOne = 1;
             Int16 distanceTwo = 2;
-            Board.dir directionOne = Board.dir.N;
-            Board.dir directionTwo = Board.dir.E;
+            Board.Direction directionOne = Board.Direction.N;
+            Board.Direction directionTwo = Board.Direction.E;
             Int16 endVertOne = 4;
             Int16 endHorizOne = 3;
             Int16 endVertTwo = 4;
@@ -409,16 +409,16 @@ namespace StrategoTesting
 
             using (mocks.Record())
             {
-                mockBoard.isMoveValid(startVertOne, startHorizOne, (int)directionOne, distanceOne);
+                mockBoard.isMoveValid(startVertOne, startHorizOne, directionOne, distanceOne);
                 LastCall.Return(true);
 
-                mockBoard.isMoveValid(startVertTwo, startHorizTwo, (int)directionTwo, distanceTwo);
+                mockBoard.isMoveValid(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
                 LastCall.Return(true);
 
-                //mockBoard.movePiece(startVertOne, startHorizOne, (int)directionOne, distanceOne);
+                //mockBoard.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
                 //LastCall.Return( //Successful Move value
 
-                //mockBoard.movePiece(startVertTwo, startHorizTwo, (int)directionTwo, distanceTwo);
+                //mockBoard.movePiece(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
                 //LastCall.Return( //Successful Move value
 
                 //mockBoard.getSpace(startVertOne, startHorizOne);
@@ -439,11 +439,11 @@ namespace StrategoTesting
             Assert.AreEqual(1, target.getCurrentTurn());
             Assert.AreEqual(1, target.getTurnCount());
 
-            target.movePiece(1, startVertOne, startHorizOne, directionOne, distanceOne);
+            target.movePiece(Piece.Team.red, startVertOne, startHorizOne, directionOne, distanceOne);
             Assert.AreEqual(2, target.getCurrentTurn());
             Assert.AreEqual(1, target.getTurnCount());
 
-            target.movePiece(2, startVertTwo, endHorizTwo, directionTwo, distanceTwo);
+            target.movePiece(Piece.Team.blue, startVertTwo, endHorizTwo, directionTwo, distanceTwo);
             Assert.AreEqual(1, target.getCurrentTurn());
             Assert.AreEqual(1, target.getTurnCount());
         }

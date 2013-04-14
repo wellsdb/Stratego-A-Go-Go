@@ -8,29 +8,30 @@ namespace Stratego
 {
     public class Piece
     {
-        public enum team { red, blue };
-        public enum rank { flag, spy, scout, miner, sergeant, lieutenant, captain, major, colonel, general, marshal, bomb };
+        public enum Team { none, red, blue };
+        public enum Rank { flag, spy, scout, miner, sergeant, lieutenant, captain, major, colonel, general, marshal, bomb };
 
-        private int t, r;
+        private Team team;
+        private Rank rank;
 
         public Piece(){}
 
-        public Piece(int team, int rank)
+        public Piece(Team team, Rank rank)
         {
-            t = team;
-            r = rank;
+            this.team = team;
+            this.rank = rank;
         }
-        public int getTeam()
+        public Team getTeam()
         {
-            return t;
+            return this.team;
         }
-        public int getRank()
+        public Rank getRank()
         {
-            return r;
+            return this.rank;
         }
-        public bool Equals(Piece p)
+        public Boolean Equals(Piece p)
         {
-            if (t == p.getTeam() && r == p.getRank()) return true;
+            if (team == p.getTeam() && rank == p.getRank()) return true;
             return false;
         }
 
@@ -39,15 +40,15 @@ namespace Stratego
             if (this == null)
                 return "||";
             
-            String team;
-            String rank;
+            String team = "None";
+            String rank = "-1";
 
-            if (this.t == 2)
-                team = "B";
-            else
-                team = "R";
+            if (this.team == Team.blue)
+                team = "Blue";
+            else if (this.team == Team.red)
+                team = "Red";
 
-            rank = ((int)this.r).ToString();
+            rank = ((int)this.rank).ToString();
 
             return team + rank;
         }
