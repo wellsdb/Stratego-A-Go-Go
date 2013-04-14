@@ -747,6 +747,21 @@ namespace StrategoTesting
         }
 
         [Test()]
+        public void TestIsMoveValidOntoAllyCellByScout()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), 2, 4);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), 0, 4);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), 4, 4);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), 2, 2);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), 2, 6);
+            Assert.False(b.isMoveValid(2, 4, Board.Direction.N, 2));
+            Assert.False(b.isMoveValid(2, 4, Board.Direction.S, 2));
+            Assert.False(b.isMoveValid(2, 4, Board.Direction.E, 2));
+            Assert.False(b.isMoveValid(2, 4, Board.Direction.W, 2));
+        }
+
+        [Test()]
         public void TestIsMoveValidOntoEnemyCell()
         {
             Board b = new Board();
@@ -762,10 +777,138 @@ namespace StrategoTesting
         }
 
         [Test()]
-        public void TestThatBoardEventsGoodMoveWorks()
+        public void TestIsMoveValidOntoEnemyCellByScout()
         {
-            Board target = new Board();
-
+            Board b = new Board();
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.scout), 2, 4);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), 0, 4);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), 4, 4);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), 2, 2);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), 2, 6);
+            Assert.True(b.isMoveValid(2, 4, Board.Direction.N, 2));
+            Assert.True(b.isMoveValid(2, 4, Board.Direction.S, 2));
+            Assert.True(b.isMoveValid(2, 4, Board.Direction.E, 2));
+            Assert.True(b.isMoveValid(2, 4, Board.Direction.W, 2));
         }
+
+        [Test()]
+        public void TestThatEventReturnsGoodMove()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), 2, 4);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.marshal), 7, 5);
+
+            Assert.AreEqual(Board.Event.GoodMove, b.moveEvent(2, 4, Board.Direction.N, 3));
+            Assert.AreEqual(Board.Event.GoodMove, b.moveEvent(2, 4, Board.Direction.W, 1));
+            Assert.AreEqual(Board.Event.GoodMove, b.moveEvent(7, 5, Board.Direction.S, 1));
+            Assert.AreEqual(Board.Event.GoodMove, b.moveEvent(7, 5, Board.Direction.E, 1));
+        }
+
+        [Test()]
+        public void TestThatEventReturnsBadMove()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), 6, 6);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.marshal), 6, 2);
+
+            Assert.AreEqual(Board.Event.BadMove, b.moveEvent(6, 6, Board.Direction.W, 6));
+            Assert.AreEqual(Board.Event.BadMove, b.moveEvent(6, 6, Board.Direction.N, 4));
+            Assert.AreEqual(Board.Event.BadMove, b.moveEvent(7, 5, Board.Direction.S, 1));
+            Assert.AreEqual(Board.Event.BadMove, b.moveEvent(7, 5, Board.Direction.E, 2));
+        }
+
+
+        [Test()]
+        public void TestThatEventReturnsWin()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.colonel), 2, 4);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.major), 1,4 );
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.captain), 2, 3);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.lieutenant), 2, 5);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.sergeant), 3, 4);
+
+            Assert.AreEqual(Board.Event.Win, b.moveEvent(2, 4, Board.Direction.S, 1));
+            Assert.AreEqual(Board.Event.Win, b.moveEvent(2, 4, Board.Direction.W, 1));
+            Assert.AreEqual(Board.Event.Win, b.moveEvent(2, 4, Board.Direction.N, 1));
+            Assert.AreEqual(Board.Event.Win, b.moveEvent(2, 3, Board.Direction.E, 1));
+        }
+
+        [Test()]
+        public void TestThatEventReturnsLoss()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.sergeant), 2, 4);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.lieutenant), 1, 4);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.captain), 3, 4);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.major), 2, 3);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.colonel), 2, 5);
+
+            Assert.AreEqual(Board.Event.Loss, b.moveEvent(2, 4, Board.Direction.S, 1));
+            Assert.AreEqual(Board.Event.Loss, b.moveEvent(2, 4, Board.Direction.W, 1));
+            Assert.AreEqual(Board.Event.Loss, b.moveEvent(2, 4, Board.Direction.N, 1));
+            Assert.AreEqual(Board.Event.Loss, b.moveEvent(2, 4, Board.Direction.E, 1));
+        }
+
+        [Test()]
+        public void TestThatSpyBeatsMarshal()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.spy), 1, 1);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.marshal), 8, 8);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.spy), 8, 9);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.marshal), 0, 1);
+
+            Assert.AreEqual(Board.Event.Win, b.moveEvent(1, 1, Board.Direction.S, 1));
+            Assert.AreEqual(Board.Event.Loss, b.moveEvent(8, 8, Board.Direction.E, 1));
+        }
+
+        [Test()]
+        public void TestThatBombBeatsAllButMiner()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.marshal), 1, 1);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.bomb), 8, 8);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), 8, 9);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.bomb), 0, 1);
+
+            Assert.AreEqual(Board.Event.Loss, b.moveEvent(1, 1, Board.Direction.S, 1));
+            Assert.AreEqual(Board.Event.Loss, b.moveEvent(8, 9, Board.Direction.W, 1));
+        }
+
+        [Test()]
+        public void TestThatMinerBeatsBomb()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.miner), 1, 1);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.bomb), 8, 8);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.miner), 8, 9);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.bomb), 0, 1);
+
+            Assert.AreEqual(Board.Event.Win, b.moveEvent(1, 1, Board.Direction.S, 1));
+            Assert.AreEqual(Board.Event.Win, b.moveEvent(8, 9, Board.Direction.W, 1));
+        }
+
+        [Test()]
+        public void TestThatEventReturnsFlag()
+        {
+            Board b = new Board();
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.flag), 1, 1);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.flag), 8, 1);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.flag), 1, 8);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.flag), 8, 8);
+
+
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.scout), 1, 9);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.marshal), 8, 7);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.spy), 0, 1);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.colonel), 9, 1);
+
+            Assert.AreEqual(Board.Event.Flag, b.moveEvent(1, 9, Board.Direction.E, 1));
+            Assert.AreEqual(Board.Event.Flag, b.moveEvent(8, 7, Board.Direction.W, 1));
+            Assert.AreEqual(Board.Event.Flag, b.moveEvent(0, 1, Board.Direction.N, 1));
+            Assert.AreEqual(Board.Event.Flag, b.moveEvent(9, 1, Board.Direction.S, 1));
+        }
+
     }
 }

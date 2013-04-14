@@ -48,14 +48,14 @@ namespace Stratego
         {
             Piece p = cells[v,h].getPiece();
 
+            if (p == null)
+                throw new ArgumentOutOfRangeException("The space being moved from must have a piece in it!");
+
             //edge of the board checks
             if (dir == Direction.N && v + dist > 9) return false;
             if (dir == Direction.E && h + dist > 9) return false;
             if (dir == Direction.S && v - dist < 0) return false;
             if (dir == Direction.W && h - dist < 0) return false;
-
-            //if (p.getRank() == Piece.Rank.flag && dist > 0) return false;
-            //if (p.getRank() == Piece.Rank.bomb && dist > 0) return false;
 
             //rank checks
             if (p.getRank() == Piece.Rank.flag) return false;
@@ -76,34 +76,59 @@ namespace Stratego
             {
                 if (dir == Direction.N)
                 {
-                    for (int i = 1; i <= dist; i++)
+                    for (int i = 1; i < dist; i++)
                        if (cells[v + i, h].getPiece() != null)
                            return false;
                 }
                 if (dir == Direction.S)
                 {
-                    for (int i = 1; i <= dist; i++)
+                    for (int i = 1; i < dist; i++)
                        if (cells[v - i, h].getPiece() != null)
                            return false;
                 }
                 if (dir == Direction.E)
                 {
-                    for (int i = 1; i <= dist; i++)
+                    for (int i = 1; i < dist; i++)
                        if (cells[v, h + i].getPiece() != null)
                            return false;
                 }
                 if (dir == Direction.W)
                 {
-                    for (int i = 1; i <= dist; i++)
+                    for (int i = 1; i < dist; i++)
                        if (cells[v, h - i].getPiece() != null)
                            return false;
                 }
             }
 
+            //moving onto an ally checks
+            int destinationH = h;
+            int destinationV = v;
+
+            switch (dir)
+            {
+                case Direction.N:
+                    destinationV = v + dist;
+                    break;
+                case Direction.S:
+                    destinationV = v - dist;
+                    break;
+                case Direction.E:
+                    destinationH = h + dist;
+                    break;
+                case Direction.W:
+                    destinationH = h - dist;
+                    break;
+            }
+
+            Piece destinationP = cells[destinationV, destinationH].getPiece();
+            if (destinationP != null)
+                if (destinationP.getTeam() == p.getTeam())
+                    return false;
+
             return true;
         }
 
-        public Event MovePiece(int v, int h, Direction dir, int dist)
+        public Event moveEvent(int v, int h, Direction dir, int dist)
         {
             //TODO fill in
             return Event.BadMove;
