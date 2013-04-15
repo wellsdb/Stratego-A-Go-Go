@@ -130,256 +130,416 @@ namespace StrategoTesting
             Game target = new Game(testBoard);
 
             Int16 startVertOne = 3;
-            Int16 startHorizOne = 3;
-            Int16 startVertTwo = 4;
+            Int16 startHorizOne = 2;
+            Int16 startVertTwo = 6;
             Int16 startHorizTwo = 3;
+            Int16 startVertThree = 3;
+            Int16 startHorizThree = 7;
+            Int16 startVertFour = 6;
+            Int16 startHorizFour = 6;
             Int16 distanceOne = 1;
             Int16 distanceTwo = 2;
+            Int16 distanceThree = 1;
+            Int16 distanceFour = 1;
+            Board.Direction directionOne = Board.Direction.W;
+            Board.Direction directionTwo = Board.Direction.E;
+            Board.Direction directionThree = Board.Direction.S;
+            Board.Direction directionFour = Board.Direction.N;
+            Int16 endVertOne = 3;
+            Int16 endHorizOne = 1;
+            Int16 endVertTwo = 6;
+            Int16 endHorizTwo = 5;
+            Int16 endVertThree = 2;
+            Int16 endHorizThree = 7;
+            Int16 endVertFour = 9;
+            Int16 endHorizFour = 6;
+
+            Piece pieceOne = new Piece(Piece.Team.red, Piece.Rank.marshal);
+            Piece pieceTwo = new Piece(Piece.Team.blue, Piece.Rank.scout);
+            Piece pieceThree = new Piece(Piece.Team.red, Piece.Rank.miner);
+            Piece pieceFour = new Piece(Piece.Team.blue, Piece.Rank.spy);
+
+            testBoard.placePiece(pieceOne, startVertOne, startHorizOne);
+            testBoard.placePiece(pieceTwo, startVertTwo, startHorizTwo);
+            testBoard.placePiece(pieceThree, startVertThree, startHorizThree);
+            testBoard.placePiece(pieceFour, startVertFour, startHorizFour);
+
+            target.startGame();
+
+            Boolean[] moveOne = target.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
+            Boolean[] moveTwo = target.movePiece(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
+            Boolean[] moveThree = target.movePiece(startVertThree, startHorizThree, directionThree, distanceThree);
+            Boolean[] moveFour = target.movePiece(startVertFour, startHorizFour, directionFour, distanceFour);
+
+            Assert.True(moveOne[0]);
+            Assert.False(moveOne[1]);
+            Assert.True(moveTwo[0]);
+            Assert.False(moveTwo[1]);
+            Assert.True(moveThree[0]);
+            Assert.False(moveThree[1]);
+            Assert.True(moveFour[0]);
+            Assert.False(moveFour[1]);
+
+            Assert.AreSame(pieceOne, target.getBoard().getPiece(endVertOne, endHorizOne));
+            Assert.AreSame(pieceTwo, target.getBoard().getPiece(endVertTwo, endHorizTwo));
+            Assert.AreSame(pieceThree, target.getBoard().getPiece(endVertThree, endHorizThree));
+            Assert.AreSame(pieceFour, target.getBoard().getPiece(endVertFour, endHorizFour));
+        }
+
+        [Test()]
+        public void TestThatMovePieceFunctionsCorrectlyForFailedMove()
+        {
+            Board testBoard = new Board();
+            Game target = new Game(testBoard);
+
+            Int16 startVertOne = 3;
+            Int16 startHorizOne = 2;
+            Int16 startVertTwo = 6;
+            Int16 startHorizTwo = 3;
+            Int16 startVertThree = 3;
+            Int16 startHorizThree = 7;
+            Int16 startVertFour = 6;
+            Int16 startHorizFour = 6;
+            Int16 distanceOne = 1;
+            Int16 distanceTwo = 3;
+            Int16 distanceThree = 8;
+            Int16 distanceFour = 4;
             Board.Direction directionOne = Board.Direction.N;
             Board.Direction directionTwo = Board.Direction.E;
-            Int16 endVertOne = 4;
-            Int16 endHorizOne = 3;
-            Int16 endVertTwo = 4;
-            Int16 endHorizTwo = 2;
+            Board.Direction directionThree = Board.Direction.W;
+            Board.Direction directionFour = Board.Direction.S;
 
-            target.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
+            Piece pieceOne = new Piece(Piece.Team.red, Piece.Rank.marshal);
+            Piece pieceTwo = new Piece(Piece.Team.red, Piece.Rank.scout);
+            Piece pieceThree = new Piece(Piece.Team.red, Piece.Rank.scout);
+            Piece pieceFour = new Piece(Piece.Team.red, Piece.Rank.scout);
 
-            target.movePiece(startVertTwo, endHorizTwo, directionTwo, distanceTwo);
+            testBoard.placePiece(pieceOne, startVertOne, startHorizOne);
+            testBoard.placePiece(pieceTwo, startVertTwo, startHorizTwo);
+            testBoard.placePiece(pieceThree, startVertThree, startHorizThree);
+            testBoard.placePiece(pieceFour, startVertFour, startHorizFour);
+
+            target.startGame();
+
+            Boolean[] moveOne = target.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
+            Boolean[] moveTwo = target.movePiece(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
+            Boolean[] moveThree = target.movePiece(startVertThree, startHorizThree, directionThree, distanceThree);
+            Boolean[] moveFour = target.movePiece(startVertFour, startHorizFour, directionFour, distanceFour);
+
+            Assert.False(moveOne[0]);
+            Assert.False(moveTwo[0]);
+            Assert.False(moveThree[0]);
+            Assert.False(moveFour[0]);
+
+            Assert.AreSame(pieceOne, target.getBoard().getPiece(startVertOne, startHorizOne));
+            Assert.AreSame(pieceTwo, target.getBoard().getPiece(startVertTwo, startHorizTwo));
+            Assert.AreSame(pieceThree, target.getBoard().getPiece(startVertThree, startHorizThree));
+            Assert.AreSame(pieceFour, target.getBoard().getPiece(startVertFour, startHorizFour));
 
         }
 
         [Test()]
         public void TestThatMovePieceFunctionsCorrectlyForBattleVictory()
         {
-            Board mockBoard = mocks.Stub<Board>();
+            Board testBoard = new Board();
+            Game target = new Game(testBoard);
 
-            Game target = new Game(mockBoard);
-
-            Int16 startVertOne = 1;
-            Int16 startHorizOne = 8;
-            Int16 startVertTwo = 8;
-            Int16 startHorizTwo = 1;
+            Int16 startVertOne = 3;
+            Int16 startHorizOne = 2;
+            Int16 startVertTwo = 6;
+            Int16 startHorizTwo = 3;
+            Int16 startVertThree = 3;
+            Int16 startHorizThree = 7;
+            Int16 startVertFour = 6;
+            Int16 startHorizFour = 6;
             Int16 distanceOne = 1;
-            Int16 distanceTwo = 2;
-            Board.Direction directionOne = Board.Direction.S;
-            Board.Direction directionTwo = Board.Direction.W;
-            Int16 endVertOne = 0;
-            Int16 endHorizOne = 8;
-            Int16 endVertTwo = 8;
+            Int16 distanceTwo = 1;
+            Int16 distanceThree = 1;
+            Int16 distanceFour = 1;
+            Board.Direction directionOne = Board.Direction.W;
+            Board.Direction directionTwo = Board.Direction.E;
+            Board.Direction directionThree = Board.Direction.S;
+            Board.Direction directionFour = Board.Direction.N;
+            Int16 endVertOne = 3;
+            Int16 endHorizOne = 1;
+            Int16 endVertTwo = 6;
             Int16 endHorizTwo = 4;
+            Int16 endVertThree = 2;
+            Int16 endHorizThree = 7;
+            Int16 endVertFour = 9;
+            Int16 endHorizFour = 6;
 
-            using (mocks.Record())
-            {
-                mockBoard.isMoveValid(startVertOne, startHorizOne, directionOne, distanceOne);
-                LastCall.Return(true);
+            Piece pieceOne = new Piece(Piece.Team.red, Piece.Rank.scout);
+            Piece pieceTwo = new Piece(Piece.Team.blue, Piece.Rank.miner);
+            Piece pieceThree = new Piece(Piece.Team.red, Piece.Rank.spy);
+            Piece pieceFour = new Piece(Piece.Team.blue, Piece.Rank.colonel);
+            
+            Piece pieceFive = new Piece(Piece.Team.blue, Piece.Rank.spy);
+            Piece pieceSix = new Piece(Piece.Team.red, Piece.Rank.bomb);
+            Piece pieceSeven = new Piece(Piece.Team.blue, Piece.Rank.marshal);
+            Piece pieceEight = new Piece(Piece.Team.red, Piece.Rank.major);
 
-                mockBoard.isMoveValid(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
-                LastCall.Return(true);
+            testBoard.placePiece(pieceOne, startVertOne, startHorizOne);
+            testBoard.placePiece(pieceTwo, startVertTwo, startHorizTwo);
+            testBoard.placePiece(pieceThree, startVertThree, startHorizThree);
+            testBoard.placePiece(pieceFour, startVertFour, startHorizFour);
 
-                //mockBoard.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
-                //LastCall.Return( //Battle victory value
+            testBoard.placePiece(pieceFive, endVertOne, endHorizOne);
+            testBoard.placePiece(pieceSix, endVertTwo, endHorizTwo);
+            testBoard.placePiece(pieceSeven, endVertThree, endHorizThree);
+            testBoard.placePiece(pieceEight, endVertFour, endHorizFour);
 
-                //mockBoard.movePiece(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
-                //LastCall.Return( //Battle victory  value
+            target.startGame();
 
-                //mockBoard.getSpace(startVertOne, startHorizOne);
-                //LastCall.Return( //empty, no piece
+            Boolean[] moveOne = target.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
+            Boolean[] moveTwo = target.movePiece(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
+            Boolean[] moveThree = target.movePiece(startVertThree, startHorizThree, directionThree, distanceThree);
+            Boolean[] moveFour = target.movePiece(startVertFour, startHorizFour, directionFour, distanceFour);
 
-                //mockBoard.getSpace(endVertOne, endHorizOne);
-                //LastCall.Return( //piece
+            Assert.True(moveOne[0]);
+            Assert.False(moveOne[1]);
+            Assert.True(moveTwo[0]);
+            Assert.False(moveTwo[1]);
+            Assert.True(moveThree[0]);
+            Assert.False(moveThree[1]);
+            Assert.True(moveFour[0]);
+            Assert.False(moveFour[1]);
 
-                //mockBoard.getSpace(startVertTwo, startHorizTwo);
-                //LastCall.Return( //empty, no piece
-
-                //mockBoard.getSpace(endVertTwo, endHorizTwo);
-                //LastCall.Return( //piece
-
-            }
-
-            target.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
-            Assert.AreEqual(Player.DEFAULT_PIECECOUNT, target.getPlayerPieceCount(1));
-            Assert.AreEqual(Player.DEFAULT_PIECECOUNT - 1, target.getPlayerPieceCount(2));
-
-            target.movePiece(startVertTwo, endHorizTwo, directionTwo, distanceTwo);
-            Assert.AreEqual(Player.DEFAULT_PIECECOUNT, target.getPlayerPieceCount(2));
-            Assert.AreEqual(Player.DEFAULT_PIECECOUNT - 1, target.getPlayerPieceCount(1));
-
+            Assert.AreSame(pieceOne, target.getBoard().getPiece(endVertOne, endHorizOne));
+            Assert.AreSame(pieceTwo, target.getBoard().getPiece(endVertTwo, endHorizTwo));
+            Assert.AreSame(pieceThree, target.getBoard().getPiece(endVertThree, endHorizThree));
+            Assert.AreSame(pieceFour, target.getBoard().getPiece(endVertFour, endHorizFour));
         }
+
 
         [Test()]
         public void TestThatMovePieceFunctionsCorrectlyForBattleLoss()
         {
-            Board mockBoard = mocks.Stub<Board>();
+            Board testBoard = new Board();
+            Game target = new Game(testBoard);
 
-            Int16 startVertOne = 1;
-            Int16 startHorizOne = 8;
-            Int16 startVertTwo = 8;
-            Int16 startHorizTwo = 1;
+            Int16 startVertOne = 3;
+            Int16 startHorizOne = 2;
+            Int16 startVertTwo = 6;
+            Int16 startHorizTwo = 3;
+            Int16 startVertThree = 3;
+            Int16 startHorizThree = 7;
+            Int16 startVertFour = 6;
+            Int16 startHorizFour = 6;
             Int16 distanceOne = 1;
-            Int16 distanceTwo = 2;
-            Board.Direction directionOne = Board.Direction.S;
-            Board.Direction directionTwo = Board.Direction.W;
-            Int16 endVertOne = 0;
-            Int16 endHorizOne = 8;
-            Int16 endVertTwo = 8;
+            Int16 distanceTwo = 1;
+            Int16 distanceThree = 1;
+            Int16 distanceFour = 1;
+            Board.Direction directionOne = Board.Direction.W;
+            Board.Direction directionTwo = Board.Direction.E;
+            Board.Direction directionThree = Board.Direction.S;
+            Board.Direction directionFour = Board.Direction.N;
+            Int16 endVertOne = 3;
+            Int16 endHorizOne = 1;
+            Int16 endVertTwo = 6;
             Int16 endHorizTwo = 4;
+            Int16 endVertThree = 2;
+            Int16 endHorizThree = 7;
+            Int16 endVertFour = 9;
+            Int16 endHorizFour = 6;
 
-            using (mocks.Record())
-            {
-                mockBoard.isMoveValid(startVertOne, startHorizOne, directionOne, distanceOne);
-                LastCall.Return(true);
+            Piece pieceOne = new Piece(Piece.Team.red, Piece.Rank.spy);
+            Piece pieceTwo = new Piece(Piece.Team.blue, Piece.Rank.scout);
+            Piece pieceThree = new Piece(Piece.Team.red, Piece.Rank.marshal);
+            Piece pieceFour = new Piece(Piece.Team.blue, Piece.Rank.colonel);
 
-                mockBoard.isMoveValid(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
-                LastCall.Return(true);
+            Piece pieceFive = new Piece(Piece.Team.blue, Piece.Rank.lieutenant);
+            Piece pieceSix = new Piece(Piece.Team.red, Piece.Rank.bomb);
+            Piece pieceSeven = new Piece(Piece.Team.blue, Piece.Rank.spy);
+            Piece pieceEight = new Piece(Piece.Team.red, Piece.Rank.general);
 
-                //mockBoard.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
-                //LastCall.Return( //Battle defeat value
+            testBoard.placePiece(pieceOne, startVertOne, startHorizOne);
+            testBoard.placePiece(pieceTwo, startVertTwo, startHorizTwo);
+            testBoard.placePiece(pieceThree, startVertThree, startHorizThree);
+            testBoard.placePiece(pieceFour, startVertFour, startHorizFour);
 
-                //mockBoard.movePiece(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
-                //LastCall.Return( //Battle defeat  value
+            testBoard.placePiece(pieceFive, endVertOne, endHorizOne);
+            testBoard.placePiece(pieceSix, endVertTwo, endHorizTwo);
+            testBoard.placePiece(pieceSeven, endVertThree, endHorizThree);
+            testBoard.placePiece(pieceEight, endVertFour, endHorizFour);
 
-                //mockBoard.getSpace(startVertOne, startHorizOne);
-                //LastCall.Return( //empty, no piece
+            target.startGame();
 
-                //mockBoard.getSpace(endVertOne, endHorizOne);
-                //LastCall.Return( //piece
+            Boolean[] moveOne = target.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
+            Boolean[] moveTwo = target.movePiece(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
+            Boolean[] moveThree = target.movePiece(startVertThree, startHorizThree, directionThree, distanceThree);
+            Boolean[] moveFour = target.movePiece(startVertFour, startHorizFour, directionFour, distanceFour);
 
-                //mockBoard.getSpace(startVertTwo, startHorizTwo);
-                //LastCall.Return( //empty, no piece
+            Assert.True(moveOne[0]);
+            Assert.False(moveOne[1]);
+            Assert.True(moveTwo[0]);
+            Assert.False(moveTwo[1]);
+            Assert.True(moveThree[0]);
+            Assert.False(moveThree[1]);
+            Assert.True(moveFour[0]);
+            Assert.False(moveFour[1]);
 
-                //mockBoard.getSpace(endVertTwo, endHorizTwo);
-                //LastCall.Return( //piece
-
-            }
-
-            Game target = new Game(mockBoard);
-
-            target.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
-            Assert.AreEqual(Player.DEFAULT_PIECECOUNT, target.getPlayerPieceCount(2));
-            Assert.AreEqual(Player.DEFAULT_PIECECOUNT - 1, target.getPlayerPieceCount(1));
-
-            target.movePiece(startVertTwo, endHorizTwo, directionTwo, distanceTwo);
-            Assert.AreEqual(Player.DEFAULT_PIECECOUNT, target.getPlayerPieceCount(1));
-            Assert.AreEqual(Player.DEFAULT_PIECECOUNT - 1, target.getPlayerPieceCount(2));
+            Assert.AreSame(pieceFive, target.getBoard().getPiece(endVertOne, endHorizOne));
+            Assert.AreSame(pieceSix, target.getBoard().getPiece(endVertTwo, endHorizTwo));
+            Assert.AreSame(pieceSeven, target.getBoard().getPiece(endVertThree, endHorizThree));
+            Assert.AreSame(pieceEight, target.getBoard().getPiece(endVertFour, endHorizFour));
         }
 
+
         [Test()]
-        public void TestThatMovePieceFunctionsCorrectlyForFailedMove()
+        public void TestThatMovePieceFunctionsCorrectlyForBattleTie()
         {
-            Board mockBoard = mocks.Stub<Board>();
+            Board testBoard = new Board();
+            Game target = new Game(testBoard);
 
-            Game target = new Game(mockBoard);
-
-            Int16 startVertOne = 1;
-            Int16 startHorizOne = 8;
-            Int16 startVertTwo = 8;
-            Int16 startHorizTwo = 1;
+            Int16 startVertOne = 3;
+            Int16 startHorizOne = 2;
+            Int16 startVertTwo = 6;
+            Int16 startHorizTwo = 3;
+            Int16 startVertThree = 3;
+            Int16 startHorizThree = 7;
+            Int16 startVertFour = 6;
+            Int16 startHorizFour = 6;
             Int16 distanceOne = 1;
-            Int16 distanceTwo = 2;
-            Board.Direction directionOne = Board.Direction.S;
-            Board.Direction directionTwo = Board.Direction.W;
-            Int16 endVertOne = 0;
-            Int16 endHorizOne = 8;
-            Int16 endVertTwo = 8;
+            Int16 distanceTwo = 1;
+            Int16 distanceThree = 1;
+            Int16 distanceFour = 1;
+            Board.Direction directionOne = Board.Direction.W;
+            Board.Direction directionTwo = Board.Direction.E;
+            Board.Direction directionThree = Board.Direction.S;
+            Board.Direction directionFour = Board.Direction.N;
+            Int16 endVertOne = 3;
+            Int16 endHorizOne = 1;
+            Int16 endVertTwo = 6;
             Int16 endHorizTwo = 4;
+            Int16 endVertThree = 2;
+            Int16 endHorizThree = 7;
+            Int16 endVertFour = 9;
+            Int16 endHorizFour = 6;
 
-            using (mocks.Record())
-            {
-                mockBoard.isMoveValid(startVertOne, startHorizOne, directionOne, distanceOne);
-                LastCall.Return(true);
+            Piece pieceOne = new Piece(Piece.Team.red, Piece.Rank.spy);
+            Piece pieceTwo = new Piece(Piece.Team.blue, Piece.Rank.scout);
+            Piece pieceThree = new Piece(Piece.Team.red, Piece.Rank.marshal);
+            Piece pieceFour = new Piece(Piece.Team.blue, Piece.Rank.colonel);
 
-                mockBoard.isMoveValid(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
-                LastCall.Return(true);
+            Piece pieceFive = new Piece(Piece.Team.blue, Piece.Rank.spy);
+            Piece pieceSix = new Piece(Piece.Team.red, Piece.Rank.scout);
+            Piece pieceSeven = new Piece(Piece.Team.blue, Piece.Rank.marshal);
+            Piece pieceEight = new Piece(Piece.Team.red, Piece.Rank.colonel);
 
-                //mockBoard.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
-                //LastCall.Return( //Battle victory value
+            testBoard.placePiece(pieceOne, startVertOne, startHorizOne);
+            testBoard.placePiece(pieceTwo, startVertTwo, startHorizTwo);
+            testBoard.placePiece(pieceThree, startVertThree, startHorizThree);
+            testBoard.placePiece(pieceFour, startVertFour, startHorizFour);
 
-                //mockBoard.movePiece(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
-                //LastCall.Return( //Battle victory  value
+            testBoard.placePiece(pieceFive, endVertOne, endHorizOne);
+            testBoard.placePiece(pieceSix, endVertTwo, endHorizTwo);
+            testBoard.placePiece(pieceSeven, endVertThree, endHorizThree);
+            testBoard.placePiece(pieceEight, endVertFour, endHorizFour);
 
-                //mockBoard.getSpace(startVertOne, startHorizOne);
-                //LastCall.Return( //empty, no piece
+            target.startGame();
 
-                //mockBoard.getSpace(endVertOne, endHorizOne);
-                //LastCall.Return( //piece
+            Boolean[] moveOne = target.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
+            Boolean[] moveTwo = target.movePiece(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
+            Boolean[] moveThree = target.movePiece(startVertThree, startHorizThree, directionThree, distanceThree);
+            Boolean[] moveFour = target.movePiece(startVertFour, startHorizFour, directionFour, distanceFour);
 
-                //mockBoard.getSpace(startVertTwo, startHorizTwo);
-                //LastCall.Return( //empty, no piece
+            Assert.True(moveOne[0]);
+            Assert.False(moveOne[1]);
+            Assert.True(moveTwo[0]);
+            Assert.False(moveTwo[1]);
+            Assert.True(moveThree[0]);
+            Assert.False(moveThree[1]);
+            Assert.True(moveFour[0]);
+            Assert.False(moveFour[1]);
+            
+            Assert.Null(target.getBoard().getPiece(startVertOne, startHorizOne));
+            Assert.Null(target.getBoard().getPiece(startVertTwo, startHorizTwo));
+            Assert.Null(target.getBoard().getPiece(startVertThree, startHorizThree));
+            Assert.Null(target.getBoard().getPiece(startVertFour, startHorizFour));
 
-                //mockBoard.getSpace(endVertTwo, endHorizTwo);
-                //LastCall.Return( //piece
-
-            }
-
-            target.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
-            Assert.AreEqual(Player.DEFAULT_PIECECOUNT, target.getPlayerPieceCount(1));
-            Assert.AreEqual(Player.DEFAULT_PIECECOUNT - 1, target.getPlayerPieceCount(2));
-
-            target.movePiece(startVertTwo, endHorizTwo, directionTwo, distanceTwo);
-            Assert.AreEqual(Player.DEFAULT_PIECECOUNT, target.getPlayerPieceCount(2));
-            Assert.AreEqual(Player.DEFAULT_PIECECOUNT - 1, target.getPlayerPieceCount(1));
+            Assert.Null(target.getBoard().getPiece(endVertOne, endHorizOne));
+            Assert.Null(target.getBoard().getPiece(endVertTwo, endHorizTwo));
+            Assert.Null(target.getBoard().getPiece(endVertThree, endHorizThree));
+            Assert.Null(target.getBoard().getPiece(endVertFour, endHorizFour));
         }
 
         [Test()]
         public void TestThatMovePieceFunctionsCorrectlyForFlagCapture()
         {
+            Board testBoard = new Board();
+            Game target = new Game(testBoard);
 
-            Board mockBoardOne = mocks.Stub<Board>();
-            Board mockBoardTwo = mocks.Stub<Board>();
-
-            Game targetOne = new Game(mockBoardOne);
-            Game targetTwo = new Game(mockBoardTwo);
-
-            Int16 startVertOne = 1;
-            Int16 startHorizOne = 8;
-            Int16 startVertTwo = 8;
-            Int16 startHorizTwo = 1;
+            Int16 startVertOne = 3;
+            Int16 startHorizOne = 2;
+            Int16 startVertTwo = 6;
+            Int16 startHorizTwo = 3;
+            Int16 startVertThree = 3;
+            Int16 startHorizThree = 7;
+            Int16 startVertFour = 6;
+            Int16 startHorizFour = 6;
             Int16 distanceOne = 1;
-            Int16 distanceTwo = 2;
-            Board.Direction directionOne = Board.Direction.S;
-            Board.Direction directionTwo = Board.Direction.W;
-            Int16 endVertOne = 0;
-            Int16 endHorizOne = 8;
-            Int16 endVertTwo = 8;
+            Int16 distanceTwo = 1;
+            Int16 distanceThree = 1;
+            Int16 distanceFour = 1;
+            Board.Direction directionOne = Board.Direction.W;
+            Board.Direction directionTwo = Board.Direction.E;
+            Board.Direction directionThree = Board.Direction.S;
+            Board.Direction directionFour = Board.Direction.N;
+            Int16 endVertOne = 3;
+            Int16 endHorizOne = 1;
+            Int16 endVertTwo = 6;
             Int16 endHorizTwo = 4;
+            Int16 endVertThree = 2;
+            Int16 endHorizThree = 7;
+            Int16 endVertFour = 9;
+            Int16 endHorizFour = 6;
 
-            using (mocks.Record())
-            {
-                mockBoardOne.isMoveValid(startVertOne, startHorizOne, directionOne, distanceOne);
-                LastCall.Return(true);
+            Piece pieceOne = new Piece(Piece.Team.red, Piece.Rank.spy);
+            Piece pieceTwo = new Piece(Piece.Team.blue, Piece.Rank.scout);
+            Piece pieceThree = new Piece(Piece.Team.red, Piece.Rank.marshal);
+            Piece pieceFour = new Piece(Piece.Team.blue, Piece.Rank.colonel);
 
-                mockBoardTwo.isMoveValid(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
-                LastCall.Return(true);
+            Piece pieceFive = new Piece(Piece.Team.blue, Piece.Rank.flag);
+            Piece pieceSix = new Piece(Piece.Team.red, Piece.Rank.flag);
+            Piece pieceSeven = new Piece(Piece.Team.blue, Piece.Rank.flag);
+            Piece pieceEight = new Piece(Piece.Team.red, Piece.Rank.flag);
 
-                //mockBoardOne.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
-                //LastCall.Return( //flag capture value
+            testBoard.placePiece(pieceOne, startVertOne, startHorizOne);
+            testBoard.placePiece(pieceFive, endVertOne, endHorizOne);
+            target.startGame();
+            Boolean[] moveOne = target.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
+            Assert.True(moveOne[0]);
+            Assert.True(moveOne[1]);
 
-                //mockBoardTwo.movePiece(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
-                //LastCall.Return( //flag capture value
+            testBoard = new Board();
+            target = new Game(testBoard);
+            testBoard.placePiece(pieceTwo, startVertTwo, startHorizTwo);
+            testBoard.placePiece(pieceSix, endVertTwo, endHorizTwo);
+            target.startGame();
+            Boolean[] moveTwo = target.movePiece(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
+            Assert.True(moveTwo[0]);
+            Assert.True(moveTwo[1]);
+            
+            testBoard = new Board();
+            target = new Game(testBoard);
+            testBoard.placePiece(pieceThree, startVertThree, startHorizThree);
+            testBoard.placePiece(pieceSeven, endVertThree, endHorizThree);
+            target.startGame();
+            Boolean[] moveThree = target.movePiece(startVertThree, startHorizThree, directionThree, distanceThree);
+            Assert.True(moveThree[0]);
+            Assert.True(moveThree[1]);
 
-                //mockBoardOne.getSpace(startVertOne, startHorizOne);
-                //LastCall.Return( //empty, no piece
-
-                //mockBoardOne.getSpace(endVertOne, endHorizOne);
-                //LastCall.Return( //piece
-
-                //mockBoardTwo.getSpace(startVertTwo, startHorizTwo);
-                //LastCall.Return( //empty, no piece
-
-                //mockBoardTwo.getSpace(endVertTwo, endHorizTwo);
-                //LastCall.Return( //piece
-
-            }
-
-            targetOne.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
-            Assert.AreEqual(Player.DEFAULT_PIECECOUNT, targetOne.getPlayerPieceCount(1));
-            Assert.AreEqual(Player.DEFAULT_PIECECOUNT - 1, targetOne.getPlayerPieceCount(2));
-
-            targetTwo.movePiece(startVertTwo, endHorizTwo, directionTwo, distanceTwo);
-            Assert.AreEqual(Player.DEFAULT_PIECECOUNT, targetTwo.getPlayerPieceCount(2));
-            Assert.AreEqual(Player.DEFAULT_PIECECOUNT - 1, targetTwo.getPlayerPieceCount(1));
-
+            testBoard = new Board();
+            target = new Game(testBoard);
+            testBoard.placePiece(pieceFour, startVertFour, startHorizFour);
+            testBoard.placePiece(pieceEight, endVertFour, endHorizFour);
+            target.startGame();
+            Boolean[] moveFour = target.movePiece(startVertFour, startHorizFour, directionFour, distanceFour);
+            Assert.True(moveFour[0]);
+            Assert.True(moveFour[1]);
         }
+
 
         [Test()]
         public void TestThatSwapTurnFunctionsCorrectly()
