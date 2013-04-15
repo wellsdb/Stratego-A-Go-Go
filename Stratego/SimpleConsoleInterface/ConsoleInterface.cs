@@ -25,10 +25,10 @@ namespace SimpleConsoleInterface
             Int16 blueH = 1;
 
             //Set-up
-            Piece RedScout = new Piece(1, 2);
-            Piece BlueScout = new Piece(2, 2);
-            Piece RedFlag = new Piece(1, 0);
-            Piece BlueFlag = new Piece(2, 0);
+            Piece RedScout = new Piece(Piece.Team.red, Piece.Rank.scout);
+            Piece BlueScout = new Piece(Piece.Team.blue, Piece.Rank.scout);
+            Piece RedFlag = new Piece(Piece.Team.red, Piece.Rank.flag);
+            Piece BlueFlag = new Piece(Piece.Team.blue, Piece.Rank.flag);
 
             Board board = game.getBoard();
 
@@ -45,12 +45,12 @@ namespace SimpleConsoleInterface
 
             while (!over)
             {
-                int currentPlayer = game.getCurrentTurn();
+                Piece.Team currentPlayer = game.getCurrentTurn();
                 
                 Int16 newV;
                 Int16 newH;
 
-                if (currentPlayer == 1)
+                if (currentPlayer == Piece.Team.red)
                 {
                     Console.WriteLine("Red player, it is your turn.\nWhich direction would you like to move?");
                     newV = redV;
@@ -65,7 +65,7 @@ namespace SimpleConsoleInterface
 
                 Console.Write(">");
                 String direction = Console.ReadLine().ToUpper();
-                Board.dir dir =  Board.dir.W;
+                Board.Direction dir =  Board.Direction.W;
 
                 Console.WriteLine("How far would you like to move?");
                 Console.Write(">");
@@ -74,19 +74,19 @@ namespace SimpleConsoleInterface
                 switch (direction)
                 {
                     case "N":
-                        dir = Board.dir.N;
+                        dir = Board.Direction.N;
                         newV += distance;
                         break;
                     case "E":
-                        dir = Board.dir.E;
+                        dir = Board.Direction.E;
                         newH += distance;
                         break;
                     case "S":
-                        dir = Board.dir.S;
+                        dir = Board.Direction.S;
                         newV -= distance;
                         break;
                     case "W":
-                        dir = Board.dir.W;
+                        dir = Board.Direction.W;
                         newH -= distance;
                         break;
                     default:
@@ -95,10 +95,10 @@ namespace SimpleConsoleInterface
 
                 Boolean[] movement;
 
-                if (currentPlayer == 1)
-                    movement = game.movePiece(1, redV, redH, dir, distance);
+                if (currentPlayer == Piece.Team.red)
+                    movement = game.movePiece(redV, redH, dir, distance);
                 else
-                    movement = game.movePiece(2, blueV, blueH, dir, distance);
+                    movement = game.movePiece(blueV, blueH, dir, distance);
 
                 if (movement[1])
                     over = true;
@@ -107,7 +107,7 @@ namespace SimpleConsoleInterface
                     Console.WriteLine("You can't move there!");
                 else
                 {
-                    if (currentPlayer == 1)
+                    if (currentPlayer == Piece.Team.red)
                     {
                         redH = newH;
                         redV = newV;
@@ -125,7 +125,7 @@ namespace SimpleConsoleInterface
             }
             Console.WriteLine("Game Over!");
 
-            if (game.getCurrentTurn() == 1)
+            if (game.getCurrentTurn() == Piece.Team.red)
                 Console.WriteLine("Red Player Wins!");
             else
                 Console.WriteLine("Blue Player Wins!");
@@ -144,11 +144,11 @@ namespace SimpleConsoleInterface
                         Console.Write(" WW ");
                     else 
                     {
-                        Piece piece = board.getSpace(v, h);
+                        Piece piece = board.getPiece(v, h);
                         if (piece == null)
                             Console.Write(" -- ");
                         else
-                           Console.Write(" " + board.getSpace(v, h).toString() + " ");
+                           Console.Write(" " + board.getPiece(v, h).toString() + " ");
                     }
                 }
                 Console.WriteLine();
