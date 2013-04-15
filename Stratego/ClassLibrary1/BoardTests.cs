@@ -706,30 +706,6 @@ namespace StrategoTesting
             b.placePiece(new Piece(Piece.Team.red, Piece.Rank.flag), 0, 6);
             Assert.False(b.isMoveValid(0, 5, Board.Direction.E, 3));
         }
-        [Test()]
-        public void victorySignalRedOnBlueTrue()
-        {
-            Board b = new Board();
-            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.marshal), 0, 5);
-            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.flag), 0, 6);
-            Assert.True(b.isVictory(0, 5, Board.Direction.E, 1));
-        }
-        [Test()]
-        public void victorySignalBlueonRedTrue()
-        {
-            Board b = new Board();
-            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.marshal), 0, 5);
-            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.flag), 0, 6);
-            Assert.True(b.isVictory(0, 5, Board.Direction.E, 1));
-        }
-        [Test()]
-        public void victorySignalFalse()
-        {
-            Board b = new Board();
-            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.marshal), 0, 4);
-            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.flag), 0, 6);
-            Assert.True(b.isVictory(0, 5, Board.Direction.E, 1));
-        }
 
         [Test()]
         public void TestIsMoveValidOntoAllyCell()

@@ -151,7 +151,7 @@ namespace StrategoTesting
             Int16 endHorizTwo = 5;
             Int16 endVertThree = 2;
             Int16 endHorizThree = 7;
-            Int16 endVertFour = 9;
+            Int16 endVertFour = 7;
             Int16 endHorizFour = 6;
 
             Piece pieceOne = new Piece(Piece.Team.red, Piece.Rank.marshal);
@@ -266,7 +266,7 @@ namespace StrategoTesting
             Int16 endHorizTwo = 4;
             Int16 endVertThree = 2;
             Int16 endHorizThree = 7;
-            Int16 endVertFour = 9;
+            Int16 endVertFour = 7;
             Int16 endHorizFour = 6;
 
             Piece pieceOne = new Piece(Piece.Team.red, Piece.Rank.scout);
@@ -414,7 +414,7 @@ namespace StrategoTesting
             Int16 endHorizTwo = 4;
             Int16 endVertThree = 2;
             Int16 endHorizThree = 7;
-            Int16 endVertFour = 9;
+            Int16 endVertFour = 7;
             Int16 endHorizFour = 6;
 
             Piece pieceOne = new Piece(Piece.Team.red, Piece.Rank.spy);
@@ -492,18 +492,18 @@ namespace StrategoTesting
             Int16 endHorizTwo = 4;
             Int16 endVertThree = 2;
             Int16 endHorizThree = 7;
-            Int16 endVertFour = 9;
+            Int16 endVertFour = 7;
             Int16 endHorizFour = 6;
 
             Piece pieceOne = new Piece(Piece.Team.red, Piece.Rank.spy);
-            Piece pieceTwo = new Piece(Piece.Team.blue, Piece.Rank.scout);
+            Piece pieceTwo = new Piece(Piece.Team.red, Piece.Rank.scout);
             Piece pieceThree = new Piece(Piece.Team.red, Piece.Rank.marshal);
-            Piece pieceFour = new Piece(Piece.Team.blue, Piece.Rank.colonel);
+            Piece pieceFour = new Piece(Piece.Team.red, Piece.Rank.colonel);
 
             Piece pieceFive = new Piece(Piece.Team.blue, Piece.Rank.flag);
-            Piece pieceSix = new Piece(Piece.Team.red, Piece.Rank.flag);
+            Piece pieceSix = new Piece(Piece.Team.blue, Piece.Rank.flag);
             Piece pieceSeven = new Piece(Piece.Team.blue, Piece.Rank.flag);
-            Piece pieceEight = new Piece(Piece.Team.red, Piece.Rank.flag);
+            Piece pieceEight = new Piece(Piece.Team.blue, Piece.Rank.flag);
 
             testBoard.placePiece(pieceOne, startVertOne, startHorizOne);
             testBoard.placePiece(pieceFive, endVertOne, endHorizOne);

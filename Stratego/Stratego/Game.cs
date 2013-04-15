@@ -84,63 +84,65 @@ namespace Stratego
         //returns false if the move is not allowed and not performed
         public Boolean[] movePiece(Int16 v, Int16 h, Board.Direction direction, Int16 distance)
         {
-            //check if piece belongs to the current player
-            if (this.board.getPiece(v, h).getTeam() != this.currentTeam)
+
+            Piece movingPiece = this.board.getPiece(v, h);
+
+            // check if a piece exists in the given cell
+            if (movingPiece == null)
                 return new Boolean[2] {false, false};
 
-            //check if move is valid
+            // check if the piece belongs to the current player
+            if (movingPiece.getTeam() != this.currentTeam)
+                return new Boolean[2] {false, false};
+
+            // check if move is valid
             Boolean valid = this.board.isMoveValid(v, h, direction, distance);
 
             //if move is invalid, return false
             if (!valid)
                 return new Boolean[2] { false, false };
 
-            //move is valid, so check victory
-            Boolean victory = this.board.isVictory(v, h, direction, distance);
-
-            //move is valid, so perform move
-            //get the values of the moving piece
-            Piece.Team movingPieceTeam = this.board.getPiece(v, h).getTeam();
-            Piece.Rank movingPieceRank = this.board.getPiece(v, h).getRank();
+            // move is valid
+            // get the effect of the move
+            Board.Event moveEvent = this.board.moveEvent(v, h, direction, distance);
 
             //place an empty piece on the old cell
             this.board.placePiece(null, v, h);
 
-            //get the new space's coordinates
-            int newV = 0;
-            int newH = 0;
+            // get the new space's coordinates
+            int[] destination = Board.DestinationCalc(v, h, direction, distance);
 
-            switch (direction)
+            switch (moveEvent)
             {
-                case Board.Direction.N:
-                    newV = v + distance;
-                    newH = h;
+                case Board.Event.GoodMove:
+                    // place the piece
+                    this.board.placePiece(movingPiece, destination[0], destination[1]);
                     break;
-                case Board.Direction.S:
-                    newV = v - distance;
-                    newH = h;
+                case Board.Event.Win:
+                    // TODO adjust piece count
+
+                    // place the piece
+                    this.board.placePiece(movingPiece, destination[0], destination[1]);
                     break;
-                case Board.Direction.E:
-                    newV = v;
-                    newH = h + distance;
+                case Board.Event.Loss:
+                    // TODO adjust piece count
                     break;
-                case Board.Direction.W:
-                    newV = v;
-                    newH = h - distance;
+                case Board.Event.Tie:
+                    // adjust piece count
+                    // remove both pieces
+                    this.board.placePiece(null, destination[0], destination[1]);
                     break;
+                case Board.Event.Flag:
+                    // place the piece
+                    this.board.placePiece(movingPiece, destination[0], destination[1]);
+                    // end the game
+                    this.endGame();
+                    return new Boolean[2] {true, true};
             }
 
-            //place the new piece on the new cell
-            //(FIXME We're assumming the attacker always wins
-            this.board.placePiece(new Piece(movingPieceTeam, movingPieceRank), newV, newH);
+            this.swapTurn();
 
-            //if victory, do victory things; otherwise let the other player take his turn
-            if (victory)
-                this.endGame(this.currentTeam);
-            else
-                this.swapTurn();
-
-            return new Boolean[2] { true, victory };
+            return new Boolean[2] { true, false };
         }
 
         private void swapTurn()
@@ -159,7 +161,7 @@ namespace Stratego
             return false;
         }
 
-        public void endGame(Piece.Team currentTeam)
+        public void endGame()
         {
 
         }

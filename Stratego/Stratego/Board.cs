@@ -163,24 +163,5 @@ namespace Stratego
             return coords;
         }
 
-        public bool isVictory(int v, int h, Direction dir, int dist)
-        {
-            Piece piece = null;
-
-            if (dir == Direction.N) 
-                piece = cells[v + 1, h].getPiece();
-            if (dir == Direction.S) 
-                piece = cells[v - 1, h].getPiece();
-            if (dir == Direction.E)
-                piece = cells[v, h + 1].getPiece();
-            if (dir == Direction.W) 
-                piece = cells[v, h - 1].getPiece();
-
-            if (piece == null)
-                return false;
-            else if (piece.getRank() == 0)
-                return isMoveValid(v, h, dir, dist);
-            return false;
-        }
     }
 }
