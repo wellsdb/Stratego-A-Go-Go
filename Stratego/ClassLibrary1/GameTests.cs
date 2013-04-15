@@ -13,12 +13,9 @@ namespace StrategoTesting
     class GameTests
     {
 
-        private MockRepository mocks;
-
         [SetUp()]
         public void SetUp()
         {
-            mocks = new MockRepository();
         }
 
         [Test()]
@@ -93,35 +90,6 @@ namespace StrategoTesting
             Assert.AreEqual(Piece.Team.red, target.getCurrentTurn());
 
         }
-
-        [Test()]
-        public void TestThatBoardIsMockedProperly()
-        {
-            //Board mockBoard = mocks.CreateMock<Board>();
-
-            //Expect.Call( mockBoard.getSpace ).Return(new Piece());
-            //mocks.ReplayAll();
-
-            //Board mockBoard = mocks.Stub<Board>();
-            
-            //using (mocks.Record())
-            //{
-            //    mockBoard.isMoveValid(3, 3, Board.Direction.N, 1);
-            //    LastCall.Return(true);
-            //}
-            
-            //Expect.Call(mockBoard.isMoveValid(3, 3, Board.Direction.N, 1)).Return(true);
-           // mocks.ReplayAll();
-
-           // Game target = new Game(mockBoard);
-
-           // Boolean[] hi = { true, false };
-            //hi[1] = false;
-
-           // Assert.IsTrue(target.movePiece(Piece.Team.red, 3, 3, Board.Direction.N, 1)[0]);
-
-        }
-
 
         [Test()]
         public void TestThatMovePieceFunctionsCorrectlyForSuccessfulMove()
@@ -542,64 +510,169 @@ namespace StrategoTesting
 
 
         [Test()]
-        public void TestThatSwapTurnFunctionsCorrectly()
+        public void TestThatTurnSwaps()
         {
-            Board mockBoard = mocks.Stub<Board>();
-
-            Game target = new Game(mockBoard);
+            Board testBoard = new Board();
+            Game target = new Game(testBoard);
 
             Int16 startVertOne = 3;
-            Int16 startHorizOne = 3;
-            Int16 startVertTwo = 4;
+            Int16 startHorizOne = 2;
+            Int16 startVertTwo = 6;
             Int16 startHorizTwo = 3;
+            Int16 startVertThree = 3;
+            Int16 startHorizThree = 7;
+            Int16 startVertFour = 6;
+            Int16 startHorizFour = 6;
             Int16 distanceOne = 1;
             Int16 distanceTwo = 2;
-            Board.Direction directionOne = Board.Direction.N;
+            Int16 distanceThree = 1;
+            Int16 distanceFour = 1;
+            Board.Direction directionOne = Board.Direction.W;
             Board.Direction directionTwo = Board.Direction.E;
-            Int16 endVertOne = 4;
-            Int16 endHorizOne = 3;
-            Int16 endVertTwo = 4;
-            Int16 endHorizTwo = 2;
+            Board.Direction directionThree = Board.Direction.S;
+            Board.Direction directionFour = Board.Direction.N;
 
-            using (mocks.Record())
-            {
-                mockBoard.isMoveValid(startVertOne, startHorizOne, directionOne, distanceOne);
-                LastCall.Return(true);
+            Piece pieceOne = new Piece(Piece.Team.red, Piece.Rank.marshal);
+            Piece pieceTwo = new Piece(Piece.Team.blue, Piece.Rank.scout);
+            Piece pieceThree = new Piece(Piece.Team.red, Piece.Rank.miner);
+            Piece pieceFour = new Piece(Piece.Team.blue, Piece.Rank.spy);
 
-                mockBoard.isMoveValid(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
-                LastCall.Return(true);
+            Piece.Team red = Piece.Team.red;
+            Piece.Team blue = Piece.Team.blue;
 
-                //mockBoard.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
-                //LastCall.Return( //Successful Move value
-
-                //mockBoard.movePiece(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
-                //LastCall.Return( //Successful Move value
-
-                //mockBoard.getSpace(startVertOne, startHorizOne);
-                //LastCall.Return( //empty, no piece
-
-                //mockBoard.getSpace(endVertOne, endHorizOne);
-                //LastCall.Return( //piece
-
-                //mockBoard.getSpace(startVertTwo, startHorizTwo);
-                //LastCall.Return( //empty, no piece
-
-                //mockBoard.getSpace(endVertTwo, endHorizTwo);
-                //LastCall.Return( //piece
-
-            }
+            testBoard.placePiece(pieceOne, startVertOne, startHorizOne);
+            testBoard.placePiece(pieceTwo, startVertTwo, startHorizTwo);
+            testBoard.placePiece(pieceThree, startVertThree, startHorizThree);
+            testBoard.placePiece(pieceFour, startVertFour, startHorizFour);
 
             target.startGame();
-            Assert.AreEqual(1, target.getCurrentTurn());
-            Assert.AreEqual(1, target.getTurnCount());
+            Assert.AreEqual(red, target.getCurrentTurn());
 
-            target.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
-            Assert.AreEqual(2, target.getCurrentTurn());
-            Assert.AreEqual(1, target.getTurnCount());
+            Boolean[] moveOne = target.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
+            Assert.AreEqual(blue, target.getCurrentTurn());
 
-            target.movePiece(startVertTwo, endHorizTwo, directionTwo, distanceTwo);
-            Assert.AreEqual(1, target.getCurrentTurn());
-            Assert.AreEqual(1, target.getTurnCount());
+            Boolean[] moveTwo = target.movePiece(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
+            Assert.AreEqual(red, target.getCurrentTurn());
+
+            Boolean[] moveThree = target.movePiece(startVertThree, startHorizThree, directionThree, distanceThree);
+            Assert.AreEqual(blue, target.getCurrentTurn());
+
+            Boolean[] moveFour = target.movePiece(startVertFour, startHorizFour, directionFour, distanceFour);
+            Assert.AreEqual(red, target.getCurrentTurn());
+        }
+
+        [Test()]
+        public void TestThatTurnDoesNotSwapRed()
+        {
+            Board testBoard = new Board();
+            Game target = new Game(testBoard);
+
+            Int16 startVertOne = 3;
+            Int16 startHorizOne = 2;
+            Int16 startVertTwo = 6;
+            Int16 startHorizTwo = 3;
+            Int16 startVertThree = 3;
+            Int16 startHorizThree = 7;
+            Int16 startVertFour = 6;
+            Int16 startHorizFour = 6;
+            Int16 distanceOne = 1;
+            Int16 distanceTwo = 3;
+            Int16 distanceThree = 8;
+            Int16 distanceFour = 4;
+            Board.Direction directionOne = Board.Direction.N;
+            Board.Direction directionTwo = Board.Direction.E;
+            Board.Direction directionThree = Board.Direction.W;
+            Board.Direction directionFour = Board.Direction.S;
+
+            Piece pieceOne = new Piece(Piece.Team.red, Piece.Rank.marshal);
+            Piece pieceTwo = new Piece(Piece.Team.red, Piece.Rank.scout);
+            Piece pieceThree = new Piece(Piece.Team.red, Piece.Rank.scout);
+            Piece pieceFour = new Piece(Piece.Team.red, Piece.Rank.scout);
+
+            testBoard.placePiece(pieceOne, startVertOne, startHorizOne);
+            testBoard.placePiece(pieceTwo, startVertTwo, startHorizTwo);
+            testBoard.placePiece(pieceThree, startVertThree, startHorizThree);
+            testBoard.placePiece(pieceFour, startVertFour, startHorizFour);
+            
+            Piece.Team red = Piece.Team.red;
+            Piece.Team blue = Piece.Team.blue;
+
+            target.startGame();
+            Assert.AreEqual(red, target.getCurrentTurn());
+
+            Boolean[] moveOne = target.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
+            Assert.AreEqual(red, target.getCurrentTurn());
+
+            Boolean[] moveTwo = target.movePiece(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
+            Assert.AreEqual(red, target.getCurrentTurn());
+
+            Boolean[] moveThree = target.movePiece(startVertThree, startHorizThree, directionThree, distanceThree);
+            Assert.AreEqual(red, target.getCurrentTurn());
+
+            Boolean[] moveFour = target.movePiece(startVertFour, startHorizFour, directionFour, distanceFour);
+            Assert.AreEqual(red, target.getCurrentTurn());
+        }
+
+        [Test()]
+        public void TestThatTurnDoesNotSwapBlue()
+        {
+            Board testBoard = new Board();
+            Game target = new Game(testBoard);
+
+
+            Int16 startVertZero = 1;
+            Int16 startHorizZero = 1;
+            Int16 startVertOne = 3;
+            Int16 startHorizOne = 2;
+            Int16 startVertTwo = 6;
+            Int16 startHorizTwo = 3;
+            Int16 startVertThree = 3;
+            Int16 startHorizThree = 7;
+            Int16 startVertFour = 6;
+            Int16 startHorizFour = 6;
+            Int16 distanceZero = 1;
+            Int16 distanceOne = 1;
+            Int16 distanceTwo = 3;
+            Int16 distanceThree = 8;
+            Int16 distanceFour = 4;
+            Board.Direction directionZero = Board.Direction.N;
+            Board.Direction directionOne = Board.Direction.N;
+            Board.Direction directionTwo = Board.Direction.E;
+            Board.Direction directionThree = Board.Direction.W;
+            Board.Direction directionFour = Board.Direction.S;
+
+            Piece pieceZero = new Piece(Piece.Team.red, Piece.Rank.lieutenant);
+            Piece pieceOne = new Piece(Piece.Team.blue, Piece.Rank.marshal);
+            Piece pieceTwo = new Piece(Piece.Team.blue, Piece.Rank.scout);
+            Piece pieceThree = new Piece(Piece.Team.blue, Piece.Rank.scout);
+            Piece pieceFour = new Piece(Piece.Team.blue, Piece.Rank.scout);
+
+            testBoard.placePiece(pieceZero, startVertZero, startHorizZero);
+            testBoard.placePiece(pieceOne, startVertOne, startHorizOne);
+            testBoard.placePiece(pieceTwo, startVertTwo, startHorizTwo);
+            testBoard.placePiece(pieceThree, startVertThree, startHorizThree);
+            testBoard.placePiece(pieceFour, startVertFour, startHorizFour);
+
+            Piece.Team red = Piece.Team.red;
+            Piece.Team blue = Piece.Team.blue;
+
+            target.startGame();
+            Assert.AreEqual(red, target.getCurrentTurn());
+
+            Boolean[] moveZero = target.movePiece(startVertZero, startHorizZero, directionZero, distanceZero);
+            Assert.AreEqual(blue, target.getCurrentTurn());
+
+            Boolean[] moveOne = target.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
+            Assert.AreEqual(blue, target.getCurrentTurn());
+
+            Boolean[] moveTwo = target.movePiece(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
+            Assert.AreEqual(blue, target.getCurrentTurn());
+
+            Boolean[] moveThree = target.movePiece(startVertThree, startHorizThree, directionThree, distanceThree);
+            Assert.AreEqual(blue, target.getCurrentTurn());
+
+            Boolean[] moveFour = target.movePiece(startVertFour, startHorizFour, directionFour, distanceFour);
+            Assert.AreEqual(blue, target.getCurrentTurn());
         }
 
 

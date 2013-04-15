@@ -118,20 +118,35 @@ namespace Stratego
                     // place the piece
                     this.board.placePiece(movingPiece, destination[0], destination[1]);
                     break;
+
                 case Board.Event.Win:
-                    // TODO adjust piece count
+                    // adjust piece count
+                    if (this.currentTeam == Piece.Team.red)
+                        this.playerTwo.removePiece();
+                    else
+                        this.playerOne.removePiece();
 
                     // place the piece
                     this.board.placePiece(movingPiece, destination[0], destination[1]);
                     break;
+
                 case Board.Event.Loss:
-                    // TODO adjust piece count
+                    // adjust piece count
+                    if (this.currentTeam == Piece.Team.red)
+                        this.playerOne.removePiece();
+                    else
+                        this.playerTwo.removePiece();
                     break;
+
                 case Board.Event.Tie:
                     // adjust piece count
+                    this.playerOne.removePiece();
+                    this.playerTwo.removePiece();
+
                     // remove both pieces
                     this.board.placePiece(null, destination[0], destination[1]);
                     break;
+
                 case Board.Event.Flag:
                     // place the piece
                     this.board.placePiece(movingPiece, destination[0], destination[1]);
@@ -141,10 +156,9 @@ namespace Stratego
             }
 
             this.swapTurn();
-
             return new Boolean[2] { true, false };
         }
-
+        
         private void swapTurn()
         {
             if (this.currentTeam == Piece.Team.red)
@@ -155,20 +169,10 @@ namespace Stratego
                 this.turnCount++;
             }
         }
-
-        public Boolean checkVictory()
-        {
-            return false;
-        }
-
+        
         public void endGame()
         {
 
         }
-
-        private void removePiece()
-        {
-        }
-
     }
 }
