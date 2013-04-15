@@ -899,5 +899,17 @@ namespace StrategoTesting
             Assert.AreEqual(Board.Event.Flag, b.moveEvent(9, 1, Board.Direction.S, 1));
         }
 
+        [Test()]
+        public void TestGetCell()
+        {
+            Board b = new Board();
+            Cell target1 = b.getCell(0, 0);
+            Cell target2 = b.getCell(4, 2);
+
+            Assert.AreEqual(Cell.Terrain.Land, target1.getTerrain());
+            Assert.AreEqual(Cell.Terrain.Lake, target2.getTerrain());
+                
+        }
+
     }
 }

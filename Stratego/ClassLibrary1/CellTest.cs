@@ -30,19 +30,25 @@ namespace StrategoTesting
 
             target3.setTerrain(Cell.Terrain.Lake);
             target4.setTerrain(Cell.Terrain.Land);
+            
+            Piece piece1 = new Piece(Piece.Team.red, Piece.Rank.lieutenant);
+            Piece piece2 = new Piece(Piece.Team.blue, Piece.Rank.marshal);
+
+            Cell target5 = new Cell (Cell.Terrain.Lake, piece1);
+            Cell target6 = new Cell (Cell.Terrain.Land, piece2);
 
             Assert.AreEqual(Cell.Terrain.Land, target1.getTerrain());
             Assert.AreEqual(Cell.Terrain.Lake, target2.getTerrain());
             Assert.AreEqual(Cell.Terrain.Lake, target3.getTerrain());
             Assert.AreEqual(Cell.Terrain.Land, target4.getTerrain());
+            Assert.AreEqual(Cell.Terrain.Lake, target5.getTerrain());
+            Assert.AreEqual(Cell.Terrain.Land, target6.getTerrain());
+            
         }
 
         [Test()]
         public void TestThatCellPieceSetsAndInitializesCorrectly()
         {
-            //Piece testPiece1 = new Piece(4);
-            //Piece testPiece2 = new Piece(5);
-
             Piece dummyPiece1 = mocks.Stub<Piece>();
             Piece dummyPiece2 = mocks.Stub<Piece>();
 
@@ -58,6 +64,15 @@ namespace StrategoTesting
             Assert.AreSame(dummyPiece2, target2.getPiece());
             Assert.AreSame(dummyPiece1, target3.getPiece());
             Assert.AreSame(dummyPiece2, target4.getPiece());
+
+            Piece piece1 = new Piece(Piece.Team.red, Piece.Rank.lieutenant);
+            Piece piece2 = new Piece(Piece.Team.blue, Piece.Rank.marshal);
+
+            Cell target5 = new Cell(Cell.Terrain.Lake, piece1);
+            Cell target6 = new Cell(Cell.Terrain.Land, piece2);
+
+            Assert.AreSame(piece1, target5.getPiece());
+            Assert.AreSame(piece2, target6.getPiece());
         }
     }
 }

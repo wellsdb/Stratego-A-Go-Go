@@ -595,7 +595,6 @@ namespace StrategoTesting
             testBoard.placePiece(pieceFour, startVertFour, startHorizFour);
             
             Piece.Team red = Piece.Team.red;
-            Piece.Team blue = Piece.Team.blue;
 
             target.startGame();
             Assert.AreEqual(red, target.getCurrentTurn());

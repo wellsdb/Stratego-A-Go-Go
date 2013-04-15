@@ -168,7 +168,7 @@ namespace StrategoTesting
         [Test()]
         public void testRedSpyFlagEqualsFalse()
         {
-            Piece p = new Piece(Piece.Team.red, 0);
+            Piece p = new Piece(Piece.Team.red, Piece.Rank.flag);
             Piece q = new Piece(Piece.Team.red, Piece.Rank.spy);
             Assert.False(p.Equals(q));
         }
@@ -203,7 +203,7 @@ namespace StrategoTesting
         [Test()]
         public void testBlueSpyFlagEqualsFalse()
         {
-            Piece p = new Piece(Piece.Team.blue, 0);
+            Piece p = new Piece(Piece.Team.blue, Piece.Rank.flag);
             Piece q = new Piece(Piece.Team.blue, Piece.Rank.spy);
             Assert.False(p.Equals(q));
         }
@@ -392,6 +392,40 @@ namespace StrategoTesting
 
             Assert.AreEqual(Piece.Combat.win, Piece.Battle(blueMiner, redBomb));
             Assert.AreEqual(Piece.Combat.win, Piece.Battle(redMiner, blueBomb));
+        }
+
+        [Test()]
+        public void testToString()
+        {
+            Piece redFlag = new Piece(Piece.Team.red, Piece.Rank.flag);
+            Piece redSpy = new Piece(Piece.Team.red, Piece.Rank.spy);
+            Piece redScout = new Piece(Piece.Team.red, Piece.Rank.scout);
+            Piece redMiner = new Piece(Piece.Team.red, Piece.Rank.miner);
+            Piece redSergeant = new Piece(Piece.Team.red, Piece.Rank.sergeant);
+            Piece redLieutenant = new Piece(Piece.Team.red, Piece.Rank.lieutenant);
+
+            Piece blueCaptain = new Piece(Piece.Team.blue, Piece.Rank.captain);
+            Piece blueMajor = new Piece(Piece.Team.blue, Piece.Rank.major);
+            Piece blueColonel = new Piece(Piece.Team.blue, Piece.Rank.colonel);
+            Piece blueGeneral = new Piece(Piece.Team.blue, Piece.Rank.general);
+            Piece blueMarshal = new Piece(Piece.Team.blue, Piece.Rank.marshal);
+            Piece blueBomb = new Piece(Piece.Team.blue, Piece.Rank.bomb);
+
+            //Piece nullPiece = null;
+            //Assert.AreEqual("||", nullPiece.toString());
+
+            Assert.AreEqual("RF", redFlag.toString());
+            Assert.AreEqual("RS", redSpy.toString());
+            Assert.AreEqual("R1", redScout.toString());
+            Assert.AreEqual("R2", redMiner.toString());
+            Assert.AreEqual("R3", redSergeant.toString());
+            Assert.AreEqual("R4", redLieutenant.toString());
+            Assert.AreEqual("B5", blueCaptain.toString());
+            Assert.AreEqual("B6", blueMajor.toString());
+            Assert.AreEqual("B7", blueColonel.toString());
+            Assert.AreEqual("B8", blueGeneral.toString());
+            Assert.AreEqual("B9", blueMarshal.toString());
+            Assert.AreEqual("BB", blueBomb.toString());
         }
 
     }

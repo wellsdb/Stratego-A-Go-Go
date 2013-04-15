@@ -9,7 +9,7 @@ namespace Stratego
     public class Piece
     {
         public enum Team { none, red, blue };
-        public enum Rank { flag, spy, scout, miner, sergeant, lieutenant, captain, major, colonel, general, marshal, bomb };
+        public enum Rank { flag = -1, spy, scout, miner, sergeant, lieutenant, captain, major, colonel, general, marshal, bomb };
         public enum Combat { win, loss, tie };
 
         private Team team;
@@ -45,11 +45,18 @@ namespace Stratego
             String rank = "-1";
 
             if (this.team == Team.blue)
-                team = "Blue";
+                team = "B";
             else if (this.team == Team.red)
-                team = "Red";
+                team = "R";
 
-            rank = ((int)this.rank).ToString();
+            if (this.rank == Rank.flag)
+                rank = "F";
+            else if (this.rank == Rank.spy)
+                rank = "S";
+            else if (this.rank == Rank.bomb)
+                rank = "B";
+            else 
+                rank = ((int)this.rank).ToString();
 
             return team + rank;
         }
