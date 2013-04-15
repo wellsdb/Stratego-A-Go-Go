@@ -122,6 +122,9 @@ namespace Stratego
             if (destPiece == null)
                 return Event.GoodMove;
 
+            if (destPiece.getRank() == Piece.Rank.flag)
+                return Event.Flag;
+
             Piece currentPiece = cells[v, h].getPiece();
 
             Piece.Combat battleResult = Piece.Battle(currentPiece, destPiece);

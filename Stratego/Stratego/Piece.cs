@@ -56,7 +56,31 @@ namespace Stratego
 
         public static Combat Battle(Piece aggressor, Piece defender)
         {
-            return Combat.loss;
+            Rank aggRank = aggressor.getRank();
+            Rank defRank = defender.getRank();
+
+            if (defRank == Rank.bomb)
+                if (aggRank != Rank.miner)
+                    return Combat.loss;
+                else return Combat.win;
+
+            if (defRank == Rank.spy)
+                if (aggRank == Rank.marshal)
+                    return Combat.loss;
+
+            if (aggRank == Rank.spy)
+                if (defRank == Rank.marshal)
+                    return Combat.win;
+
+            int aggVal = (int)aggRank;
+            int defVal = (int)defRank;
+
+            if (aggVal > defVal)
+                return Combat.win;
+            else if (aggVal == defVal)
+                return Combat.tie;
+            else
+                return Combat.loss;
         }
     }
 }

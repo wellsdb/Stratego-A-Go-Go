@@ -813,8 +813,8 @@ namespace StrategoTesting
 
             Assert.AreEqual(Board.Event.BadMove, b.moveEvent(6, 6, Board.Direction.W, 6));
             Assert.AreEqual(Board.Event.BadMove, b.moveEvent(6, 6, Board.Direction.N, 4));
-            Assert.AreEqual(Board.Event.BadMove, b.moveEvent(7, 5, Board.Direction.S, 1));
-            Assert.AreEqual(Board.Event.BadMove, b.moveEvent(7, 5, Board.Direction.E, 2));
+            Assert.AreEqual(Board.Event.BadMove, b.moveEvent(6, 2, Board.Direction.S, 1));
+            Assert.AreEqual(Board.Event.BadMove, b.moveEvent(6, 2, Board.Direction.E, 2));
         }
 
 
@@ -831,7 +831,7 @@ namespace StrategoTesting
             Assert.AreEqual(Board.Event.Win, b.moveEvent(2, 4, Board.Direction.S, 1));
             Assert.AreEqual(Board.Event.Win, b.moveEvent(2, 4, Board.Direction.W, 1));
             Assert.AreEqual(Board.Event.Win, b.moveEvent(2, 4, Board.Direction.N, 1));
-            Assert.AreEqual(Board.Event.Win, b.moveEvent(2, 3, Board.Direction.E, 1));
+            Assert.AreEqual(Board.Event.Win, b.moveEvent(2, 4, Board.Direction.E, 1));
         }
 
         [Test()]
@@ -917,8 +917,8 @@ namespace StrategoTesting
             b.placePiece(new Piece(Piece.Team.red, Piece.Rank.spy), 0, 1);
             b.placePiece(new Piece(Piece.Team.red, Piece.Rank.colonel), 9, 1);
 
-            Assert.AreEqual(Board.Event.Flag, b.moveEvent(1, 9, Board.Direction.E, 1));
-            Assert.AreEqual(Board.Event.Flag, b.moveEvent(8, 7, Board.Direction.W, 1));
+            Assert.AreEqual(Board.Event.Flag, b.moveEvent(1, 9, Board.Direction.W, 1));
+            Assert.AreEqual(Board.Event.Flag, b.moveEvent(8, 7, Board.Direction.E, 1));
             Assert.AreEqual(Board.Event.Flag, b.moveEvent(0, 1, Board.Direction.N, 1));
             Assert.AreEqual(Board.Event.Flag, b.moveEvent(9, 1, Board.Direction.S, 1));
         }

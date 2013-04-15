@@ -126,8 +126,9 @@ namespace StrategoTesting
         [Test()]
         public void TestThatMovePieceFunctionsCorrectlyForSuccessfulMove()
         {
-            Board mockBoard = mocks.Stub<Board>();
-            
+            Board testBoard = new Board();
+            Game target = new Game(testBoard);
+
             Int16 startVertOne = 3;
             Int16 startHorizOne = 3;
             Int16 startVertTwo = 4;
@@ -141,39 +142,9 @@ namespace StrategoTesting
             Int16 endVertTwo = 4;
             Int16 endHorizTwo = 2;
 
-            using (mocks.Record())
-            {
-                mockBoard.isMoveValid(3, 3, Board.Direction.N, 1);
-                LastCall.Return(true);
+            target.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
 
-                mockBoard.isMoveValid(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
-                LastCall.Return(true);
-
-                //mockBoard.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
-                //LastCall.Return( //Successful Move value
-
-                //mockBoard.movePiece(startVertTwo, startHorizTwo, directionTwo, distanceTwo);
-                //LastCall.Return( //Successful Move value
-
-                //mockBoard.getSpace(startVertOne, startHorizOne);
-                //LastCall.Return( //empty, no piece
-
-                //mockBoard.getSpace(endVertOne, endHorizOne);
-                //LastCall.Return( //piece
-
-                //mockBoard.getSpace(startVertTwo, startHorizTwo);
-                //LastCall.Return( //empty, no piece
-
-                //mockBoard.getSpace(endVertTwo, endHorizTwo);
-                //LastCall.Return( //piece
-                
-            }
-
-            Game target = new Game(mockBoard);
-
-            target.movePiece(Piece.Team.red, startVertOne, startHorizOne, directionOne, distanceOne);
-
-            target.movePiece(Piece.Team.blue, startVertTwo, endHorizTwo, directionTwo, distanceTwo);
+            target.movePiece(startVertTwo, endHorizTwo, directionTwo, distanceTwo);
 
         }
 
@@ -225,11 +196,11 @@ namespace StrategoTesting
 
             }
 
-            target.movePiece(Piece.Team.red, startVertOne, startHorizOne, directionOne, distanceOne);
+            target.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT, target.getPlayerPieceCount(1));
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT - 1, target.getPlayerPieceCount(2));
 
-            target.movePiece(Piece.Team.blue, startVertTwo, endHorizTwo, directionTwo, distanceTwo);
+            target.movePiece(startVertTwo, endHorizTwo, directionTwo, distanceTwo);
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT, target.getPlayerPieceCount(2));
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT - 1, target.getPlayerPieceCount(1));
 
@@ -283,11 +254,11 @@ namespace StrategoTesting
 
             Game target = new Game(mockBoard);
 
-            target.movePiece(Piece.Team.red, startVertOne, startHorizOne, directionOne, distanceOne);
+            target.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT, target.getPlayerPieceCount(2));
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT - 1, target.getPlayerPieceCount(1));
 
-            target.movePiece(Piece.Team.blue, startVertTwo, endHorizTwo, directionTwo, distanceTwo);
+            target.movePiece(startVertTwo, endHorizTwo, directionTwo, distanceTwo);
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT, target.getPlayerPieceCount(1));
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT - 1, target.getPlayerPieceCount(2));
         }
@@ -340,11 +311,11 @@ namespace StrategoTesting
 
             }
 
-            target.movePiece(Piece.Team.red, startVertOne, startHorizOne, directionOne, distanceOne);
+            target.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT, target.getPlayerPieceCount(1));
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT - 1, target.getPlayerPieceCount(2));
 
-            target.movePiece(Piece.Team.blue, startVertTwo, endHorizTwo, directionTwo, distanceTwo);
+            target.movePiece(startVertTwo, endHorizTwo, directionTwo, distanceTwo);
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT, target.getPlayerPieceCount(2));
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT - 1, target.getPlayerPieceCount(1));
         }
@@ -400,11 +371,11 @@ namespace StrategoTesting
 
             }
 
-            targetOne.movePiece(Piece.Team.red, startVertOne, startHorizOne, directionOne, distanceOne);
+            targetOne.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT, targetOne.getPlayerPieceCount(1));
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT - 1, targetOne.getPlayerPieceCount(2));
 
-            targetTwo.movePiece(Piece.Team.blue, startVertTwo, endHorizTwo, directionTwo, distanceTwo);
+            targetTwo.movePiece(startVertTwo, endHorizTwo, directionTwo, distanceTwo);
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT, targetTwo.getPlayerPieceCount(2));
             Assert.AreEqual(Player.DEFAULT_PIECECOUNT - 1, targetTwo.getPlayerPieceCount(1));
 
@@ -462,11 +433,11 @@ namespace StrategoTesting
             Assert.AreEqual(1, target.getCurrentTurn());
             Assert.AreEqual(1, target.getTurnCount());
 
-            target.movePiece(Piece.Team.red, startVertOne, startHorizOne, directionOne, distanceOne);
+            target.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
             Assert.AreEqual(2, target.getCurrentTurn());
             Assert.AreEqual(1, target.getTurnCount());
 
-            target.movePiece(Piece.Team.blue, startVertTwo, endHorizTwo, directionTwo, distanceTwo);
+            target.movePiece(startVertTwo, endHorizTwo, directionTwo, distanceTwo);
             Assert.AreEqual(1, target.getCurrentTurn());
             Assert.AreEqual(1, target.getTurnCount());
         }

@@ -82,7 +82,7 @@ namespace Stratego
 
         //returns true if the move is allowed and performed
         //returns false if the move is not allowed and not performed
-        public Boolean[] movePiece(Piece.Team team, Int16 v, Int16 h, Board.Direction direction, Int16 distance)
+        public Boolean[] movePiece(Int16 v, Int16 h, Board.Direction direction, Int16 distance)
         {
             //check if piece belongs to the current player
             if (this.board.getPiece(v, h).getTeam() != this.currentTeam)
