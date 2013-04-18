@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Network
 {
-    public abstract class Networker
+    class Client
     {
-        
-    }   
+    }
 }

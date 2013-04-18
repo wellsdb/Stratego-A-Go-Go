@@ -47,6 +47,7 @@
     <Compile Include="BoardTests.cs" />
     <Compile Include="CellTest.cs" />
     <Compile Include="GameTests.cs" />
+    <Compile Include="NetworkTests.cs" />
     <Compile Include="PieceTests.cs" />
     <Compile Include="PlayerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
