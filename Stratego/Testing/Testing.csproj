@@ -44,15 +44,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BoardTests.cs" />
-    <Compile Include="CellTest.cs" />
-    <Compile Include="GameTests.cs" />
-    <Compile Include="NetworkTests.cs" />
-    <Compile Include="PieceTests.cs" />
-    <Compile Include="PlayerTests.cs" />
+    <Compile Include="StrategoTests\BoardTests.cs" />
+    <Compile Include="StrategoTests\CellTest.cs" />
+    <Compile Include="Network Tests\ClientTests.cs" />
+    <Compile Include="Network Tests\GameRecieverTests.cs" />
+    <Compile Include="Network Tests\GameSenderTests.cs" />
+    <Compile Include="StrategoTests\GameTests.cs" />
+    <Compile Include="Network Tests\NetworkControllerTests.cs" />
+    <Compile Include="Network Tests\NetworkIntegrationTests.cs" />
+    <Compile Include="StrategoTests\PieceTests.cs" />
+    <Compile Include="StrategoTests\PlayerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestMenu.cs" />
-    <Compile Include="TestStratego.cs" />
+    <Compile Include="Network Tests\ServerTests.cs" />
+    <Compile Include="GUI Tests\TestMenu.cs" />
+    <Compile Include="GUI Tests\TestStratego.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Network\Network.csproj">
@@ -68,6 +73,7 @@
       <Name>Stratego</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

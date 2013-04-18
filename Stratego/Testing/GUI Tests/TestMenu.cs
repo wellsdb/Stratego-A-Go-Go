@@ -5,7 +5,7 @@ using System.Text;
 using NUnit.Framework;
 using Stratego;
 
-namespace NUnitTest1
+namespace Testing
 {
     [TestFixture]
     class TestMenu

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using Stratego;
 
-namespace StrategoTesting
+namespace Testing
 {
     [TestFixture()]
     class PieceTests

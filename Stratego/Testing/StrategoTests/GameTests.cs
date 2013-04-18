@@ -7,7 +7,7 @@ using NUnit.Framework;
 using Rhino.Mocks;
 using Stratego;
 
-namespace StrategoTesting
+namespace Testing
 {
     [TestFixture()]
     class GameTests
