@@ -37,7 +37,7 @@ namespace NUnitTest1
             Stratego.View testview = new Stratego.View(testgame);
             Application.Run(testview);
 
-            //So this time you just click the hotseat button then do whatever you want and
+            //So this time you just click the tuitorial button then do whatever you want and
             //close the window after you do it.
 
             Assert.AreEqual(testview.mode, 3);
@@ -51,8 +51,7 @@ namespace NUnitTest1
             Stratego.View testview = new Stratego.View(testgame);
             Application.Run(testview);
 
-            //So this time you just click the hotseat button then do whatever you want and
-            //close the window after you do it.
+            //So this time you just click the exit button.
 
             Assert.AreEqual(testview.mode, 9);
         }
@@ -64,8 +63,9 @@ namespace NUnitTest1
             Stratego.View testview = new Stratego.View(testgame);
             Application.Run(testview);
 
-            //So this time you just click the hotseat button then do whatever you want and
-            //close the window after you do it.
+            //So this time you just click the hotseat button then the back to menu button.
+            //You can also press the tuitorial button and back to menu button. You can do it
+            //as often as you want in any combination.
 
             Assert.AreEqual(testview.mode, 0);
         }
