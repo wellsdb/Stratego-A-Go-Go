@@ -17,7 +17,7 @@ namespace Testing
             Client target = new Client();
             Assert.IsNotNull(target);
             Assert.IsInstanceOf<Client>(target);
-            Assert.AreEqual(Client.DEFAULT_PORT, target.getPort());
+            Assert.AreEqual(Client.DEFAULT_PORT, target.GetPort());
         }
 
         [Test()]
@@ -25,14 +25,14 @@ namespace Testing
         {
             Client target = new Client();
 
-            target.setPort(Client.Ports.PortOne);
-            Assert.AreEqual(Client.Ports.PortOne, target.getPort());
-            target.setPort(Client.Ports.PortTwo);
-            Assert.AreEqual(Client.Ports.PortTwo, target.getPort());
-            target.setPort(Client.Ports.PortThree);
-            Assert.AreEqual(Client.Ports.PortThree, target.getPort());
-            target.setPort(Client.Ports.PortFour);
-            Assert.AreEqual(Client.Ports.PortFour, target.getPort());
+            target.SetPort(Client.Port.One);
+            Assert.AreEqual(Client.Port.One, target.GetPort());
+            target.SetPort(Client.Port.Two);
+            Assert.AreEqual(Client.Port.Two, target.GetPort());
+            target.SetPort(Client.Port.Three);
+            Assert.AreEqual(Client.Port.Three, target.GetPort());
+            target.SetPort(Client.Port.Four);
+            Assert.AreEqual(Client.Port.Four, target.GetPort());
         }
 
         [Test()]
@@ -40,7 +40,7 @@ namespace Testing
         {
             Client target = new Client();
             Assert.False(target.IsActive());
-            target.start();
+            target.Start();
             Assert.True(target.IsActive());
         }
 
@@ -49,9 +49,9 @@ namespace Testing
         {
             Client target = new Client();
             Assert.False(target.IsActive());
-            target.start();
+            target.Start();
             Assert.True(target.IsActive());
-            target.stop();
+            target.Stop();
             Assert.False(target.IsActive());
         }
 
@@ -60,8 +60,8 @@ namespace Testing
         {
             Client target = new Client();
             String msg = "Test";
-            target.send(msg);
-            Assert.True(target.HasSent());
+            bool result = target.Send(msg);
+            Assert.True(result);
         }
     }
 }
