@@ -150,8 +150,6 @@ namespace Stratego
                 case Board.Event.Flag:
                     // place the piece
                     this.board.placePiece(movingPiece, destination[0], destination[1]);
-                    // end the game
-                    this.endGame();
                     return new Boolean[2] {true, true};
             }
 
@@ -170,9 +168,5 @@ namespace Stratego
             }
         }
         
-        public void endGame()
-        {
-
-        }
     }
 }

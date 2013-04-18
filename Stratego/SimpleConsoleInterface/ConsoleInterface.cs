@@ -10,7 +10,7 @@ namespace SimpleConsoleInterface
     class ConsoleInterface
     {
 
-        public static void Main(String[] args)
+        public static void NotMain(String[] args)
         {
 
             Console.WriteLine("Welcome to Stratego!");
@@ -130,7 +130,7 @@ namespace SimpleConsoleInterface
             else
                 Console.WriteLine("Blue Player Wins!");
 
-            Console.WriteLine("the end");
+            Console.WriteLine("The end.");
             Console.ReadLine();
         }
 
