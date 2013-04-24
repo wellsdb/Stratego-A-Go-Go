@@ -3,41 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Sockets;
+using System.Net;
 
 namespace Network
 {
-    public class Client : Networker
+    public class Client
     {
-        public Client()
+        IPEndPoint recipient;
+
+        public Client(IPEndPoint recipient)
         {
-            currentPort = DEFAULT_PORT;
-            isActive = false;
+            this.recipient = recipient;
         }
 
-        public Client(Port port)
+        public bool Send(byte[] buffer)
         {
-            currentPort = port;
-            isActive = false;
-        }
+            TcpClient client = new TcpClient();
+            try
+            {
+                client.Connect(this.recipient);
 
-        override public void Start()
-        {
-            if (isActive)
-                throw new Exception("You cannot start a client that is already started!");
-            isActive = true;
-        }
+                NetworkStream clientStream = client.GetStream();
+                clientStream.Write(buffer, 0, buffer.Length);
+                clientStream.Flush();
 
-        override public void Stop()
-        {
-            if (!isActive)
-                throw new Exception("You cannot stop a client that is already stopped!");
-            isActive = false;
-        }
-
-        public bool Send(String msg)
-        {
-            //send the message
-            return false;
+                return true;
+            }
+            catch (System.Net.Sockets.SocketException e)
+            {
+                return false;
+            }
         }
 
     }

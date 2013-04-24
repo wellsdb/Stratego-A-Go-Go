@@ -479,6 +479,7 @@ namespace Testing
             Boolean[] moveOne = target.movePiece(startVertOne, startHorizOne, directionOne, distanceOne);
             Assert.True(moveOne[0]);
             Assert.True(moveOne[1]);
+            Assert.AreEqual(Piece.Team.red, target.getCurrentTurn());
 
             testBoard = new Board();
             target = new Game(testBoard);

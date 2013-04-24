@@ -44,11 +44,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Network Tests\ConverterTests.cs" />
     <Compile Include="StrategoTests\BoardTests.cs" />
     <Compile Include="StrategoTests\CellTest.cs" />
     <Compile Include="Network Tests\ClientTests.cs" />
-    <Compile Include="Network Tests\GameRecieverTests.cs" />
-    <Compile Include="Network Tests\GameSenderTests.cs" />
     <Compile Include="StrategoTests\GameTests.cs" />
     <Compile Include="Network Tests\NetworkControllerTests.cs" />
     <Compile Include="Network Tests\NetworkIntegrationTests.cs" />

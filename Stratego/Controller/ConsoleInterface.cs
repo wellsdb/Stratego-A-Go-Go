@@ -10,7 +10,7 @@ namespace Controller
     class ConsoleInterface
     {
 
-        public static void NotMain(String[] args)
+        public static void Main(String[] args)
         {
 
             Console.WriteLine("Welcome to Stratego!");
