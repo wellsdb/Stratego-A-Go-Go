@@ -9,29 +9,28 @@ namespace Network
 {
     public class Converter
     {
+        ASCIIEncoding encoder = new ASCIIEncoding();
         public Converter()
-        {
-
-        }
+        { }
 
         public Byte[] StringToByte(String data)
         {
-            return null;
+            return encoder.GetBytes(data);
         }
 
         public String ByteToString(Byte[] data)
         {
-            return null;
+            return encoder.GetString(data);
         }
 
-        public Byte[] BoardToByte(String board)
-        {
-            return null;
-        }
+        //public Byte[] BoardToByte(String board)
+        //{
+        //    return null;
+        //}
 
-        public String ByteToBoard(Byte[] data)
-        {
-            return null;
-        }
+        //public String ByteToBoard(Byte[] data)
+        //{
+        //    return null;
+        //}
     }
 }

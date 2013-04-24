@@ -52,17 +52,17 @@ namespace Testing.Network_Tests
         }
         
 
-        [Test()]
-        public void TestBoardToByte()
-        {
-            Assert.Fail();
-        }
+        //[Test()]
+        //public void TestBoardToByte()
+        //{
+        //    Assert.Fail();
+        //}
 
-        [Test()]
-        public void TestByteToBoard()
-        {
-            Assert.Fail();
-        }
+        //[Test()]
+        //public void TestByteToBoard()
+        //{
+        //    Assert.Fail();
+        //}
 
     }
 }

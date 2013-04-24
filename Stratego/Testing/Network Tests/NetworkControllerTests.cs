@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Network;
+using System.Net;
 
 namespace Testing
 {
@@ -25,7 +26,6 @@ namespace Testing
         {
             
         }
-
 
         [Test()]
         public void TestThatNetworkInitializesCorrectly()
@@ -83,7 +83,12 @@ namespace Testing
         [Test()]
         public void TestSendStringForFail()
         {
-            Assert.Fail();
+            NetworkController target = new NetworkController(p1, p2, ip1);
+
+            Boolean success = target.SendString("testString");
+
+            Assert.False(success);
+            
         }
 
         [Test()]
@@ -95,14 +100,27 @@ namespace Testing
         [Test()]
         public void TestSendStringForSuccess()
         {
-            Assert.Fail();
+            NetworkController target = new NetworkController(p1, p2, ip1);
+
+            //create dummy server
+            ByteContainer cont = new ByteContainer();
+            Server testServer = new Server(NetworkController.Port.One, cont);
+            testServer.Start();
+
+            Boolean success = target.SendString("testString");
+
+            Assert.True(success);
 
         }
 
         [Test()]
         public void TestRecieveStringForFail()
         {
-            Assert.Fail();
+            NetworkController target = new NetworkController(p1, p2, ip1);
+
+            String recieved = target.RecieveString();
+
+            Assert.AreEqual("-1", recieved);
 
         }
 
@@ -116,7 +134,16 @@ namespace Testing
         [Test()]
         public void TestReceiveStringForSucess()
         {
-            Assert.Fail();
+            NetworkController target = new NetworkController(p1, p2, ip1);
+            Client dummyClient = new Client(new IPEndPoint(IPAddress.Parse("127.0.0.1"), (int)NetworkController.Port.Two));
+
+            String testString = "testStringForRecieveSuccess";
+
+            String result = target.RecieveString();
+            dummyClient.Send(new ASCIIEncoding().GetBytes(testString));
+
+            Assert.AreEqual(testString, result);
+
 
         }
     }
