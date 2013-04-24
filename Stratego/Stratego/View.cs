@@ -11,8 +11,8 @@ namespace Stratego
 {
     public partial class View : Form
     {
-        public int x;
-        public int y;
+        public int h;
+        public int v;
         public int mode;
         private Game game;
 
@@ -83,13 +83,15 @@ namespace Stratego
         private void panel1_MouseClick(object sender, MouseEventArgs e)
         {
             Point p = new Point(e.X, e.Y);
-            x = (int)Math.Floor((decimal)p.X / 40);
-            y = (int)Math.Floor((decimal)p.Y / 40);
-            System.Console.WriteLine(x);
-            System.Console.WriteLine(y);
+            h = (int)Math.Floor((decimal)p.X / 40);
+            v = (int)Math.Floor((decimal)p.Y / 40);
+            System.Console.WriteLine(h);
+            System.Console.WriteLine(v);
 
-            this.game.getBoard().getCell(y, x).setTerrain(Cell.Terrain.Lake);
-
+            if (this.game.getBoard().getCell(v, h).getTerrain().Equals(Cell.Terrain.Land))
+                this.game.getBoard().getCell(v, h).setTerrain(Cell.Terrain.Lake);
+            else
+                this.game.getBoard().getCell(v, h).setTerrain(Cell.Terrain.Land);
 
             board.Invalidate();
         }
