@@ -28,20 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(View));
             this.board = new System.Windows.Forms.Panel();
             this.returntomenubutton = new System.Windows.Forms.PictureBox();
             this.exitbutton = new System.Windows.Forms.PictureBox();
             this.tuitorialbutton = new System.Windows.Forms.PictureBox();
             this.hotseatbutton = new System.Windows.Forms.PictureBox();
+            this.networkbutton = new System.Windows.Forms.PictureBox();
+            this.createbutton = new System.Windows.Forms.PictureBox();
+            this.joinbutton = new System.Windows.Forms.PictureBox();
+            this.textBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.returntomenubutton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.exitbutton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tuitorialbutton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.hotseatbutton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.networkbutton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.createbutton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.joinbutton)).BeginInit();
             this.SuspendLayout();
             // 
             // board
             // 
-            this.board.Location = new System.Drawing.Point(0, 0);
+            this.board.Location = new System.Drawing.Point(12, 9);
             this.board.Name = "board";
             this.board.Size = new System.Drawing.Size(400, 400);
             this.board.TabIndex = 0;
@@ -62,7 +70,7 @@
             // exitbutton
             // 
             this.exitbutton.Image = global::Stratego.Properties.Resources.exitbutton;
-            this.exitbutton.Location = new System.Drawing.Point(128, 339);
+            this.exitbutton.Location = new System.Drawing.Point(127, 415);
             this.exitbutton.Name = "exitbutton";
             this.exitbutton.Size = new System.Drawing.Size(400, 100);
             this.exitbutton.TabIndex = 3;
@@ -72,7 +80,7 @@
             // tuitorialbutton
             // 
             this.tuitorialbutton.Image = global::Stratego.Properties.Resources.tuitorialbutton;
-            this.tuitorialbutton.Location = new System.Drawing.Point(127, 233);
+            this.tuitorialbutton.Location = new System.Drawing.Point(127, 309);
             this.tuitorialbutton.Name = "tuitorialbutton";
             this.tuitorialbutton.Size = new System.Drawing.Size(400, 100);
             this.tuitorialbutton.TabIndex = 2;
@@ -82,7 +90,7 @@
             // hotseatbutton
             // 
             this.hotseatbutton.Image = global::Stratego.Properties.Resources._2photseatbutton;
-            this.hotseatbutton.Location = new System.Drawing.Point(127, 129);
+            this.hotseatbutton.Location = new System.Drawing.Point(127, 203);
             this.hotseatbutton.Name = "hotseatbutton";
             this.hotseatbutton.Size = new System.Drawing.Size(400, 100);
             this.hotseatbutton.TabIndex = 1;
@@ -90,15 +98,59 @@
             this.hotseatbutton.Click += new System.EventHandler(this.hotseatbutton_Click);
             this.hotseatbutton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HotseatButtonClick);
             // 
+            // networkbutton
+            // 
+            this.networkbutton.Image = ((System.Drawing.Image)(resources.GetObject("networkbutton.Image")));
+            this.networkbutton.Location = new System.Drawing.Point(127, 97);
+            this.networkbutton.Name = "networkbutton";
+            this.networkbutton.Size = new System.Drawing.Size(400, 100);
+            this.networkbutton.TabIndex = 2;
+            this.networkbutton.TabStop = false;
+            this.networkbutton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.NetworkButtonClick);
+            // 
+            // createbutton
+            // 
+            this.createbutton.Image = ((System.Drawing.Image)(resources.GetObject("createbutton.Image")));
+            this.createbutton.Location = new System.Drawing.Point(432, 233);
+            this.createbutton.Name = "createbutton";
+            this.createbutton.Size = new System.Drawing.Size(200, 100);
+            this.createbutton.TabIndex = 3;
+            this.createbutton.TabStop = false;
+            this.createbutton.Visible = false;
+            this.createbutton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CreateButtonClick);
+            // 
+            // joinbutton
+            // 
+            this.joinbutton.Image = ((System.Drawing.Image)(resources.GetObject("joinbutton.Image")));
+            this.joinbutton.Location = new System.Drawing.Point(432, 339);
+            this.joinbutton.Name = "joinbutton";
+            this.joinbutton.Size = new System.Drawing.Size(200, 100);
+            this.joinbutton.TabIndex = 4;
+            this.joinbutton.TabStop = false;
+            this.joinbutton.Visible = false;
+            this.joinbutton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.JoinButtonClick);
+            // 
+            // textBox
+            // 
+            this.textBox.Location = new System.Drawing.Point(432, 48);
+            this.textBox.Name = "textBox";
+            this.textBox.Size = new System.Drawing.Size(200, 20);
+            this.textBox.TabIndex = 5;
+            this.textBox.Visible = false;
+            // 
             // View
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(657, 567);
+            this.Controls.Add(this.hotseatbutton);
+            this.Controls.Add(this.networkbutton);
+            this.Controls.Add(this.textBox);
+            this.Controls.Add(this.joinbutton);
+            this.Controls.Add(this.createbutton);
             this.Controls.Add(this.returntomenubutton);
             this.Controls.Add(this.exitbutton);
             this.Controls.Add(this.tuitorialbutton);
-            this.Controls.Add(this.hotseatbutton);
             this.Controls.Add(this.board);
             this.Name = "View";
             this.Text = "Form1";
@@ -106,7 +158,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.exitbutton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tuitorialbutton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.hotseatbutton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.networkbutton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.createbutton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.joinbutton)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -117,5 +173,9 @@
         private System.Windows.Forms.PictureBox tuitorialbutton;
         private System.Windows.Forms.PictureBox exitbutton;
         private System.Windows.Forms.PictureBox returntomenubutton;
+        private System.Windows.Forms.PictureBox networkbutton;
+        private System.Windows.Forms.PictureBox createbutton;
+        private System.Windows.Forms.PictureBox joinbutton;
+        private System.Windows.Forms.TextBox textBox;
     }
 }

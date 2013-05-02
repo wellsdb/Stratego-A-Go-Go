@@ -1,0 +1,8 @@
+C:\Users\wellsdb\CSSE376\Project\Stratego-A-Go-Go\Stratego\Controller\bin\Debug\Controller.exe.config
+C:\Users\wellsdb\CSSE376\Project\Stratego-A-Go-Go\Stratego\Controller\bin\Debug\Controller.exe
+C:\Users\wellsdb\CSSE376\Project\Stratego-A-Go-Go\Stratego\Controller\bin\Debug\Controller.pdb
+C:\Users\wellsdb\CSSE376\Project\Stratego-A-Go-Go\Stratego\Controller\bin\Debug\Stratego.dll
+C:\Users\wellsdb\CSSE376\Project\Stratego-A-Go-Go\Stratego\Controller\bin\Debug\Stratego.pdb
+C:\Users\wellsdb\CSSE376\Project\Stratego-A-Go-Go\Stratego\Controller\obj\Debug\Controller.csprojResolveAssemblyReference.cache
+C:\Users\wellsdb\CSSE376\Project\Stratego-A-Go-Go\Stratego\Controller\obj\Debug\Controller.exe
+C:\Users\wellsdb\CSSE376\Project\Stratego-A-Go-Go\Stratego\Controller\obj\Debug\Controller.pdb

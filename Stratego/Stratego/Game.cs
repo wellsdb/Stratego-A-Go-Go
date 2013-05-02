@@ -14,6 +14,7 @@ namespace Stratego
         private Player playerTwo;
         private Int16 turnCount;
         private Piece.Team currentTeam;
+        private Int16[] currentSelection;
 
         public Game()
         {
@@ -88,6 +89,23 @@ namespace Stratego
         public void setCurrentTurn(Piece.Team current)
         {
             this.currentTeam = current;
+        }
+
+        public Int16[] getCurrentSelection()
+        {
+            return this.currentSelection;
+        }
+
+        public void setCurrentSelection(Int16 v, Int16 h)
+        {
+            this.currentSelection = new Int16[2];
+            currentSelection[0] = v;
+            currentSelection[1] = h;
+        }
+
+        public void clearCurrentSelection()
+        {
+            this.currentSelection = null;
         }
 
         public void startGame()

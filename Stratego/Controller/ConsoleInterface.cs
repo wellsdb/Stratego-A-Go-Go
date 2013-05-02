@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Stratego;
 
 namespace Controller
@@ -41,6 +42,12 @@ namespace Controller
 
             game.startGame();
             Boolean over = false;
+
+            //Uncomment these lines to use the GUI
+
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new Stratego.View(game));
 
 
             while (!over)
