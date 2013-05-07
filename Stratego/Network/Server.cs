@@ -11,54 +11,67 @@ namespace Network
 {
     public class Server
     {
-        private NetworkController.Port currentPort;
         private TcpListener tcpListener;
         private Thread listenThread;
-        private ByteContainer container;
-        private bool isActive = false;
+        private NetworkController.Port port;
+        private byte[] readData = null;
+        private Boolean hasUpdate = false;
 
-        public Server(NetworkController.Port port, ByteContainer container)
+        public Server(NetworkController.Port port)
         {
-            this.currentPort = port;
-            this.container = container;
+            this.port = port;
+            //this.tcpListener = new TcpListener(IPAddress.Any, this.port);
+            this.listenThread = new Thread(new ThreadStart(Listen));
         }
 
-        public Boolean IsActive()
+        public void SetPort(NetworkController.Port port)
         {
-            return this.isActive;
+            this.port = port;
         }
 
+        public NetworkController.Port GetPort()
+        {
+            return this.port;
+        }
+        
         public void Start()
         {
-            if (isActive)
-                throw new Exception("You cannot start a Server that is already started!");
-            this.tcpListener = new TcpListener(IPAddress.Any, (int)this.currentPort);
-            this.listenThread = new Thread(new ThreadStart(Listen));
-            isActive = true;
+            this.tcpListener = new TcpListener(IPAddress.Any, (int)this.port);
             this.listenThread.Start();
         }
 
-        public void Stop()
+        public Boolean GetHasUpdate()
         {
-            if (!isActive)
-                throw new Exception("You cannot stop a Server that is already stopped!");
-            isActive = false;
-            this.listenThread.Abort();
+            return this.hasUpdate;
+        }
+        
+        public byte[] GetData()
+        {
+            return this.readData;
         }
 
+        public void ResetUpdate()
+        {
+            this.hasUpdate = false;
+            this.readData = null;
+        }
+        
         private void Listen()
         {
             this.tcpListener.Start();
             while (true)
             {
-                //blocks until a client has connected to the server
                 TcpClient client = this.tcpListener.AcceptTcpClient();
-                //create a thread to handle communication
-                //with connected client
-                Thread clientThread = new Thread(new ParameterizedThreadStart(HandleClientComm));
-                clientThread.Start(client);
+                this.HandleClientComm(client);
             }
         }
+
+        public void Stop()
+        {
+            this.listenThread.Abort();
+            this.listenThread.Join();
+        }
+
 
         private void HandleClientComm(object client)
         {
@@ -72,32 +85,40 @@ namespace Network
 
             while (true)
             {
-                bytesRead = 0;
+                if (!this.hasUpdate)
+                {
+                    bytesRead = 0;
 
-                try
-                {
-                    //blocks until a client sends a message
-                    bytesRead = clientStream.Read(message, 0, 4096);
-                }
-                catch
-                {
-                    //a socket error has occured
+                    try
+                    {
+                        //blocks until a client sends a message
+                        bytesRead = clientStream.Read(message, 0, 4096);
+                    }
+                    catch
+                    {
+                        //a socket error has occured
+                        Console.WriteLine("Error in server, socket error");
+                        break;
+                    }
+
+                    if (bytesRead == 0)
+                    {
+                        //the client has disconnected from the server
+                        Console.WriteLine("In Server, client disconnected.");
+                        break;
+                    }
+
+                    //message has successfully been received
+                    //this.container.WriteData(message);
+
+                    this.readData = message;
+                    this.hasUpdate = true;
+                    //clientStream.Flush();
+                    //clientStream.Close();
                     break;
                 }
-
-                if (bytesRead == 0)
-                {
-                    //the client has disconnected from the server
-                    break;
-                }
-
-                //message has successfully been received
-                this.container.WriteData(message);
-                break;
             }
-
             tcpClient.Close();
         }
-
     }
 }

@@ -8,7 +8,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace Testing
+namespace Testing.GUITests
 {
     [TestFixture]
     //This tests the board and basic mouse event handler. It requires a slight amount of user input, so here are the instructions:

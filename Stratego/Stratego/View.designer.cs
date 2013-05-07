@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(View));
             this.board = new System.Windows.Forms.Panel();
             this.returntomenubutton = new System.Windows.Forms.PictureBox();
             this.exitbutton = new System.Windows.Forms.PictureBox();
@@ -38,6 +37,10 @@
             this.createbutton = new System.Windows.Forms.PictureBox();
             this.joinbutton = new System.Windows.Forms.PictureBox();
             this.textBox = new System.Windows.Forms.TextBox();
+            this.TeamLabel = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.returntomenubutton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.exitbutton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tuitorialbutton)).BeginInit();
@@ -100,7 +103,7 @@
             // 
             // networkbutton
             // 
-            this.networkbutton.Image = ((System.Drawing.Image)(resources.GetObject("networkbutton.Image")));
+            this.networkbutton.Image = global::Stratego.Properties.Resources._2photseatbutton;
             this.networkbutton.Location = new System.Drawing.Point(127, 97);
             this.networkbutton.Name = "networkbutton";
             this.networkbutton.Size = new System.Drawing.Size(400, 100);
@@ -110,7 +113,7 @@
             // 
             // createbutton
             // 
-            this.createbutton.Image = ((System.Drawing.Image)(resources.GetObject("createbutton.Image")));
+            this.createbutton.Image = global::Stratego.Properties.Resources._2photseatbutton;
             this.createbutton.Location = new System.Drawing.Point(432, 233);
             this.createbutton.Name = "createbutton";
             this.createbutton.Size = new System.Drawing.Size(200, 100);
@@ -121,7 +124,7 @@
             // 
             // joinbutton
             // 
-            this.joinbutton.Image = ((System.Drawing.Image)(resources.GetObject("joinbutton.Image")));
+            this.joinbutton.Image = global::Stratego.Properties.Resources._2photseatbutton;
             this.joinbutton.Location = new System.Drawing.Point(432, 339);
             this.joinbutton.Name = "joinbutton";
             this.joinbutton.Size = new System.Drawing.Size(200, 100);
@@ -138,16 +141,58 @@
             this.textBox.TabIndex = 5;
             this.textBox.Visible = false;
             // 
+            // TeamLabel
+            // 
+            this.TeamLabel.AutoSize = true;
+            this.TeamLabel.Location = new System.Drawing.Point(444, 36);
+            this.TeamLabel.Name = "TeamLabel";
+            this.TeamLabel.Size = new System.Drawing.Size(59, 13);
+            this.TeamLabel.TabIndex = 4;
+            this.TeamLabel.Text = "Red\'s Turn";
+            this.TeamLabel.Visible = false;
+            this.TeamLabel.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(564, 233);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(66, 13);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "create game";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(578, 339);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(52, 13);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "join game";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(418, 97);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(78, 13);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Network Game";
+            // 
             // View
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(657, 567);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.hotseatbutton);
             this.Controls.Add(this.networkbutton);
             this.Controls.Add(this.textBox);
             this.Controls.Add(this.joinbutton);
             this.Controls.Add(this.createbutton);
+            this.Controls.Add(this.TeamLabel);
             this.Controls.Add(this.returntomenubutton);
             this.Controls.Add(this.exitbutton);
             this.Controls.Add(this.tuitorialbutton);
@@ -173,9 +218,13 @@
         private System.Windows.Forms.PictureBox tuitorialbutton;
         private System.Windows.Forms.PictureBox exitbutton;
         private System.Windows.Forms.PictureBox returntomenubutton;
+        private System.Windows.Forms.Label TeamLabel;
         private System.Windows.Forms.PictureBox networkbutton;
         private System.Windows.Forms.PictureBox createbutton;
         private System.Windows.Forms.PictureBox joinbutton;
         private System.Windows.Forms.TextBox textBox;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
     }
 }

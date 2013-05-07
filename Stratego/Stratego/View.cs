@@ -6,7 +6,6 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Net;
 
 namespace Stratego
 {
@@ -15,14 +14,23 @@ namespace Stratego
         public int h;
         public int v;
         public int mode;
-        private IPAddress clientIP;
-        private Game game;
+        private GameController controller;
 
-        public View(Game game)
+        public View()
         {
-            this.game = game;
+        }
+
+        public View(GameController controller)
+        {
+            this.controller = controller;
             mode = 0;
             InitializeComponent();
+        }
+
+        private void UpdateTeamLabel()
+        {
+            
+            TeamLabel.Text = this.controller.GetGame().getCurrentTurn().ToString() + "'s turn.";
         }
 
         private void HotseatButtonClick(object sender, MouseEventArgs e)
@@ -30,20 +38,24 @@ namespace Stratego
             if (mode == 0)
             {
                 mode = 2;
+                networkbutton.Visible = false;
                 hotseatbutton.Visible = false;
                 tuitorialbutton.Visible = false;
-                networkbutton.Visible = false;
                 exitbutton.Visible = false;
 
                 returntomenubutton.Visible = true;
 
+                controller.StartHotseatGame();
+
                 board.Visible = true;
                 board.Invalidate();
+                TeamLabel.Visible = true;
+                UpdateTeamLabel();
             }
         }
 
         private void NetworkButtonClick(object sender, MouseEventArgs e)
-        {
+       {
             if (mode == 0)
             {
                 mode = 1;
@@ -58,19 +70,27 @@ namespace Stratego
 
                 textBox.Visible = true;
 
-                board.Visible = true;
-                board.Invalidate();
             }
         }
 
         private void JoinButtonClick(object sender, MouseEventArgs e)
-        {
-            this.clientIP = IPAddress.Parse(textBox.Text);
+        {            
+            //controller.JoinNetworkGame(textBox.Text);
+
+            board.Visible = true;
+            board.Invalidate();
+            TeamLabel.Visible = true;
+            UpdateTeamLabel();
         }
 
         private void CreateButtonClick(object sender, MouseEventArgs e)
         {
-            
+            controller.CreateNetworkGame();
+
+            board.Visible = true;
+            board.Invalidate();
+            TeamLabel.Visible = true;
+            UpdateTeamLabel();
         }
 
         private void TuitorialButtonClick(object sender, MouseEventArgs e)
@@ -115,42 +135,63 @@ namespace Stratego
                 textBox.Visible = false;
                 returntomenubutton.Visible = false;
 
+                board.Visible = false;
+                board.Invalidate();
 
+                //this.controller.Stop();
+
+                //this.controller = new GameController();
             }
         }
 
         private void panel1_MouseClick(object sender, MouseEventArgs e)
         {
             Point p = new Point(e.X, e.Y);
-            h = (int) Math.Floor((decimal)p.X / 40);
-            v = (int) Math.Floor((decimal)p.Y / 40);
-            System.Console.WriteLine(h);
-            System.Console.WriteLine(v);
+            h = (Int16)(Math.Floor((decimal)p.X / 40));
+            v = (Int16)(9-(Math.Floor((decimal)p.Y / 40)));
+            //System.Console.WriteLine(h);
+            //System.Console.WriteLine(v);
 
-            if (this.game.getCurrentSelection() == null)
+
+            if (this.controller.getCurrentSelection() == null)
             {
-                if (this.game.getBoard().getCell(v, h).getPiece() != null)
+                if (this.controller.GetBoard().getCell(v, h).getPiece() != null)
                 {
-                    if ((this.game.getCurrentTurn() == Piece.Team.blue & this.game.getBoard().getCell(v, h).getPiece().getTeam() == Piece.Team.blue) | (this.game.getCurrentTurn() == Piece.Team.red & this.game.getBoard().getCell(v, h).getPiece().getTeam() == Piece.Team.red))
-                        this.game.setCurrentSelection((Int16)v, (Int16)h);
+                    if ((this.controller.GetGame().getCurrentTurn() == Piece.Team.blue & this.controller.GetBoard().getCell(v, h).getPiece().getTeam() == Piece.Team.blue) | (this.controller.GetGame().getCurrentTurn() == Piece.Team.red & this.controller.GetBoard().getCell(v, h).getPiece().getTeam() == Piece.Team.red))
+                        this.controller.setCurrentSelection((Int16)v, (Int16)h);
                 }
             }
+            else if (this.controller.getCurrentSelection()[0] ==(Int16)v & this.controller.getCurrentSelection()[1]== (Int16)h)
+                this.controller.clearCurrentSelection();
             else
             {
-                this.game.clearCurrentSelection();
+                Boolean[] attempt = this.controller.HandleMove((Int16)v, (Int16)h);
+                if (!attempt[0])
+                    Console.WriteLine("You cannot move there!");
+                else
+                {
+                    this.controller.clearCurrentSelection();
+                    UpdateTeamLabel();
+                    if (attempt[1])
+                    {
+                        TeamLabel.Text = this.controller.GetGame().getCurrentTurn().ToString() + " player wins!";
+                        this.GameOver(this.controller.GetGame().getCurrentTurn());
+
+                    }
+                }
             }
-
-            //if (this.game.getBoard().getCell(v, h).getTerrain().Equals(Cell.Terrain.Land))
-            //    this.game.getBoard().getCell(v, h).setTerrain(Cell.Terrain.Lake);
-            //else
-            //    this.game.getBoard().getCell(v, h).setTerrain(Cell.Terrain.Land);
-
             board.Invalidate();
+        }
+
+        private void GameOver(Piece.Team t)
+        {
+            Console.WriteLine(t.ToString() + " has won!");
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            if(mode == 1 | mode == 2){
+            if (mode == 1 | mode == 2 | mode == 3)
+            {
                 Graphics g = board.CreateGraphics();
                 Pen black = new Pen(Color.Black);
 
@@ -159,13 +200,13 @@ namespace Stratego
                 SolidBrush bclick = new SolidBrush(Color.BlanchedAlmond);
 
 
-                for (int i = 0; i < 10; i++)
+                for (int v = 9; v > -1; v--)
                 {
-                    for (int j = 0; j < 10; j++)
+                    for (int h = 0; h < 10; h++)
                     {
-                        if (this.game.getCurrentSelection() != null)
+                        if (this.controller.getCurrentSelection() != null)
                         {
-                            if (this.game.getCurrentSelection()[0] == j & this.game.getCurrentSelection()[1] == i)
+                            if (this.controller.getCurrentSelection()[0] == v & this.controller.getCurrentSelection()[1] == h)
                             {
                                 black.Color = Color.Yellow;
                             }
@@ -174,41 +215,44 @@ namespace Stratego
                                 black.Color = Color.Black;
                             }
                         }
-                        if (this.game.getBoard().getCell(j, i).getTerrain().Equals(Cell.Terrain.Land))
+                        if (this.controller.GetBoard().getCell(v, h).getTerrain().Equals(Cell.Terrain.Land))
                         {
-                            g.DrawRectangle(black, i * 40, j * 40, 39, 39);
-                            g.FillRectangle(bempty, i * 40 + 1, j * 40 + 1, 38, 38);
+                            g.DrawRectangle(black, h * 40, (9-v) * 40, 39, 39);
+                            g.FillRectangle(bempty, h * 40 + 1, (9 - v) * 40 + 1, 38, 38);
                         }
-                        else if (this.game.getBoard().getCell(j, i).getTerrain().Equals(Cell.Terrain.Lake))
+                        else if (this.controller.GetBoard().getCell(v, h).getTerrain().Equals(Cell.Terrain.Lake))
                         {
-                            g.DrawRectangle(black, i * 40, j * 40, 39, 39);
-                            g.FillRectangle(blake, i * 40 + 1, j * 40 + 1, 39, 39);
+                            g.DrawRectangle(black, h * 40, (9 - v) * 40, 39, 39);
+                            g.FillRectangle(blake, h * 40 + 1, (9 - v) * 40 + 1, 39, 39);
                         }
                         else
                         {
-                            g.DrawRectangle(black, i * 40, j * 40, 39, 39);
-                            g.FillRectangle(bclick, i * 40 + 1, j * 40 + 1, 39, 39);
+                            g.DrawRectangle(black, h * 40, (9 - v) * 40, 39, 39);
+                            g.FillRectangle(bclick, h * 40 + 1, (9 - v) * 40 + 1, 39, 39);
                         }
 
-                        Piece draw = this.game.getBoard().getCell(j, i).getPiece();
+                        Piece draw = this.controller.GetBoard().getCell(v, h).getPiece();
 
                         if (draw != null)
                         {
                             SolidBrush color;
-                            if(draw.getTeam() == Piece.Team.blue)
+                            if (draw.getTeam() == Piece.Team.blue)
                             {
                                 color = new SolidBrush(Color.DarkBlue);
-                            }else if (draw.getTeam() == Piece.Team.red)
+                            }
+                            else if (draw.getTeam() == Piece.Team.red)
                             {
                                 color = new SolidBrush(Color.DarkRed);
-                            }else{
+                            }
+                            else
+                            {
                                 color = new SolidBrush(Color.Black);
                             }
-                            Rectangle piece = new Rectangle(i*40 + 5, j*40 + 5, 30, 30);
+                            Rectangle piece = new Rectangle(h * 40 + 5, (9 - v) * 40 + 5, 30, 30);
                             g.FillEllipse(color, piece);
 
                             String rank;
-                            switch(draw.getRank())
+                            switch (draw.getRank())
                             {
                                 case Piece.Rank.bomb:
                                     rank = "B";
@@ -249,20 +293,11 @@ namespace Stratego
                                 default:
                                     rank = "?";
                                     break;
-
-
-
                             }
-
                             g.DrawString(rank,
                                 new Font("Times New Roman", 12.0f),
-                                new SolidBrush(Color.White), 
-                                new PointF(i * 40 + 14, j * 40 + 10));
-
-
-
-                            
-
+                                new SolidBrush(Color.White),
+                                new PointF(h * 40 + 14, (9 - v) * 40 + 10));
                         }
                     }
                 }
@@ -270,9 +305,12 @@ namespace Stratego
 
         }
 
-
-
         private void hotseatbutton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
         {
 
         }

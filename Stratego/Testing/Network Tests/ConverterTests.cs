@@ -8,7 +8,7 @@ using Rhino.Mocks;
 using Stratego;
 using Network;
 
-namespace Testing.Network_Tests
+namespace Testing.NetworkTests
 {
 
     [TestFixture()]
@@ -30,10 +30,8 @@ namespace Testing.Network_Tests
         [Test()]
         public void TestStringToByte()
         {
-            Converter target = new Converter();
-
-            Byte[] conversion1 = target.StringToByte(testString1);
-            Byte[] conversion2 = target.StringToByte(testString2);
+            Byte[] conversion1 = NetworkConverter.StringToByte(testString1);
+            Byte[] conversion2 = NetworkConverter.StringToByte(testString2);
 
             Assert.AreEqual(testByte1, conversion1);
             Assert.AreEqual(testByte2, conversion2);
@@ -42,10 +40,8 @@ namespace Testing.Network_Tests
         [Test()]
         public void TestByteToString()
         {
-            Converter target = new Converter();
-
-            String conversion1 = target.ByteToString(testByte1);
-            String conversion2 = target.ByteToString(testByte2);
+            String conversion1 = NetworkConverter.ByteToString(testByte1);
+            String conversion2 = NetworkConverter.ByteToString(testByte2);
 
             Assert.AreEqual(testString1, conversion1);
             Assert.AreEqual(testString2, conversion2);

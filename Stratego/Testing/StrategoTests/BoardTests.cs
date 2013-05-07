@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using Stratego;
 
-namespace Testing
+namespace Testing.StrategoTests
 {
     [TestFixture()]
     class BoardTests
@@ -909,6 +909,26 @@ namespace Testing
             Assert.AreEqual(Cell.Terrain.Land, target1.getTerrain());
             Assert.AreEqual(Cell.Terrain.Lake, target2.getTerrain());
                 
+        }
+
+        [Test()]
+        public void TestToString()
+        {
+            Board b = new Board();
+            String board = b.ToString();
+            Console.Write(board);
+            Console.ReadLine();
+        }
+
+        [Test()]
+        public void TestFromString()
+        {
+            Board b1 = new Board();
+            String board1 = b1.ToString();
+            Board b2 = Board.FromString(board1);
+            String board2 = b2.ToString();
+
+            Assert.AreEqual(board1, board2);
         }
 
     }

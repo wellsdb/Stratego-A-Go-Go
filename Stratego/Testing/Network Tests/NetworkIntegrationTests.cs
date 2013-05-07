@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Network;
 using NUnit.Framework;
 
-namespace Testing
+namespace Testing.NetworkTests
 {
     [TestFixture()]
     class NetworkIntegrationTests

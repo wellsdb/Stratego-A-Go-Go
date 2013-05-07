@@ -7,7 +7,7 @@ using Stratego;
 using NUnit.Framework;
 using Rhino.Mocks;
 
-namespace Testing
+namespace Testing.StrategoTests
 {
     [TestFixture()]
     public class CellTest

@@ -14,23 +14,46 @@ namespace Network
     {
         public enum Port { Zero = 3000, One, Two, Three, Four };
         private Port sendPort;
-        private Port recievePort;
         private IPAddress ip;
         private Server server;
-        private ByteContainer cont;
-        private Byte[] data;
+        //private Byte[] data;
+        public readonly static String LOCALHOST_IP = "127.0.0.1";
+
+        public NetworkController()
+        {
+            this.sendPort = Port.Zero;
+            this.ip = IPAddress.Parse("127.0.0.1");
+            this.server = new Server(Port.One);
+        }
 
         public NetworkController(Port sendPort, Port recievePort, String ip)
         {
             this.sendPort = sendPort;
-            this.recievePort = recievePort;
             this.ip = IPAddress.Parse(ip);
+            this.server = new Server(recievePort);
+        }
+
+        public Boolean HasUpdate()
+        {
+            return this.server.GetHasUpdate();
+        }
+
+        public Byte[] GetData()
+        {
+            return this.server.GetData();
+        }
+
+        public void ResetUpdate()
+        {
+            this.server.ResetUpdate();
         }
 
         public Boolean SendString(String message)
         {
+            //Console.WriteLine("Sending " + message);
+
             //encode string
-            Byte[] encoded = new Converter().StringToByte(message);
+            Byte[] encoded =  NetworkConverter.StringToByte(message);
             
             //create client
             Client client = new Client(new IPEndPoint(ip, (int)sendPort));
@@ -51,19 +74,11 @@ namespace Network
             return false;
         }
 
-        private void StartServer()
+        public void StartServer()
         {
+            //create server
+            //this.server = new Server((int)recievePort);
             this.server.Start();
-        }
-
-        private void StartServer(Server server)
-        {
-            server.Start();
-        }
-
-        private void GetDataFromContainer()
-        {
-            this.data =  this.cont.ReadData();
         }
 
         private Byte[] GetDataFromContainer(ByteContainer cont)
@@ -73,49 +88,17 @@ namespace Network
 
         public String RecieveString()
         {
-            ByteContainer cont = new ByteContainer();
-            //create server
-           this.server = new Server(recievePort, cont);
+            Byte[] data = server.GetData();
 
-            Thread serverThread = new Thread(new ThreadStart(StartServer));
-            //Thread readThread = new Thread(new ThreadStart(GetDataFromContainer));
-
-            serverThread.Start();
-
-            while (!serverThread.IsAlive);
-
-            Thread.Sleep(5000);
-
-            serverThread.Abort();
-            serverThread.Join();
-
-            Byte[] data = cont.ReadData();
-
-            //try
-            //{
-            //    serverThread.Start();
-            //    readThread.Start();
-            //}
-            //catch (ThreadStateException e)
-            //{
-            //    Console.WriteLine(e);  // Display text of exception
-            //}
-            //catch (ThreadInterruptedException e)
-            //{
-            //    Console.WriteLine(e);  // This exception means that the thread
-            //    // was interrupted during a Wait
-            //}
-
-            //server.Stop();
             // error
             if (data == null)
                 return null;
 
             //success
-            return new Converter().ByteToString(data);
-
+            Console.WriteLine("Recieving " + NetworkConverter.ByteToString(data));
+            return NetworkConverter.ByteToString(data);
+        
             //  timeout
-
             return null;
         }
 
@@ -126,7 +109,7 @@ namespace Network
 
         public void SetRecievePort(Port port)
         {
-            this.recievePort = port;
+            this.server.SetPort(port);
         }
 
         public void SetIP(String ip)
@@ -141,7 +124,7 @@ namespace Network
 
         public Port GetRecievePort()
         {
-            return this.recievePort;
+            return this.server.GetPort();
         }
 
         public String GetIPAddress()

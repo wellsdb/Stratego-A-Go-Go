@@ -7,15 +7,19 @@ using System.IO;
 
 namespace Stratego
 {
+    //Represents a game of Stratego. Has a Board and a pair of Players. Attempts moves and tracks game state. Also contains loading and saving methods.
     public class Game
     {
+        
         private Board board;
         private Player playerOne;
         private Player playerTwo;
         private Int16 turnCount;
         private Piece.Team currentTeam;
-        private Int16[] currentSelection;
+        //private Int16[] currentSelection;
+        private Boolean active;
 
+        //Creates a Game with default values
         public Game()
         {
             this.board = new Board();
@@ -23,8 +27,10 @@ namespace Stratego
             this.playerTwo = new Player();
             this.turnCount = 0;
             this.currentTeam = Piece.Team.none;
+            this.active = false;
         }
 
+        //Creates a Game with a given Board
         public Game(Board board)
         {
             this.board = board;
@@ -32,18 +38,22 @@ namespace Stratego
             this.playerTwo = new Player();
             this.turnCount = 0;
             this.currentTeam = Piece.Team.none;
+            this.active = false;
         }
 
+        //Gets this Game's board
         public Board getBoard()
         {
             return this.board;
         }
 
+        //Sets this Game's board
         public void setBoard(Board board)
         {
             this.board = board;
         }
 
+        //Gets the name of the indicated player
         public String getPlayerName(Int16 player)
         {
             if (player == 1)
@@ -53,6 +63,7 @@ namespace Stratego
             throw new ArgumentOutOfRangeException("Player does not exist!");
         }
 
+        //Gets the number of pieces that the indicated player still has in play
         public Int16 getPlayerPieceCount(Int16 player)
         {
             if (player == 1)
@@ -62,6 +73,7 @@ namespace Stratego
             throw new ArgumentOutOfRangeException("Player does not exist!");
         }
 
+        //Sets the name of the indicated player to the given value
         public void setPlayerName(Int16 player, String name)
         {
             if (player == 1)
@@ -71,53 +83,47 @@ namespace Stratego
             else throw new ArgumentOutOfRangeException("Player does not exist!");
         }
 
+        //Gets the number of turns that have passed in the given game
         public Int16 getTurnCount()
         {
             return this.turnCount;
         }
 
+        //Sets the number of turns that have passed in the given game
         public void setTurnCount(Int16 count)
         {
             this.turnCount = count;
         }
 
+        //Gets the name of the team who is in control of the current turn
         public Piece.Team getCurrentTurn()
         {
             return this.currentTeam;
         }
 
+        //Sets control of the current turn to the given player
         public void setCurrentTurn(Piece.Team current)
         {
             this.currentTeam = current;
         }
 
-        public Int16[] getCurrentSelection()
-        {
-            return this.currentSelection;
-        }
-
-        public void setCurrentSelection(Int16 v, Int16 h)
-        {
-            this.currentSelection = new Int16[2];
-            currentSelection[0] = v;
-            currentSelection[1] = h;
-        }
-
-        public void clearCurrentSelection()
-        {
-            this.currentSelection = null;
-        }
-
+        //Starts the game by setting the turnCount to 1, setting the player in control of the turn to Red, and setting the active field to true.
         public void startGame()
         {
             this.turnCount = 1;
             this.currentTeam = Piece.Team.red;
+            this.active = true;
         }
 
-        //returns true if the move is allowed and performed
-        //returns false if the move is not allowed and not performed
+        //Attempts to perform a move and returns a Boolean array indicating the result.
+        //If the move is not valid, then it is not performed and the array contains false.
+        //If the move is valid, then it is performed, and the array contains true and another value.
+        //If the move is valid and results in the capturing of the enemy flag, then the other value is true. Otherwise, it is false.
+        //TODO: assign victory condition checking to another method.
         public Boolean[] movePiece(Int16 v, Int16 h, Board.Direction direction, Int16 distance)
         {
+            if (!this.active)
+                return new Boolean[2] {false, false};
 
             Piece movingPiece = this.board.getPiece(v, h);
 
@@ -184,6 +190,7 @@ namespace Stratego
                 case Board.Event.Flag:
                     // place the piece
                     this.board.placePiece(movingPiece, destination[0], destination[1]);
+                    this.active = false;
                     return new Boolean[2] {true, true};
             }
 
@@ -191,6 +198,7 @@ namespace Stratego
             return new Boolean[2] { true, false };
         }
         
+        //Sets the current turn to the other player and if appropriate, increments the turncount
         private void swapTurn()
         {
             if (this.currentTeam == Piece.Team.red)
@@ -201,6 +209,9 @@ namespace Stratego
                 this.turnCount++;
             }
         }
+
+        //Converts the current game to a string and saves it as a text file.
+        //TODO: split method into a ToString method and a Save method
         public void saveFile(String fileName)
         {
             StreamWriter file = new StreamWriter(fileName);
@@ -234,6 +245,8 @@ namespace Stratego
             file.Close();
         }
 
+        //Reads a text file and implements its information into the current game.
+        //TODO: split method into a FromString method and a Load method
         public void loadFile(String fileName)
         {
             StreamReader file = null;
@@ -384,7 +397,6 @@ namespace Stratego
                 if (file != null)
                     file.Close();
             }
-        }
-        
+        }                
     }
 }

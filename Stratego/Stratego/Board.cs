@@ -32,6 +32,184 @@ namespace Stratego
             cells[5, 6].setTerrain(Cell.Terrain.Lake);
             cells[5, 7].setTerrain(Cell.Terrain.Lake);
         }
+
+        public static Board GetDefaultBoard()
+        {
+            Board b = new Board();
+
+            b.getCell(4, 2).setTerrain(Cell.Terrain.Lake);
+            b.getCell(4, 3).setTerrain(Cell.Terrain.Lake);
+            b.getCell(5, 2).setTerrain(Cell.Terrain.Lake);
+            b.getCell(5, 3).setTerrain(Cell.Terrain.Lake);
+            b.getCell(4, 6).setTerrain(Cell.Terrain.Lake);
+            b.getCell(4, 7).setTerrain(Cell.Terrain.Lake);
+            b.getCell(5, 6).setTerrain(Cell.Terrain.Lake);
+            b.getCell(5, 7).setTerrain(Cell.Terrain.Lake);
+
+            return b;
+        }
+
+        public static Board GetTestBoard()
+        {
+            Board b = Board.GetDefaultBoard();
+
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.scout), 7, 4);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.colonel), 7, 5);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.flag), 7, 6);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), 2, 5);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.colonel), 2, 4);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.flag), 2, 3);
+
+            return b;
+        }
+
+        public static Board FromString(String board)
+        {
+            Board temp = new Board();
+            String[] boardArray = board.Split('~');
+            int count = 0;
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    String square = boardArray[count];
+                    count++;
+
+                    if (square == "Land")
+                    {
+                        temp.getCell(i, j).setTerrain(Cell.Terrain.Land);
+                    }
+                    else if (square == "Lake")
+                    {
+                        temp.getCell(i, j).setTerrain(Cell.Terrain.Lake);
+                    }
+                    else if (square == "flag red")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.flag), i, j);
+                    }
+                    else if (square == "flag blue")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.flag), i, j);
+                    }
+                    else if (square == "spy red")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.spy), i, j);
+                    }
+                    else if (square == "spy blue")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.spy), i, j);
+                    }
+                    else if (square == "scout red")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), i, j);
+                    }
+                    else if (square == "scout blue")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.scout), i, j);
+                    }
+                    else if (square == "miner red")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.miner), i, j);
+                    }
+                    else if (square == "miner blue")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.miner), i, j);
+                    }
+                    else if (square == "sergeant red")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.sergeant), i, j);
+                    }
+                    else if (square == "sergeant blue")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.sergeant), i, j);
+                    }
+                    else if (square == "lieutenant red")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.lieutenant), i, j);
+                    }
+                    else if (square == "lieutenant blue")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.lieutenant), i, j);
+                    }
+                    else if (square == "captain red")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.captain), i, j);
+                    }
+                    else if (square == "captain blue")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.captain), i, j);
+                    }
+                    else if (square == "major red")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.major), i, j);
+                    }
+                    else if (square == "major blue")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.major), i, j);
+                    }
+                    else if (square == "colonel red")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.colonel), i, j);
+                    }
+                    else if (square == "colonel blue")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.colonel), i, j);
+                    }
+                    else if (square == "general red")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.general), i, j);
+                    }
+                    else if (square == "general blue")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.general), i, j);
+                    }
+                    else if (square == "marshal red")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.marshal), i, j);
+                    }
+                    else if (square == "marshal blue")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.marshal), i, j);
+                    }
+                    else if (square == "bomb red")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.bomb), i, j);
+                    }
+                    else if (square == "bomb blue")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.bomb), i, j);
+                    }
+                }
+            }
+
+            return temp;
+        }
+
+        public override String ToString()
+        {
+            String board = "";
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    if (this.getPiece(i, j) != null)
+                    {
+                        String team = this.getPiece(i, j).getTeam().ToString().Substring(0,1).ToUpper();
+                        String rank = ((int)this.getPiece(i,j).getRank()).ToString();
+
+                        if (rank.Equals("-1"))
+                            rank = "F";
+                        board = board + team + rank + "~";
+                    }
+                    else
+                    {
+                        board = board + this.getCell(i, j).getTerrain().ToString() + "~";
+                    }
+                }
+            }
+            return board;
+        }
+
         public Piece getPiece(int v, int h)
         {
             return cells[v, h].getPiece();

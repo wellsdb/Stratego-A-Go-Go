@@ -13,10 +13,15 @@ namespace WindowsFormsApplication1
         [STAThread]
         static void NotMain()
         {
+            //Application.EnableVisualStyles();
+            //Application.SetCompatibleTextRenderingDefault(false);
+            //Stratego.Game game = new Stratego.Game();
+            //Application.Run(new Stratego.View(game));
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Stratego.Game game = new Stratego.Game();
-            Application.Run(new Stratego.View(game));
+            Stratego.GameController controller = new Stratego.GameController();
+            //Application.Run(new Stratego.View(controller));
         }
     }
 }

@@ -48,6 +48,7 @@
     <Compile Include="StrategoTests\BoardTests.cs" />
     <Compile Include="StrategoTests\CellTest.cs" />
     <Compile Include="Network Tests\ClientTests.cs" />
+    <Compile Include="StrategoTests\GameControllerTests.cs" />
     <Compile Include="StrategoTests\GameTests.cs" />
     <Compile Include="Network Tests\NetworkControllerTests.cs" />
     <Compile Include="Network Tests\NetworkIntegrationTests.cs" />

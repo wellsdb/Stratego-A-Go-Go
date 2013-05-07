@@ -27,6 +27,7 @@ namespace Network
                 NetworkStream clientStream = client.GetStream();
                 clientStream.Write(buffer, 0, buffer.Length);
                 clientStream.Flush();
+                clientStream.Close();
 
                 return true;
             }
@@ -35,6 +36,9 @@ namespace Network
                 return false;
             }
         }
-
+        internal void SetRecipient(IPEndPoint recipient)
+        {
+            this.recipient = recipient;
+        }
     }
 }

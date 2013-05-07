@@ -7,7 +7,7 @@ using NUnit.Framework;
 using Rhino.Mocks;
 using Stratego;
 
-namespace Testing
+namespace Testing.StrategoTests
 {
     [TestFixture()]
     class GameTests
@@ -675,6 +675,22 @@ namespace Testing
             Assert.AreEqual(blue, target.getCurrentTurn());
         }
 
+        [Test()]
+        public void TestMoveToString()
+        {
+            short[] testMove = new short[4] { 1, 2, 1, 3 };
+            String expected = "1,2,1,3";
 
+            Assert.AreEqual(expected, Network.NetworkConverter.MoveToString(testMove[0], testMove[1], testMove[2], testMove[3]));
+        }
+
+        [Test()]
+        public void TestStringToMove()
+        {            
+            String testString = "3,7,5,7";
+            short[] expectedMove = new short[4] { 3, 7, 5, 7 };
+
+            Assert.AreEqual(expectedMove, Network.NetworkConverter.StringToMove(testString));
+        }
     }
 }
