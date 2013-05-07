@@ -1,7 +1,0 @@
-C:\Users\wellsdb\CSSE376\Project\Stratego-A-Go-Go\Stratego\Network\bin\Debug\Network.dll
-C:\Users\wellsdb\CSSE376\Project\Stratego-A-Go-Go\Stratego\Network\bin\Debug\Network.pdb
-C:\Users\wellsdb\CSSE376\Project\Stratego-A-Go-Go\Stratego\Network\bin\Debug\Stratego.dll
-C:\Users\wellsdb\CSSE376\Project\Stratego-A-Go-Go\Stratego\Network\bin\Debug\Stratego.pdb
-C:\Users\wellsdb\CSSE376\Project\Stratego-A-Go-Go\Stratego\Network\obj\Debug\Network.csprojResolveAssemblyReference.cache
-C:\Users\wellsdb\CSSE376\Project\Stratego-A-Go-Go\Stratego\Network\obj\Debug\Network.dll
-C:\Users\wellsdb\CSSE376\Project\Stratego-A-Go-Go\Stratego\Network\obj\Debug\Network.pdb

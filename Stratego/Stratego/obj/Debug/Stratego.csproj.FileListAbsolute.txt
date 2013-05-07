@@ -1,8 +1,0 @@
-C:\Users\wellsdb\CSSE376\Project\Stratego-A-Go-Go\Stratego\Stratego\bin\Debug\Stratego.dll
-C:\Users\wellsdb\CSSE376\Project\Stratego-A-Go-Go\Stratego\Stratego\bin\Debug\Stratego.pdb
-C:\Users\wellsdb\CSSE376\Project\Stratego-A-Go-Go\Stratego\Stratego\obj\Debug\Stratego.csprojResolveAssemblyReference.cache
-C:\Users\wellsdb\CSSE376\Project\Stratego-A-Go-Go\Stratego\Stratego\obj\Debug\Stratego.Properties.Resources.resources
-C:\Users\wellsdb\CSSE376\Project\Stratego-A-Go-Go\Stratego\Stratego\obj\Debug\Stratego.View.resources
-C:\Users\wellsdb\CSSE376\Project\Stratego-A-Go-Go\Stratego\Stratego\obj\Debug\Stratego.csproj.GenerateResource.Cache
-C:\Users\wellsdb\CSSE376\Project\Stratego-A-Go-Go\Stratego\Stratego\obj\Debug\Stratego.dll
-C:\Users\wellsdb\CSSE376\Project\Stratego-A-Go-Go\Stratego\Stratego\obj\Debug\Stratego.pdb
