@@ -15,9 +15,9 @@ namespace GUI
     /// </summary>
     public class GUIController
     {
-        public enum UserInput { Hotseat, CreateNetwork, JoinNetwork, Settings, Exit, Tile, Move, Save, Load };
+        public enum UserInput { Hotseat, CreateNetwork, JoinNetwork, Settings, Exit, Tile, Move, Save, Load, RussianMode };
         public enum DisplayMode { Console, Window };
-        private PassiveView view;
+        private View view;
         private ConsoleDisplay display;
         private Boolean hasUpdate;
         private UserInput ui;
@@ -47,7 +47,7 @@ namespace GUI
         public GUIController(DisplayMode mode)
         {
             this.mode = mode;
-
+            
             if (mode == DisplayMode.Console)
             {
                 this.display = new ConsoleDisplay(this);
@@ -59,7 +59,7 @@ namespace GUI
                 //v.Show();
                 //v.Visible = true;
                 //v.Activate();
-
+                this.view = new View(this);
                 Thread ShowViewThread = new Thread(new ThreadStart(ShowView));
                 ShowViewThread.Start();
 
@@ -71,7 +71,7 @@ namespace GUI
 
         private void ShowView()
         {
-            Application.Run(new View());
+            Application.Run(this.view);
         }
         
         /// <summary>
@@ -179,6 +179,10 @@ namespace GUI
                     case UserInput.Save:
                         break;
                     case UserInput.Load:
+                        break;
+                    case UserInput.RussianMode:
+                        //do something
+                        //tell it to repaint
                         break;
                     default:
                         throw new Exception("GUIController reseting bad input type.");
@@ -322,6 +326,18 @@ namespace GUI
             if (!this.hasUpdate)
             {
                 this.ui = UserInput.Load;
+                this.hasUpdate = true;
+            }
+        }
+
+        /// <summary>
+        /// Toggles RussianRevolutioMod
+        /// </summary>
+        public void RussianPress()
+        {
+            if (!this.hasUpdate)
+            {
+                this.ui = UserInput.RussianMode;
                 this.hasUpdate = true;
             }
         }

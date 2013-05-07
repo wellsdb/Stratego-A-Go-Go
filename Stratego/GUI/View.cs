@@ -18,6 +18,7 @@ namespace GUI
 
         public View()
         {
+            
         }
 
         public View(GUIController controller)

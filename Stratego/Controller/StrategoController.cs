@@ -43,17 +43,20 @@ namespace Controller
             //View v = new View();
             //v.Show();
             
-            
-            gui = new GUIController(GUIController.DisplayMode.Console);
-            //gui = new GUIController(GUIController.DisplayMode.Window);
+            ///
+            ///Switch which line is commented to switch between console and window mode
+            ///
+            //gui = new GUIController(GUIController.DisplayMode.Console);
+            gui = new GUIController(GUIController.DisplayMode.Window);
+
             game = new GameController();
             network = new NetworkController();
             
             //initialize components
 
             ////create threads
-            Thread StartGUIThread = new Thread(new ThreadStart(StartGUI));
-            StartGUIThread.Start();
+            //Thread StartGUIThread = new Thread(new ThreadStart(StartGUI));
+            //StartGUIThread.Start();
             
             Thread GUIThread = new Thread(new ThreadStart(MonitorGUI));
             Thread NetworkThread = new Thread(new ThreadStart(MonitorServer));
@@ -128,6 +131,9 @@ namespace Controller
                             break;
                         case GUI.GUIController.UserInput.Load:
                             this.LoadGame();
+                            break;
+                        case GUI.GUIController.UserInput.RussianMode:
+                            this.RussianToggle();
                             break;
                         default:
                             throw new Exception("A bad input was recieved from the GUI.");
@@ -271,6 +277,12 @@ namespace Controller
         private void Exit()
         {
             Environment.Exit(0);
+        }
+
+        private void RussianToggle()
+        {
+            //toggle russian mode
+            //this.gui.setRussianMode(true/false)
         }
 
         private void GameRecieved()
