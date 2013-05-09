@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Network;
 using System.Threading;
+using System.Drawing;
 
 namespace Stratego
 {
@@ -296,6 +297,11 @@ namespace Stratego
         {
             String board = this.networkController.RecieveString();
             this.game = new Game(Board.FromString(board));
+        }
+
+        public List<Point> GetAvailableMoves(Point originCoordinate)
+        {
+            return this.game.getBoard().GetAvailableMoves(originCoordinate);
         }
 
     }
