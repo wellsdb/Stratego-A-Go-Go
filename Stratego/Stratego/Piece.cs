@@ -61,7 +61,7 @@ namespace Stratego
             return team + rank;
         }
 
-        public static Combat Battle(Piece aggressor, Piece defender)
+        public static Combat Battle(Piece aggressor, Piece defender, Board.BattleMode mode)
         {
             Rank aggRank = aggressor.getRank();
             Rank defRank = defender.getRank();
@@ -82,12 +82,26 @@ namespace Stratego
             int aggVal = (int)aggRank;
             int defVal = (int)defRank;
 
-            if (aggVal > defVal)
-                return Combat.win;
-            else if (aggVal == defVal)
-                return Combat.tie;
+            if (mode == Board.BattleMode.Normal)
+            {
+                if (aggVal > defVal)
+                    return Combat.win;
+                else if (aggVal == defVal)
+                    return Combat.tie;
+                else
+                    return Combat.loss;
+            }
+            else if (mode == Board.BattleMode.Reverse)
+            {
+                if (aggVal > defVal)
+                    return Combat.loss;
+                else if (aggVal == defVal)
+                    return Combat.tie;
+                else
+                    return Combat.win;
+            }
             else
-                return Combat.loss;
+                throw new Exception("Piece.Battle recieved a bad battle mode.");
         }
     }
 }

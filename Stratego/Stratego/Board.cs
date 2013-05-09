@@ -11,6 +11,9 @@ namespace Stratego
     {
         public enum Direction { N, E, S, W };
         public enum Event { GoodMove, BadMove, Win, Loss, Tie, Flag };
+        public enum BattleMode { Normal, Reverse };
+
+        private BattleMode mode = BattleMode.Normal;
 
         Cell[,] cells = new Cell[10, 10];
 
@@ -212,6 +215,16 @@ namespace Stratego
             return board;
         }
 
+        public void setBattleMode(BattleMode mode)
+        {
+            this.mode = mode;
+        }
+
+        public BattleMode GetBattleMode()
+        {
+            return this.mode;
+        }
+
         public Piece getPiece(int v, int h)
         {
             return cells[v, h].getPiece();
@@ -307,7 +320,7 @@ namespace Stratego
 
             Piece currentPiece = cells[v, h].getPiece();
 
-            Piece.Combat battleResult = Piece.Battle(currentPiece, destPiece);
+            Piece.Combat battleResult = Piece.Battle(currentPiece, destPiece, this.mode);
 
             if (battleResult == Piece.Combat.win)
                 return Event.Win;

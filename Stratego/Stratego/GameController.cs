@@ -17,6 +17,7 @@ namespace Stratego
         private NetworkController networkController;
         private Int16[] currentSelection;
         private Piece.Team ownerPlayer;
+        private Board.BattleMode battleMode = Board.BattleMode.Normal;
 
         public GameController()
         {
@@ -302,6 +303,18 @@ namespace Stratego
         public List<Point> GetAvailableMoves(Point originCoordinate)
         {
             return this.game.getBoard().GetAvailableMoves(originCoordinate);
+        }
+
+        public void SetBattleMode(Board.BattleMode mode)
+        {
+            this.battleMode = mode;
+            if (this.game != null)
+                this.game.getBoard().setBattleMode(mode);
+        }
+
+        public Board.BattleMode GetBattleMode()
+        {
+            return this.battleMode;
         }
 
     }
