@@ -692,5 +692,7 @@ namespace Testing.StrategoTests
 
             Assert.AreEqual(expectedMove, Network.NetworkConverter.StringToMove(testString));
         }
+
+
     }
 }

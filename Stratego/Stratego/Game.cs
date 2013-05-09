@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Drawing;
 
 namespace Stratego
 {
@@ -114,7 +115,7 @@ namespace Stratego
             this.currentTeam = Piece.Team.red;
             this.active = true;
         }
-
+        
         //Attempts to perform a move and returns a Boolean array indicating the result.
         //If the move is not valid, then it is not performed and the array contains false.
         //If the move is valid, then it is performed, and the array contains true and another value.

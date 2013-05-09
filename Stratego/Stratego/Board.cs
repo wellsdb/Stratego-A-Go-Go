@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace Stratego
 {
@@ -19,18 +20,19 @@ namespace Stratego
             {
                 for (int k = 0; k < 10; k++)
                 {
-
                     cells[i, k] = new Cell();
                 }
             }
-            cells[4, 2].setTerrain(Cell.Terrain.Lake);
-            cells[4, 3].setTerrain(Cell.Terrain.Lake);
-            cells[5, 2].setTerrain(Cell.Terrain.Lake);
-            cells[5, 3].setTerrain(Cell.Terrain.Lake);
-            cells[4, 6].setTerrain(Cell.Terrain.Lake);
-            cells[4, 7].setTerrain(Cell.Terrain.Lake);
-            cells[5, 6].setTerrain(Cell.Terrain.Lake);
-            cells[5, 7].setTerrain(Cell.Terrain.Lake);
+
+            this.getCell(4, 2).setTerrain(Cell.Terrain.Lake);
+            this.getCell(4, 3).setTerrain(Cell.Terrain.Lake);
+            this.getCell(5, 2).setTerrain(Cell.Terrain.Lake);
+            this.getCell(5, 3).setTerrain(Cell.Terrain.Lake);
+            this.getCell(4, 6).setTerrain(Cell.Terrain.Lake);
+            this.getCell(4, 7).setTerrain(Cell.Terrain.Lake);
+            this.getCell(5, 6).setTerrain(Cell.Terrain.Lake);
+            this.getCell(5, 7).setTerrain(Cell.Terrain.Lake);
+
         }
 
         public static Board GetDefaultBoard()
@@ -339,6 +341,108 @@ namespace Stratego
             int[] coords = {destinationV, destinationH};
 
             return coords;
+        }
+
+
+        /// <summary>
+        /// Gets a list of squares that the piece on the given square can move to.
+        /// </summary>
+        /// <param name="originCoordinates">The coordinates of the starting square</param>
+        /// <returns>An array of all available moves. If there are none, will contain (-1,-1)</returns>
+        public List<Point> GetAvailableMoves(Point originCoordinates)
+        {
+            List<Point> moves = new List<Point>();
+            Point noMoves = new Point(-1, -1);
+            
+            short v = (short)originCoordinates.Y;
+            short h = (short)originCoordinates.X;
+            Piece p = this.getCell(v, h).getPiece();
+
+            if (p == null)
+                moves.Add(noMoves);
+            else
+            {
+                Piece.Rank r = p.getRank();
+                switch (r)
+                {
+                    case Piece.Rank.flag:
+                        moves.Add(noMoves);
+                        break;
+                    case Piece.Rank.bomb:
+                        moves.Add(noMoves);
+                        break;
+                    case Piece.Rank.scout:
+                        //scout check
+                        //N
+                        int d = 1;
+                        Boolean keepChecking = true;
+                        while (keepChecking)
+                        {
+                            keepChecking = this.isMoveValid(v, h, Direction.N, d);
+                            if (keepChecking)
+                                moves.Add(new Point(h, v + d));
+                            d++;
+                        }                        
+                        //E
+                        d = 1;
+                        keepChecking = true;
+                        while (keepChecking)
+                        {
+                            keepChecking = this.isMoveValid(v, h, Direction.E, d);
+                            if (keepChecking)
+                                moves.Add(new Point(h + d, v));
+                            d++;
+                        }
+                        //S
+                        d = 1;
+                        keepChecking = true;
+                        while (keepChecking)
+                        {
+                            keepChecking = this.isMoveValid(v, h, Direction.S, d);
+                            if (keepChecking)
+                                moves.Add(new Point(h, v - d));
+                            d++;
+                        }
+                        //W
+                        d = 1;
+                        keepChecking = true;
+                        while (keepChecking)
+                        {
+                            keepChecking = this.isMoveValid(v, h, Direction.W, d);
+                            if (keepChecking)
+                                moves.Add(new Point(h - d, v));
+                            d++;
+                        }
+                        break;
+                    default:
+                        //normal check
+                        Boolean anyMoves = false;
+                        if (this.isMoveValid(v, h, Direction.N, 1))
+                        {
+                            moves.Add(new Point(h, v + 1));
+                            anyMoves = true;
+                        }
+                        if (this.isMoveValid(v, h, Direction.E, 1))
+                        {
+                            moves.Add(new Point(h + 1, v));
+                            anyMoves = true;
+                        }
+                        if (this.isMoveValid(v, h, Direction.S, 1))
+                        {
+                            moves.Add(new Point(h, v - 1));
+                            anyMoves = true;
+                        }
+                        if (this.isMoveValid(v, h, Direction.W, 1))
+                        {
+                            moves.Add(new Point(h - 1, v));
+                            anyMoves = true;
+                        }
+                        if (!anyMoves)
+                            moves.Add(noMoves);
+                        break;
+                }
+            }
+            return moves;
         }
 
     }

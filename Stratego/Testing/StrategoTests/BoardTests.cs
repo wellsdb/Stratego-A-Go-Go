@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Stratego;
+using System.Drawing;
 
 namespace Testing.StrategoTests
 {
@@ -929,6 +930,119 @@ namespace Testing.StrategoTests
             String board2 = b2.ToString();
 
             Assert.AreEqual(board1, board2);
+        }
+
+        private static Piece RedNotScout = new Piece(Piece.Team.red, Piece.Rank.lieutenant);
+        private static Piece RedScout = new Piece(Piece.Team.red, Piece.Rank.scout);
+        private static Piece RedBomb = new Piece(Piece.Team.red, Piece.Rank.bomb);
+        private static Piece RedFlag = new Piece(Piece.Team.red, Piece.Rank.flag);
+        private static Piece BlueNotScout = new Piece(Piece.Team.blue, Piece.Rank.lieutenant);
+        private static Piece BlueScout = new Piece(Piece.Team.blue, Piece.Rank.scout);
+        private static Piece BlueBomb = new Piece(Piece.Team.blue, Piece.Rank.bomb);
+        private static Piece BlueFlag = new Piece(Piece.Team.blue, Piece.Rank.flag);
+
+        [Test()]
+        public void TestGetAvailableMovesNormalForPositives()
+        {
+            Board b = new Board();
+            b.placePiece(RedNotScout, 8, 2);
+            b.placePiece(BlueNotScout, 2, 5);
+
+            b.placePiece(BlueNotScout, 9, 2);
+            b.placePiece(BlueScout, 8, 3);
+
+            b.placePiece(RedFlag, 1, 5);
+            b.placePiece(RedBomb, 2, 4);
+
+            Point[] points1 = new Point[] { new Point(2, 9), new Point(3, 8), new Point(2, 7), new Point(1, 8) };
+            Point[] points2 = new Point[] { new Point(5, 3), new Point(6, 2), new Point(5, 1), new Point(4, 2) };
+
+            List<Point> test1 = new List<Point>(points1);
+            List<Point> test2 = new List<Point>(points2);
+
+            Assert.AreEqual(test1, b.GetAvailableMoves(new Point(2, 8)));
+            Assert.AreEqual(test2, b.GetAvailableMoves(new Point(5, 2)));            
+        }
+
+        [Test()]
+        public void TestGetAvailableMovesNormalForNegatives()
+        {
+            Board b = new Board();
+            b.placePiece(RedNotScout, 8, 2);
+            b.placePiece(BlueNotScout, 2, 5);
+
+            b.placePiece(RedNotScout, 9, 2);
+            b.placePiece(RedScout, 8, 3);
+            b.placePiece(RedFlag, 7, 2);
+            b.placePiece(RedBomb, 8, 1);
+
+            b.placePiece(BlueNotScout, 3, 5);
+            b.placePiece(BlueScout, 2, 6);
+            b.placePiece(BlueFlag, 1, 5);
+            b.placePiece(BlueBomb, 2, 4);
+
+            Point[] points = new Point[] { new Point(-1, -1) };
+            List<Point> test = new List<Point>(points);
+
+            Assert.AreEqual(test, b.GetAvailableMoves(new Point(2, 8)));
+            Assert.AreEqual(test, b.GetAvailableMoves(new Point(5, 2)));  
+
+        }
+
+        [Test()]
+        public void TestGetAvailableMovesScoutForPositives()
+        {
+            Board b = new Board();
+            b.placePiece(RedScout, 8, 2);
+            b.placePiece(BlueScout, 2, 5);
+
+            Point[] points1 = new Point[] { new Point(2, 9), new Point(3, 8), new Point(4, 8), new Point(5, 8), new Point(6, 8), new Point(7, 8), new Point(8, 8), new Point(9, 8), new Point(2, 7), new Point(2, 6), new Point(1, 8), new Point(0, 8) };
+            Point[] points2 = new Point[] { new Point(5, 3), new Point(5, 4), new Point(5, 5), new Point(5, 6), new Point(5, 7), new Point(5, 8), new Point(5, 9), new Point(6, 2), new Point(7, 2), new Point(8, 2), new Point(9, 2), new Point(5, 1), new Point(5, 0), new Point(4, 2), new Point(3, 2), new Point(2, 2), new Point(1, 2), new Point(0, 2) };
+            
+            List<Point> test1 = new List<Point>(points1);
+            List<Point> test2 = new List<Point>(points2);
+
+            Assert.AreEqual(test1, b.GetAvailableMoves(new Point(2, 8)));
+            Assert.AreEqual(test2, b.GetAvailableMoves(new Point(5, 2)));
+
+        }
+
+        [Test()]
+        public void TestGetAvailableMovesScoutForNegatives()
+        {
+            Board b = new Board();
+            b.placePiece(RedScout, 8, 2);
+            b.placePiece(BlueScout, 2, 5);
+
+            b.placePiece(RedNotScout, 9, 2);
+            b.placePiece(RedScout, 8, 6);
+
+            b.placePiece(BlueFlag, 0, 5);
+            b.placePiece(BlueBomb, 2, 1);
+
+            Point[] points1 = new Point[] { new Point(3, 8), new Point(4, 8), new Point(5, 8), new Point(2, 7), new Point(2, 6), new Point(1, 8), new Point(0, 8) };
+            Point[] points2 = new Point[] { new Point(5, 3), new Point(5, 4), new Point(5, 5), new Point(5, 6), new Point(5, 7), new Point(5, 8), new Point(5, 9), new Point(6, 2), new Point(7, 2), new Point(8, 2), new Point(9, 2), new Point(5, 1), new Point(4, 2), new Point(3, 2), new Point(2, 2) };
+
+            List<Point> test1 = new List<Point>(points1);
+            List<Point> test2 = new List<Point>(points2);
+
+            Assert.AreEqual(test1, b.GetAvailableMoves(new Point(2, 8)));
+            Assert.AreEqual(test2, b.GetAvailableMoves(new Point(5, 2)));
+
+        }
+
+        [Test()]
+        public void TestGetAvailableMovesForFlagAndBomb()
+        {
+            Board b = new Board();
+            b.placePiece(RedFlag, 8, 2);
+            b.placePiece(BlueBomb, 2, 5);
+
+            Point[] points = new Point[] { new Point(-1, -1) };            
+            List<Point> test = new List<Point>(points);
+                        
+            Assert.AreEqual(test, b.GetAvailableMoves(new Point(2, 8)));
+            Assert.AreEqual(test, b.GetAvailableMoves(new Point(5, 2)));
         }
 
     }
