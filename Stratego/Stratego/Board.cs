@@ -237,18 +237,19 @@ namespace Stratego
         {
             cells[v, h].setPiece(p);
         }
-        public bool isMoveValid(int v, int h, Direction dir, int dist)
+
+        public bool isMoveValid(int x, int y, Direction dir, int dist)
         {
-            Piece p = cells[v,h].getPiece();
+            Piece p = cells[y,x].getPiece();
 
             if (p == null)
                 throw new ArgumentOutOfRangeException("The space being moved from must have a piece in it!");
 
             //edge of the board checks
-            if (dir == Direction.N && v + dist > 9) return false;
-            if (dir == Direction.E && h + dist > 9) return false;
-            if (dir == Direction.S && v - dist < 0) return false;
-            if (dir == Direction.W && h - dist < 0) return false;
+            if (dir == Direction.N && y + dist > 9) return false;
+            if (dir == Direction.E && x + dist > 9) return false;
+            if (dir == Direction.S && y - dist < 0) return false;
+            if (dir == Direction.W && x - dist < 0) return false;
 
             //rank checks
             if (p.getRank() == Piece.Rank.flag) return false;
@@ -258,10 +259,10 @@ namespace Stratego
             //lake checks
             for (int i = 0; i <= dist; i++)
             {
-                if (dir == Direction.N && cells[v + i, h].getTerrain() == Cell.Terrain.Lake) return false;
-                if (dir == Direction.S && cells[v - i, h].getTerrain() == Cell.Terrain.Lake) return false;
-                if (dir == Direction.E && cells[v, h + i].getTerrain() == Cell.Terrain.Lake) return false;
-                if (dir == Direction.W && cells[v, h - i].getTerrain() == Cell.Terrain.Lake) return false;
+                if (dir == Direction.N && cells[y + i, x].getTerrain() == Cell.Terrain.Lake) return false;
+                if (dir == Direction.S && cells[y - i, x].getTerrain() == Cell.Terrain.Lake) return false;
+                if (dir == Direction.E && cells[y, x + i].getTerrain() == Cell.Terrain.Lake) return false;
+                if (dir == Direction.W && cells[y, x - i].getTerrain() == Cell.Terrain.Lake) return false;
             }
 
             //piece in the middle of the move checks
@@ -270,31 +271,31 @@ namespace Stratego
                 if (dir == Direction.N)
                 {
                     for (int i = 1; i < dist; i++)
-                       if (cells[v + i, h].getPiece() != null)
+                       if (cells[y + i, x].getPiece() != null)
                            return false;
                 }
                 if (dir == Direction.S)
                 {
                     for (int i = 1; i < dist; i++)
-                       if (cells[v - i, h].getPiece() != null)
+                       if (cells[y - i, x].getPiece() != null)
                            return false;
                 }
                 if (dir == Direction.E)
                 {
                     for (int i = 1; i < dist; i++)
-                       if (cells[v, h + i].getPiece() != null)
+                       if (cells[y, x + i].getPiece() != null)
                            return false;
                 }
                 if (dir == Direction.W)
                 {
                     for (int i = 1; i < dist; i++)
-                       if (cells[v, h - i].getPiece() != null)
+                       if (cells[y, x - i].getPiece() != null)
                            return false;
                 }
             }
 
             //moving onto an ally checks
-            int[] dest = Board.DestinationCalc(v, h, dir, dist);
+            int[] dest = Board.DestinationCalc(y, x, dir, dist);
 
             Piece destinationP = cells[dest[0], dest[1]].getPiece();
             if (destinationP != null)
@@ -304,12 +305,12 @@ namespace Stratego
             return true;
         }
 
-        public Event moveEvent(int v, int h, Direction dir, int dist)
+        public Event moveEvent(int y, int x, Direction dir, int dist)
         {
-            if (!this.isMoveValid(v,h,dir,dist))
+            if (!this.isMoveValid(x, y, dir, dist))
                 return Event.BadMove;
 
-            int[] dest = Board.DestinationCalc(v, h, dir, dist);
+            int[] dest = Board.DestinationCalc(y, x, dir, dist);
             Piece destPiece = cells[dest[0], dest[1]].getPiece();
 
             if (destPiece == null)
@@ -318,7 +319,7 @@ namespace Stratego
             if (destPiece.getRank() == Piece.Rank.flag)
                 return Event.Flag;
 
-            Piece currentPiece = cells[v, h].getPiece();
+            Piece currentPiece = cells[y, x].getPiece();
 
             Piece.Combat battleResult = Piece.Battle(currentPiece, destPiece, this.mode);
 
@@ -391,7 +392,7 @@ namespace Stratego
                         Boolean keepChecking = true;
                         while (keepChecking)
                         {
-                            keepChecking = this.isMoveValid(v, h, Direction.N, d);
+                            keepChecking = this.isMoveValid(h, v, Direction.N, d);
                             if (keepChecking)
                                 moves.Add(new Point(h, v + d));
                             d++;
@@ -401,7 +402,7 @@ namespace Stratego
                         keepChecking = true;
                         while (keepChecking)
                         {
-                            keepChecking = this.isMoveValid(v, h, Direction.E, d);
+                            keepChecking = this.isMoveValid(h, v, Direction.E, d);
                             if (keepChecking)
                                 moves.Add(new Point(h + d, v));
                             d++;
@@ -411,7 +412,7 @@ namespace Stratego
                         keepChecking = true;
                         while (keepChecking)
                         {
-                            keepChecking = this.isMoveValid(v, h, Direction.S, d);
+                            keepChecking = this.isMoveValid(h, v, Direction.S, d);
                             if (keepChecking)
                                 moves.Add(new Point(h, v - d));
                             d++;
@@ -421,7 +422,7 @@ namespace Stratego
                         keepChecking = true;
                         while (keepChecking)
                         {
-                            keepChecking = this.isMoveValid(v, h, Direction.W, d);
+                            keepChecking = this.isMoveValid(h, v, Direction.W, d);
                             if (keepChecking)
                                 moves.Add(new Point(h - d, v));
                             d++;
@@ -430,22 +431,22 @@ namespace Stratego
                     default:
                         //normal check
                         Boolean anyMoves = false;
-                        if (this.isMoveValid(v, h, Direction.N, 1))
+                        if (this.isMoveValid(h, v, Direction.N, 1))
                         {
                             moves.Add(new Point(h, v + 1));
                             anyMoves = true;
                         }
-                        if (this.isMoveValid(v, h, Direction.E, 1))
+                        if (this.isMoveValid(h, v, Direction.E, 1))
                         {
                             moves.Add(new Point(h + 1, v));
                             anyMoves = true;
                         }
-                        if (this.isMoveValid(v, h, Direction.S, 1))
+                        if (this.isMoveValid(h, v, Direction.S, 1))
                         {
                             moves.Add(new Point(h, v - 1));
                             anyMoves = true;
                         }
-                        if (this.isMoveValid(v, h, Direction.W, 1))
+                        if (this.isMoveValid(h, v, Direction.W, 1))
                         {
                             moves.Add(new Point(h - 1, v));
                             anyMoves = true;

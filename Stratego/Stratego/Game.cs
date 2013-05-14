@@ -152,7 +152,7 @@ namespace Stratego
                 return new Boolean[2] {false, false};
 
             // check if move is valid
-            Boolean valid = this.board.isMoveValid(v, h, direction, distance);
+            Boolean valid = this.board.isMoveValid(h, v, direction, distance);
 
             //if move is invalid, return false
             if (!valid)
