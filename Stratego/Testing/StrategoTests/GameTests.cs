@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using Rhino.Mocks;
 using Stratego;
 
 namespace Testing.StrategoTests
@@ -694,6 +693,21 @@ namespace Testing.StrategoTests
             Assert.AreEqual(expectedMove, Network.NetworkConverter.StringToMove(testString));
         }
 
+        [Test()]
+        public void TestSavingAndLoading()
+        {
+            GameController board = new GameController();
+            board.StartHotseatGame();
+
+            String save = board.GetGame().toString();
+
+            Game test = new Game();
+
+            test.fromString(save);
+
+            Assert.AreEqual(save, test.toString());
+            Assert.AreNotSame(board.GetGame(), test);
+        }
 
     }
 }

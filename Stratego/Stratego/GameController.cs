@@ -22,6 +22,7 @@ namespace Stratego
         public GameController()
         {
             this.networkController = new NetworkController();
+            this.game = new Game();
         }
 
 
