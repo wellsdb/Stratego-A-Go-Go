@@ -17,7 +17,7 @@ namespace Stratego
         private Player playerTwo;
         private Int16 turnCount;
         private Piece.Team currentTeam;
-        //private Int16[] currentSelection;
+        private short[] currentSelection;
         private Boolean active;
 
         //Creates a Game with default values
@@ -40,6 +40,21 @@ namespace Stratego
             this.turnCount = 0;
             this.currentTeam = Piece.Team.none;
             this.active = false;
+        }
+
+        public short[] getCurrentSelection()
+        {
+            return this.currentSelection;
+        }
+
+        public void setCurrentSelection(short[] selected)
+        {
+            this.currentSelection = selected;
+        }
+
+        public void clearCurrentSelection()
+        {
+            this.currentSelection = null;
         }
 
         //Gets this Game's board
@@ -211,6 +226,40 @@ namespace Stratego
             }
         }
 
+
+
+        public String toString()
+        {
+            String ret = "";
+
+            ret += this.getTurnCount() + " ";
+            ret += this.getCurrentTurn().ToString() + " ";
+
+            //Player One info
+            ret += this.getPlayerName(1) + " ";
+            //Player Two info
+            ret+= this.getPlayerName(2) + " ";
+            //Board info
+            Board board = this.getBoard();
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    if (board.getPiece(i, j) != null)
+                    {
+                        ret+= board.getPiece(i, j).getRank().ToString() + board.getPiece(i, j).getTeam().ToString();
+                    }
+                    else
+                    {
+                        ret += board.getCell(i, j).getTerrain().ToString();
+                    }
+                    ret += " ";
+                }
+
+            }
+            Console.WriteLine(ret);
+            return ret;
+        }
         //Converts the current game to a string and saves it as a text file.
         //TODO: split method into a ToString method and a Save method
         public void saveFile(String fileName)
@@ -244,6 +293,154 @@ namespace Stratego
             }
 
             file.Close();
+        }
+
+        public void fromString(String load)
+        {
+            short index = 0;
+            String[] loaded = load.Split();
+
+            this.setTurnCount(short.Parse(loaded[index]));
+            index++;
+            String current = loaded[index];
+            index++;
+            if (current == "red")
+            {
+                this.setCurrentTurn(Piece.Team.red);
+            }
+            else if (current == "blue")
+            {
+                this.setCurrentTurn(Piece.Team.blue);
+            }
+            else
+            {
+                this.setCurrentTurn(Piece.Team.none);
+            }
+
+            this.setPlayerName(1, loaded[index]);
+            index++;
+            this.setPlayerName(2, loaded[index]);
+            index++;
+
+            Board temp = new Board();
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    String square = loaded[index];
+                    index++;
+
+                    if (square == "Land")
+                    {
+                        temp.getCell(i, j).setTerrain(Cell.Terrain.Land);
+                    }
+                    else if (square == "Lake")
+                    {
+                        temp.getCell(i, j).setTerrain(Cell.Terrain.Lake);
+                    }
+                    else if (square == "flagred")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.flag), i, j);
+                    }
+                    else if (square == "flagblue")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.flag), i, j);
+                    }
+                    else if (square == "spyred")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.spy), i, j);
+                    }
+                    else if (square == "spyblue")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.spy), i, j);
+                    }
+                    else if (square == "scoutred")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), i, j);
+                    }
+                    else if (square == "scoutblue")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.scout), i, j);
+                    }
+                    else if (square == "minerred")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.miner), i, j);
+                    }
+                    else if (square == "minerblue")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.miner), i, j);
+                    }
+                    else if (square == "sergeantred")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.sergeant), i, j);
+                    }
+                    else if (square == "sergeantblue")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.sergeant), i, j);
+                    }
+                    else if (square == "lieutenantred")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.lieutenant), i, j);
+                    }
+                    else if (square == "lieutenantblue")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.lieutenant), i, j);
+                    }
+                    else if (square == "captainred")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.captain), i, j);
+                    }
+                    else if (square == "captainblue")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.captain), i, j);
+                    }
+                    else if (square == "majorred")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.major), i, j);
+                    }
+                    else if (square == "majorblue")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.major), i, j);
+                    }
+                    else if (square == "colonelred")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.colonel), i, j);
+                    }
+                    else if (square == "colonelblue")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.colonel), i, j);
+                    }
+                    else if (square == "generalred")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.general), i, j);
+                    }
+                    else if (square == "generalblue")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.general), i, j);
+                    }
+                    else if (square == "marshalred")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.marshal), i, j);
+                    }
+                    else if (square == "marshalblue")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.marshal), i, j);
+                    }
+                    else if (square == "bombred")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.bomb), i, j);
+                    }
+                    else if (square == "bombblue")
+                    {
+                        temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.bomb), i, j);
+                    }
+                }
+            }
+
+            this.setBoard(temp);
+
+
+
         }
 
         //Reads a text file and implements its information into the current game.

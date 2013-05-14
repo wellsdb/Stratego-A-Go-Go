@@ -117,4 +117,74 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="activatedwidebutton" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\activatedwidebutton.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="black" xml:space="preserve">
+    <value>Turno de negro</value>
+  </data>
+  <data name="blackwin" xml:space="preserve">
+    <value>Negro gana!</value>
+  </data>
+  <data name="blue" xml:space="preserve">
+    <value>Turno de Azul</value>
+  </data>
+  <data name="bluewin" xml:space="preserve">
+    <value>Azul gana!</value>
+  </data>
+  <data name="cantmove" xml:space="preserve">
+    <value>No puedes mover allí!</value>
+  </data>
+  <data name="colorblind" xml:space="preserve">
+    <value>Modo Daltónico</value>
+  </data>
+  <data name="create" xml:space="preserve">
+    <value>Crea un juego</value>
+  </data>
+  <data name="easy" xml:space="preserve">
+    <value>Modo Fácil</value>
+  </data>
+  <data name="exit" xml:space="preserve">
+    <value>Salida</value>
+  </data>
+  <data name="hotseat" xml:space="preserve">
+    <value>Modo de Hotseat</value>
+  </data>
+  <data name="join" xml:space="preserve">
+    <value>Se une un juego</value>
+  </data>
+  <data name="menu" xml:space="preserve">
+    <value>Menú</value>
+  </data>
+  <data name="network" xml:space="preserve">
+    <value>Modo de Red</value>
+  </data>
+  <data name="red" xml:space="preserve">
+    <value>Turno de Rojo</value>
+  </data>
+  <data name="redwin" xml:space="preserve">
+    <value>Rojo gana!</value>
+  </data>
+  <data name="russian" xml:space="preserve">
+    <value>Modo Ruso</value>
+  </data>
+  <data name="settings" xml:space="preserve">
+    <value>Configuración</value>
+  </data>
+  <data name="smallbutton" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\smallbutton.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="spanish" xml:space="preserve">
+    <value>Language: English</value>
+  </data>
+  <data name="white" xml:space="preserve">
+    <value>Turno de blanco</value>
+  </data>
+  <data name="whitewin" xml:space="preserve">
+    <value>Blanco gana!</value>
+  </data>
+  <data name="widebutton" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\resources\widebutton.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

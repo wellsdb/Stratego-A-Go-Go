@@ -15,7 +15,7 @@ namespace GUI
     /// </summary>
     public class GUIController
     {
-        public enum UserInput { Hotseat, CreateNetwork, JoinNetwork, Settings, Exit, Tile, Move, Save, Load, RussianMode };
+        public enum UserInput { Hotseat, CreateNetwork, JoinNetwork, Settings, Exit, Tile, Move, Save, Load, RussianMode, Editor, Colorblind, Easy, SpanishLanguage };
         public enum DisplayMode { Console, Window };
         private View view;
         private ConsoleDisplay display;
@@ -26,7 +26,8 @@ namespace GUI
         private DisplayMode mode;
         private String player;
         private Boolean attempt;
-        private String board;
+        private Stratego.Game game;
+        private Stratego.Board board;
         private Boolean gameOver;
         //private Boolean toBeUpdated = false;
 
@@ -44,7 +45,7 @@ namespace GUI
         /// or console). Currently only supports console.
         /// </summary>
         /// <param name="mode"></param>
-        public GUIController(DisplayMode mode)
+        public GUIController(DisplayMode mode, Stratego.Game game)
         {
             this.mode = mode;
             
@@ -59,6 +60,8 @@ namespace GUI
                 //v.Show();
                 //v.Visible = true;
                 //v.Activate();
+                this.game = game;
+                this.board = game.getBoard();
                 this.view = new View(this);
                 Thread ShowViewThread = new Thread(new ThreadStart(ShowView));
                 ShowViewThread.Start();
@@ -80,12 +83,21 @@ namespace GUI
         /// </summary>
         public void Update()
         {
-            this.display.UpdateBoard(this.board);
             if (this.gameOver)
                   this.display.GameOver(this.player);
              else
                  this.display.UpdatePlayer(this.player);            
             this.display.Prompt();
+        }
+
+        public Stratego.Game GetGame()
+        {
+            return this.game;
+        }
+
+        public Stratego.Board getBoard()
+        {
+            return this.board;
         }
 
         /// <summary>
@@ -103,7 +115,7 @@ namespace GUI
         /// <param name="board">String representation of board to be displayed</param>
         public void SetBoard(String board)
         {
-            this.board = board;
+            this.board = Stratego.Board.FromString(board);
         }
         
         /// <summary>
@@ -146,15 +158,15 @@ namespace GUI
                 switch (this.ui)
                 {
                     case UserInput.Hotseat:
-                        this.display.UpdateBoard(this.board);
+                        //this.display.UpdateBoard(this.board);
                         this.display.UpdatePlayer(this.player);
                         break;
                     case UserInput.CreateNetwork:
-                        this.display.UpdateBoard(this.board);
+                     //   this.display.UpdateBoard(this.board);
                         this.display.UpdatePlayer(this.player);
                         break;
                     case UserInput.JoinNetwork:
-                        this.display.UpdateBoard(this.board);
+                      //  this.display.UpdateBoard(this.board);
                         this.display.UpdatePlayer(this.player);
                         break;
                     case UserInput.Settings:
@@ -166,7 +178,7 @@ namespace GUI
                     case UserInput.Move:
                         if (this.attempt)
                         {
-                            this.display.UpdateBoard(this.board);
+                    //        this.display.UpdateBoard(this.board);
                             if (this.gameOver)
                                 this.display.GameOver(this.player);
                             else
@@ -183,6 +195,20 @@ namespace GUI
                     case UserInput.RussianMode:
                         //do something
                         //tell it to repaint
+                        break;
+                    
+                    case UserInput.Editor:
+
+                        break;
+
+                    case UserInput.Colorblind:
+
+                        break;
+                    case UserInput.Easy:
+
+                        break;
+                    case UserInput.SpanishLanguage:
+
                         break;
                     default:
                         throw new Exception("GUIController reseting bad input type.");

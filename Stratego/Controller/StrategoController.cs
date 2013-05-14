@@ -47,9 +47,10 @@ namespace Controller
             ///Switch which line is commented to switch between console and window mode
             ///
             //gui = new GUIController(GUIController.DisplayMode.Console);
-            gui = new GUIController(GUIController.DisplayMode.Window);
 
             game = new GameController();
+            game.StartHotseatGame();
+            gui = new GUIController(GUIController.DisplayMode.Window, game.GetGame());
             network = new NetworkController();
             
             //initialize components
