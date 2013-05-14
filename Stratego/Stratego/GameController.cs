@@ -110,12 +110,12 @@ namespace Stratego
 
         public void setCurrentSelection(Int16 v, Int16 h)
         {
-            if (this.gameType == GameType.Hotseat | this.game.getCurrentTurn() == this.ownerPlayer)
-            {
+            //if (this.gameType == GameType.Hotseat | this.game.getCurrentTurn() == this.ownerPlayer)
+            //{
                 this.currentSelection = new Int16[2];
                 currentSelection[0] = v;
                 currentSelection[1] = h;
-            }
+            //}
         }
 
         //public Boolean[] PerformOtherMove(short[] move)

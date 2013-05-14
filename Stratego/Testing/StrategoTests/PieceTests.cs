@@ -229,14 +229,23 @@ namespace Testing.StrategoTests
             Piece def7 = new Piece(Piece.Team.red, Piece.Rank.colonel);
             Piece def8 = new Piece(Piece.Team.red, Piece.Rank.general);
 
-            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg1, def1));
-            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg2, def2));
-            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg3, def3));
-            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg4, def4));
-            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg5, def5));
-            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg6, def6));
-            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg7, def7));
-            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg8, def8));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg1, def1, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg2, def2, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg3, def3, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg4, def4, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg5, def5, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg6, def6, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg7, def7, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg8, def8, Board.BattleMode.Normal));
+
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg1, def1, Board.BattleMode.Reverse));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg2, def2, Board.BattleMode.Reverse));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg3, def3, Board.BattleMode.Reverse));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg4, def4, Board.BattleMode.Reverse));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg5, def5, Board.BattleMode.Reverse));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg6, def6, Board.BattleMode.Reverse));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg7, def7, Board.BattleMode.Reverse));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg8, def8, Board.BattleMode.Reverse));
 
         }
 
@@ -261,14 +270,23 @@ namespace Testing.StrategoTests
             Piece agg7 = new Piece(Piece.Team.red, Piece.Rank.colonel);
             Piece agg8 = new Piece(Piece.Team.red, Piece.Rank.general);
 
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg1, def1));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg2, def2));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg3, def3));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg4, def4));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg5, def5));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg6, def6));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg7, def7));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg8, def8));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg1, def1, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg2, def2, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg3, def3, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg4, def4, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg5, def5, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg6, def6, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg7, def7, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(agg8, def8, Board.BattleMode.Normal));
+
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg1, def1, Board.BattleMode.Reverse));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg2, def2, Board.BattleMode.Reverse));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg3, def3, Board.BattleMode.Reverse));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg4, def4, Board.BattleMode.Reverse));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg5, def5, Board.BattleMode.Reverse));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg6, def6, Board.BattleMode.Reverse));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg7, def7, Board.BattleMode.Reverse));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg8, def8, Board.BattleMode.Reverse));
         }
 
         [Test()]
@@ -285,16 +303,16 @@ namespace Testing.StrategoTests
             Piece agg8 = new Piece(Piece.Team.red, Piece.Rank.general);
             Piece agg9 = new Piece(Piece.Team.red, Piece.Rank.marshal);
 
-            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg0, agg0));
-            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg1, agg1));
-            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg2, agg2));
-            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg3, agg3));
-            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg4, agg4));
-            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg5, agg5));
-            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg6, agg6));
-            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg7, agg7));
-            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg8, agg8));
-            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg9, agg9));
+            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg0, agg0, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg1, agg1, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg2, agg2, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg3, agg3, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg4, agg4, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg5, agg5, Board.BattleMode.Reverse));
+            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg6, agg6, Board.BattleMode.Reverse));
+            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg7, agg7, Board.BattleMode.Reverse));
+            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg8, agg8, Board.BattleMode.Reverse));
+            Assert.AreEqual(Piece.Combat.tie, Piece.Battle(agg9, agg9, Board.BattleMode.Reverse));
         }
 
         [Test()]
@@ -311,13 +329,13 @@ namespace Testing.StrategoTests
             Piece agg2 = new Piece(Piece.Team.red, Piece.Rank.major);
             Piece agg3 = new Piece(Piece.Team.red, Piece.Rank.colonel);
 
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueSpy, def1));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueSpy, def2));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueSpy, def3));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueSpy, def1, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueSpy, def2, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueSpy, def3, Board.BattleMode.Normal));
 
-            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg1, redSpy));
-            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg2, redSpy));
-            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg3, redSpy));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg1, redSpy, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg2, redSpy, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(agg3, redSpy, Board.BattleMode.Normal));
         }
 
         [Test()]
@@ -328,10 +346,10 @@ namespace Testing.StrategoTests
             Piece blueMarshal = new Piece(Piece.Team.blue, Piece.Rank.marshal);
             Piece redMarshal = new Piece(Piece.Team.red, Piece.Rank.marshal);
 
-            Assert.AreEqual(Piece.Combat.win, Piece.Battle(blueSpy, redMarshal));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueMarshal, redSpy));
-            Assert.AreEqual(Piece.Combat.win, Piece.Battle(redSpy, blueMarshal));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redMarshal, blueSpy));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(blueSpy, redMarshal, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueMarshal, redSpy, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(redSpy, blueMarshal, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redMarshal, blueSpy, Board.BattleMode.Normal));
         }
 
         [Test()]
@@ -360,25 +378,25 @@ namespace Testing.StrategoTests
             Piece blueAgg8 = new Piece(Piece.Team.blue, Piece.Rank.general);
             Piece blueAgg9 = new Piece(Piece.Team.blue, Piece.Rank.marshal);
 
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg0, blueBomb));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg1, blueBomb));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg3, blueBomb));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg4, blueBomb));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg5, blueBomb));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg6, blueBomb));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg7, blueBomb));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg8, blueBomb));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg9, blueBomb));
-            
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg0, redBomb));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg1, redBomb));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg3, redBomb));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg4, redBomb));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg5, redBomb));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg6, redBomb));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg7, redBomb));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg8, redBomb));
-            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg9, redBomb));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg0, blueBomb, Board.BattleMode.Reverse));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg1, blueBomb, Board.BattleMode.Reverse));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg3, blueBomb, Board.BattleMode.Reverse));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg4, blueBomb, Board.BattleMode.Reverse));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg5, blueBomb, Board.BattleMode.Reverse));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg6, blueBomb, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg7, blueBomb, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg8, blueBomb, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(redAgg9, blueBomb, Board.BattleMode.Normal));
+
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg0, redBomb, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg1, redBomb, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg3, redBomb, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg4, redBomb, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg5, redBomb, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg6, redBomb, Board.BattleMode.Reverse));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg7, redBomb, Board.BattleMode.Reverse));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg8, redBomb, Board.BattleMode.Reverse));
+            Assert.AreEqual(Piece.Combat.loss, Piece.Battle(blueAgg9, redBomb, Board.BattleMode.Reverse));
         }
 
         [Test()]
@@ -390,8 +408,8 @@ namespace Testing.StrategoTests
             Piece blueMiner = new Piece(Piece.Team.blue, Piece.Rank.miner);
             Piece redMiner = new Piece(Piece.Team.red, Piece.Rank.miner);
 
-            Assert.AreEqual(Piece.Combat.win, Piece.Battle(blueMiner, redBomb));
-            Assert.AreEqual(Piece.Combat.win, Piece.Battle(redMiner, blueBomb));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(blueMiner, redBomb, Board.BattleMode.Normal));
+            Assert.AreEqual(Piece.Combat.win, Piece.Battle(redMiner, blueBomb, Board.BattleMode.Reverse));
         }
 
         [Test()]
