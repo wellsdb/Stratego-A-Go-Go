@@ -69,12 +69,6 @@
     <Content Include="Resources\mainmenubutton.bmp" />
     <Content Include="Resources\tuitorialbutton.bmp" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Network\Network.csproj">
-      <Project>{584ace09-1366-4aa3-8fa3-8496a8924ad1}</Project>
-      <Name>Network</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
