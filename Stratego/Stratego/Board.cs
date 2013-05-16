@@ -72,7 +72,111 @@ namespace Stratego
         {
             Board b = Board.GetDefaultBoard();
 
+            //BLUE
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.scout), 6, 0);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.scout), 6, 1);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.scout), 6, 2);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.scout), 6, 3);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.scout), 6, 4);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.scout), 6, 5);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.scout), 6, 6);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.scout), 6, 7);
 
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.miner), 6, 8);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.miner), 6, 9);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.miner), 7, 0);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.miner), 7, 1);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.miner), 7, 2);
+
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.sergeant), 7, 3);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.sergeant), 7, 4);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.sergeant), 7, 5);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.sergeant), 7, 6);
+
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.lieutenant), 7, 7);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.lieutenant), 7, 8);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.lieutenant), 7, 9);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.lieutenant), 8, 0);
+
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.captain), 8, 1);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.captain), 8, 2);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.captain), 8, 3);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.captain), 8, 4);
+
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.major), 8, 5);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.major), 8, 6);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.major), 8, 7);
+
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.colonel), 8, 8);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.colonel), 8, 9);
+
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.general), 9, 0);
+
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.marshal), 9, 1);
+
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.bomb), 9, 2);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.bomb), 9, 3);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.bomb), 9, 4);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.bomb), 9, 5);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.bomb), 9, 6);
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.bomb), 9, 7);
+
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.flag), 9, 8);
+
+            b.placePiece(new Piece(Piece.Team.blue, Piece.Rank.spy), 9, 9);
+
+            //RED
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), 3, 0);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), 3, 1);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), 3, 2);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), 3, 3);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), 3, 4);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), 3, 5);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), 3, 6);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), 3, 7);
+
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.miner), 3, 8);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.miner), 3, 9);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.miner), 2, 0);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.miner), 2, 1);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.miner), 2, 2);
+
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.sergeant), 2, 3);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.sergeant), 2, 4);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.sergeant), 2, 5);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.sergeant), 2, 6);
+
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.lieutenant), 2, 7);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.lieutenant), 2, 8);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.lieutenant), 2, 9);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.lieutenant), 1, 0);
+
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.captain), 1, 1);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.captain), 1, 2);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.captain), 1, 3);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.captain), 1, 4);
+
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.major), 1, 5);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.major), 1, 6);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.major), 1, 7);
+
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.colonel), 1, 8);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.colonel), 1, 9);
+
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.general), 0, 0);
+
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.marshal), 0, 1);
+
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.bomb), 0, 2);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.bomb), 0, 3);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.bomb), 0, 4);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.bomb), 0, 5);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.bomb), 0, 6);
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.bomb), 0, 7);
+
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.flag), 0, 8);
+
+            b.placePiece(new Piece(Piece.Team.red, Piece.Rank.spy), 0, 9);
 
             return b;
         }

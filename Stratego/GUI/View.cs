@@ -218,8 +218,12 @@ namespace GUI
 
         private void JoinButtonClick(object sender, MouseEventArgs e)
         {
-            //controller.JoinNetworkGame(textBox.Text);
-            this.controller.JoinNetworkGamePress();
+            //get IP
+            String ip = IPBox.Text;
+            if (ip != "")
+                this.controller.JoinNetworkGamePress(ip);
+            else
+                this.controller.JoinNetworkGamePress();
 
             board.Visible = true;
             board.Invalidate();
@@ -382,8 +386,13 @@ namespace GUI
 
         //}
 
-        public void UpdateBoard()
+        public void RefreshBoard()
         {
+            this.board.Invalidate();
+        }
+
+        public void UpdateBoard()
+        {            
             this.panel1_Paint(null, null);
         }
 
@@ -400,7 +409,9 @@ namespace GUI
             Piece.Team teamToPaint = this.controller.GetCurrentTeam();
             if (this.controller.GetGameType() == GameController.GameType.Network)
                 teamToPaint = this.controller.GetOwnerTeam();
-            
+
+            Point revealed = this.controller.GetRevealedPiece();
+
             if (b != null)
             {
                 if (b.getCell(0, 0) != null)
@@ -408,7 +419,7 @@ namespace GUI
                     this.PaintTerrain(g, b, selection);
                     if (!this.controller.GetGameOver())
                         this.PaintAvailable(g, availableMoves);
-                    this.PaintPieces(g, b, teamToPaint);
+                    this.PaintPieces(g, b, teamToPaint, revealed);
                 }
             }
         }
@@ -485,113 +496,125 @@ namespace GUI
             }
         }
 
-        private void PaintPieces(Graphics g, Board b, Piece.Team teamToPaint)
+        private void PaintPieces(Graphics g, Board b, Piece.Team teamToPaint, Point revealed)
         {
             for (int v = 9; v > -1; v--)
             {
                 for (int h = 0; h < 10; h++)
                 {
-                        Piece currentPiece = b.getCell(v, h).getPiece();                        
+                    Piece currentPiece = b.getCell(v, h).getPiece();                        
                         
-                        if (currentPiece != null)
-                        {
-                            SolidBrush color;
-                            Piece.Team team = currentPiece.getTeam();
+                    if (currentPiece != null)
+                    {
+                        SolidBrush color;
+                        Piece.Team team = currentPiece.getTeam();
 
-                            if (team == Piece.Team.blue)
+                        if (team == Piece.Team.blue)
+                        {
+                            if (colorBlind)
                             {
-                                if (colorBlind)
-                                {
-                                    color = new SolidBrush(BLUE_TEAM_COLOR_BLIND);
-                                }
-                                else
-                                {
-                                    color = new SolidBrush(BLUE_TEAM_COLOR_NORMAL);
-                                }
-                            }
-                            else if (team == Piece.Team.red)
-                            {
-                                if (colorBlind)
-                                {
-                                    color = new SolidBrush(RED_TEAM_COLOR_BLIND);
-                                }
-                                else
-                                {
-                                    color = new SolidBrush(RED_TEAM_COLOR_NORMAL);
-                                }
+                                color = new SolidBrush(BLUE_TEAM_COLOR_BLIND);
                             }
                             else
                             {
-                                color = new SolidBrush(Color.Black);
-                            }                            
-
-                            Rectangle piece = new Rectangle(h * 40 + 5, (9 - v) * 40 + 5, 30, 30);
-                            g.DrawEllipse(new Pen(Color.Black, 3), piece);
-                            g.FillEllipse(color, piece);
-
-                            if (teamToPaint == team || this.easy)
-                            {
-                                String rank;
-                                switch (currentPiece.getRank())
-                                {
-                                    case Piece.Rank.bomb:
-                                        rank = "B";
-                                        break;
-                                    case Piece.Rank.captain:
-                                        rank = "4";
-                                        break;
-                                    case Piece.Rank.colonel:
-                                        rank = "3";
-                                        break;
-                                    case Piece.Rank.flag:
-                                        rank = "F";
-                                        break;
-                                    case Piece.Rank.general:
-                                        rank = "2";
-                                        break;
-                                    case Piece.Rank.lieutenant:
-                                        rank = "5";
-                                        break;
-                                    case Piece.Rank.major:
-                                        rank = "6";
-                                        break;
-                                    case Piece.Rank.marshal:
-                                        rank = "1";
-                                        break;
-                                    case Piece.Rank.miner:
-                                        rank = "8";
-                                        break;
-                                    case Piece.Rank.scout:
-                                        rank = "9";
-                                        break;
-                                    case Piece.Rank.sergeant:
-                                        rank = "7";
-                                        break;
-                                    case Piece.Rank.spy:
-                                        rank = "S";
-                                        break;
-                                    default:
-                                        rank = "?";
-                                        break;
-                                }
-                                SolidBrush pencil;
-                                if (team == Piece.Team.blue && this.colorBlind)
-                                {
-                                    pencil = new SolidBrush(Color.Black);
-                                }
-                                else
-                                {
-                                    pencil = new SolidBrush(Color.White);
-                                }
-
-                                g.DrawString(rank,
-                                    new Font("Times New Roman", 12.0f),
-                                    pencil,
-                                    new PointF(h * 40 + 14, (9 - v) * 40 + 10));
+                                color = new SolidBrush(BLUE_TEAM_COLOR_NORMAL);
                             }
-                        }                
+                        }
+                        else if (team == Piece.Team.red)
+                        {
+                            if (colorBlind)
+                            {
+                                color = new SolidBrush(RED_TEAM_COLOR_BLIND);
+                            }
+                            else
+                            {
+                                color = new SolidBrush(RED_TEAM_COLOR_NORMAL);
+                            }
+                        }
+                        else
+                        {
+                            color = new SolidBrush(Color.Black);
+                        }                            
+
+                        Rectangle piece = new Rectangle(h * 40 + 5, (9 - v) * 40 + 5, 30, 30);
+                        g.DrawEllipse(new Pen(Color.Black, 3), piece);
+                        g.FillEllipse(color, piece);
+                        if (teamToPaint == team || this.easy)
+                            this.DrawPiece(g, currentPiece, team, h, v);
+                       
+                    }            
+                }
+                if (revealed.X != -1 || revealed.Y != -1)
+                {
+                    Piece p = b.getCell(revealed.Y, revealed.X).getPiece();
+                    if (p != null)
+                    {
+                        Piece.Team t = b.getCell(revealed.Y, revealed.X).getPiece().getTeam();
+                        this.DrawPiece(g, p, t, revealed.X, revealed.Y);
+                    }
                 }
             }
+        }
+
+        private void DrawPiece(Graphics g, Piece currentPiece, Piece.Team team, int h, int v)
+        {            
+            String rank;
+            switch (currentPiece.getRank())
+            {
+                case Piece.Rank.bomb:
+                    rank = "B";
+                    break;
+                case Piece.Rank.captain:
+                    rank = "5";
+                    break;
+                case Piece.Rank.colonel:
+                    rank = "3";
+                    break;
+                case Piece.Rank.flag:
+                    rank = "F";
+                    break;
+                case Piece.Rank.general:
+                    rank = "2";
+                    break;
+                case Piece.Rank.lieutenant:
+                    rank = "6";
+                    break;
+                case Piece.Rank.major:
+                    rank = "4";
+                    break;
+                case Piece.Rank.marshal:
+                    rank = "1";
+                    break;
+                case Piece.Rank.miner:
+                    rank = "8";
+                    break;
+                case Piece.Rank.scout:
+                    rank = "9";
+                    break;
+                case Piece.Rank.sergeant:
+                    rank = "7";
+                    break;
+                case Piece.Rank.spy:
+                    rank = "S";
+                    break;
+                default:
+                    rank = "?";
+                    break;
+            }
+            SolidBrush pencil;
+            if (team == Piece.Team.blue && this.colorBlind)
+            {
+                pencil = new SolidBrush(Color.Black);
+            }
+            else
+            {
+                pencil = new SolidBrush(Color.White);
+            }
+
+            g.DrawString(rank,
+                new Font("Times New Roman", 12.0f),
+                pencil,
+                new PointF(h * 40 + 14, (9 - v) * 40 + 10));            
         }
 
         //private void hotseatbutton_Click(object sender, EventArgs e)

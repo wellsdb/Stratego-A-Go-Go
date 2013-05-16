@@ -144,7 +144,9 @@ namespace Controller
                             throw new Exception("A bad input was recieved from the GUI.");
                             break;
                     }
-                    new Thread(new ThreadStart(this.gui.ResetUpdate)).Start();
+                    //new Thread(new ThreadStart(this.gui.ResetUpdate)).Start();
+                    //Thread.Sleep(100);
+                    this.gui.ResetUpdate();
                 }
             }
         }
@@ -352,6 +354,7 @@ namespace Controller
             }            
             this.gui.SetAttempt(attempt[0]);
             this.gui.SetGameOver(attempt[1]);
+            this.gui.SetRevealedPiece(this.game.GetRevealedPiece());
             //this.gui.SetToBeUpdated(true);
             this.gui.Update();
         }

@@ -54,7 +54,8 @@ namespace Stratego
 
         public void StartHotseatGame()
         {
-            this.game = new Game(Board.GetTestBoard());
+            //this.game = new Game(Board.GetTestBoard());
+            this.game = new Game(Board.GetPrePlacedBoard());
             this.gameType = GameType.Hotseat;            
             this.game.startGame();
             this.game.getBoard().setBattleMode(this.battleMode);
@@ -334,6 +335,11 @@ namespace Stratego
         {
             //return this.game.over
             return false;
+        }
+
+        public Point GetRevealedPiece()
+        {
+            return this.game.GetRevealedPiece();
         }
 
     }

@@ -19,6 +19,7 @@ namespace Stratego
         private Piece.Team currentTeam;
         private Boolean active;
         private Boolean gameOver;
+        private Point revealedPiece;
 
         //Creates a Game with default values
         public Game()
@@ -147,8 +148,6 @@ namespace Stratego
             // get the effect of the move
             Board.Event moveEvent = this.board.moveEvent(v, h, direction, distance);
 
-
-
             //place an empty piece on the old cell
             this.board.placePiece(null, v, h);
 
@@ -160,6 +159,7 @@ namespace Stratego
                 case Board.Event.GoodMove:
                     // place the piece
                     this.board.placePiece(movingPiece, destination[0], destination[1]);
+                    this.revealedPiece = new Point(-1, -1);
                     break;
 
                 case Board.Event.Win:
@@ -171,6 +171,10 @@ namespace Stratego
 
                     // place the piece
                     this.board.placePiece(movingPiece, destination[0], destination[1]);
+
+                    //  reveal the piece
+                    this.revealedPiece = new Point(destination[1], destination[0]);
+
                     break;
 
                 case Board.Event.Loss:
@@ -179,6 +183,10 @@ namespace Stratego
                         this.playerOne.removePiece();
                     else
                         this.playerTwo.removePiece();
+
+                    //reveal the piece
+                    this.revealedPiece = new Point(destination[0], destination[1]);
+
                     break;
 
                 case Board.Event.Tie:
@@ -582,6 +590,16 @@ namespace Stratego
                 if (file != null)
                     file.Close();
             }
+        }
+
+        public Point GetRevealedPiece()
+        {
+            return this.revealedPiece;
+        }
+
+        public void SetRevealedPiece(Point coords)
+        {
+            this.revealedPiece = coords;
         }
 
         private void VerifyGameOver()

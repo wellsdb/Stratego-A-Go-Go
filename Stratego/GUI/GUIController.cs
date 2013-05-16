@@ -39,6 +39,7 @@ namespace GUI
         private Boolean gameOver;
         private List<Point> availableMoves;
         private String ip;
+        private Point revealedPiece;
         //private Boolean toBeUpdated = false;
 
         /// <summary>
@@ -199,6 +200,7 @@ namespace GUI
                     switch (this.ui)
                     {
                         case UserInput.Hotseat:
+                            this.view.Invalidate();
                             this.view.UpdateBoard();
                             this.view.UpdatePlayer(this.playerTeam);
                             break;
@@ -471,6 +473,7 @@ namespace GUI
             if (!this.hasUpdate)
             {
                 this.ui = UserInput.Save;
+
                 this.hasUpdate = true;
             }
         }
@@ -553,6 +556,7 @@ namespace GUI
             this.boardString = null;
             this.gameOver = false;
             this.availableMoves = null;
+            this.revealedPiece = new Point(-1, -1);
         }
 
         public GameController.GameType GetGameType()
@@ -578,6 +582,16 @@ namespace GUI
         public String GetIP()
         {
             return this.ip;
+        }
+
+        public void SetRevealedPiece(Point coords)
+        {
+            this.revealedPiece = coords;
+        }
+
+        public Point GetRevealedPiece()
+        {
+            return this.revealedPiece;
         }
 
     }
