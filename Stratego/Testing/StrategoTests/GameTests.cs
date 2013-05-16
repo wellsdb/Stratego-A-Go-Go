@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Stratego;
+using System.Drawing;
 
 namespace Testing.StrategoTests
 {
@@ -709,5 +710,23 @@ namespace Testing.StrategoTests
             Assert.AreNotSame(board.GetGame(), test);
         }
 
+        [Test()]
+        public void TestRevealedPiecesGetSet()
+        {
+            Game g = new Game();
+
+            Point[] r = new Point[] {new Point(1, 2), new Point(3, 4)};
+
+            g.SetRevealedPieces(r);
+
+            Assert.AreEqual(r, g.GetRevealedPieces());
+
+            r = new Point[] { new Point(4, 5), new Point(6, 7) };
+
+            g.SetRevealedPieces(r);
+
+            Assert.AreEqual(r, g.GetRevealedPieces());
+        }
+        
     }
 }

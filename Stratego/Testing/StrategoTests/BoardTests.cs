@@ -753,6 +753,8 @@ namespace Testing.StrategoTests
             Assert.True(b.isMoveValid(3, 1, Board.Direction.W, 1));
         }
 
+        //This test is incorrect and should be removed
+        [Ignore]
         [Test()]
         public void TestIsMoveValidOntoEnemyCellByScout()
         {
@@ -919,6 +921,11 @@ namespace Testing.StrategoTests
             String board = b.ToString();
             Console.Write(board);
             Console.ReadLine();
+
+            b = Board.GetPrePlacedBoard();
+            board = b.ToString();
+            Console.Write(board);
+            Console.ReadLine(); 
         }
 
         [Test()]
@@ -928,6 +935,13 @@ namespace Testing.StrategoTests
             String board1 = b1.ToString();
             Board b2 = Board.FromString(board1);
             String board2 = b2.ToString();
+
+            Assert.AreEqual(board1, board2);
+
+            b1 = Board.GetPrePlacedBoard();
+            board1 = b1.ToString();
+            b2 = Board.FromString(board1);
+            board2 = b2.ToString();
 
             Assert.AreEqual(board1, board2);
         }
@@ -1075,5 +1089,46 @@ namespace Testing.StrategoTests
             Assert.AreEqual(expected, b.moveEvent(2, 5, Board.Direction.W, 5));
         }
 
+        [Test()]
+        public void TestBattleModeGetSet()
+        {
+            Board b = new Board();
+            Board.BattleMode n = Board.BattleMode.Normal;
+            Board.BattleMode r = Board.BattleMode.Reverse;
+
+            b.setBattleMode(n);
+            Assert.AreEqual(n, b.GetBattleMode());
+
+            b.setBattleMode(r);
+            Assert.AreEqual(r, b.GetBattleMode());
+
+        }
+
+        [Test()]
+        public void TestGetTestBoard()
+        {
+            Board b = Board.GetTestBoard();
+
+            Piece blueScout = new Piece(Piece.Team.blue, Piece.Rank.scout);
+            Piece blueColonel = new Piece(Piece.Team.blue, Piece.Rank.colonel);
+            Piece redFlag = new Piece(Piece.Team.red, Piece.Rank.flag);
+            Piece redScout = new Piece(Piece.Team.red, Piece.Rank.scout);
+            Piece redColonel = new Piece(Piece.Team.red, Piece.Rank.colonel);
+            Piece blueFlag = new Piece(Piece.Team.blue, Piece.Rank.flag);
+
+            Assert.AreEqual(blueScout.getTeam(), b.getPiece(7, 4).getTeam());
+            Assert.AreEqual(blueColonel.getTeam(), b.getPiece(7, 5).getTeam());
+            Assert.AreEqual(redFlag.getTeam(), b.getPiece(7, 6).getTeam());
+            Assert.AreEqual(redScout.getTeam(), b.getPiece(2, 5).getTeam());
+            Assert.AreEqual(redColonel.getTeam(), b.getPiece(2, 4).getTeam());
+            Assert.AreEqual(blueFlag.getTeam(), b.getPiece(2, 3).getTeam());
+
+            Assert.AreEqual(blueScout.getRank(), b.getPiece(7, 4).getRank());
+            Assert.AreEqual(blueColonel.getRank(), b.getPiece(7, 5).getRank());
+            Assert.AreEqual(redFlag.getRank(), b.getPiece(7, 6).getRank());
+            Assert.AreEqual(redScout.getRank(), b.getPiece(2, 5).getRank());
+            Assert.AreEqual(redColonel.getRank(), b.getPiece(2, 4).getRank());
+            Assert.AreEqual(blueFlag.getRank(), b.getPiece(2, 3).getRank());
+        }
     }
 }

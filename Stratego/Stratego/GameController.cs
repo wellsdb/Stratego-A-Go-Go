@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Network;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Network;
 using System.Threading;
-using System.Drawing;
+using System.Threading.Tasks;
 
 namespace Stratego
 {
@@ -14,7 +14,6 @@ namespace Stratego
         public enum GameType { Hotseat, Network };
         private Game game;
         private GameType gameType;
-        private NetworkController networkController;
         private Int16[] currentSelection;
         private Piece.Team ownerPlayer;
         private Board.BattleMode battleMode = Board.BattleMode.Normal;
@@ -22,7 +21,6 @@ namespace Stratego
 
         public GameController()
         {
-            this.networkController = new NetworkController();
             this.game = new Game();
         }
 
@@ -133,31 +131,6 @@ namespace Stratego
                 currentSelection[1] = h;
             //}
         }
-
-        //public Boolean[] PerformOtherMove(short[] move)
-        //{
-        //    Int16 v = move[0];
-        //    Int16 h = move[1];
-        //    Int16 currentV = move[2];
-        //    Int16 currentH = move[3];
-            
-        //    Board.Direction dir = DirectionCalc(v, h, currentV, currentH);
-        //    Int16 dist = DistanceCalc(v, h, currentV, currentH, dir);
-
-        //    Boolean[] attempt = this.game.movePiece(currentV, currentH, dir, dist);
-
-        //    if ((!attempt[0]) & (!attempt[1]))
-        //        return attempt;
-        //    if (this.gameType == GameType.Hotseat)
-        //        return attempt;
-        //    if (this.gameType == GameType.Network)
-        //    {
-        //        return attempt;
-        //    }
-
-        //    else
-        //        return attempt;
-        //}
 
         public void clearCurrentSelection()
         {
@@ -272,47 +245,47 @@ namespace Stratego
 
 
 
-        public void SetSendPort(int port)
-        {
-            this.networkController.SetSendPort((NetworkController.Port)port);
-        }
+        //public void SetSendPort(int port)
+        //{
+        //    this.networkController.SetSendPort((NetworkController.Port)port);
+        //}
 
-        public void SetRecievePort(int port)
-        {
-            this.networkController.SetRecievePort((NetworkController.Port)port);
-        }
+        //public void SetRecievePort(int port)
+        //{
+        //    this.networkController.SetRecievePort((NetworkController.Port)port);
+        //}
 
-        public void SetSendIP(String ip)
-        {
-            this.networkController.SetIP(ip);
-        }
+        //public void SetSendIP(String ip)
+        //{
+        //    this.networkController.SetIP(ip);
+        //}
 
-        public int GetSendPort()
-        {
-            return (int)this.networkController.GetSendPort();
-        }
+        //public int GetSendPort()
+        //{
+        //    return (int)this.networkController.GetSendPort();
+        //}
 
-        public int GetRecievePort()
-        {
-            return (int)this.networkController.GetRecievePort();
-        }
+        //public int GetRecievePort()
+        //{
+        //    return (int)this.networkController.GetRecievePort();
+        //}
 
-        public String GetSendIP()
-        {
-            return this.networkController.GetIPAddress();
-        }
+        //public String GetSendIP()
+        //{
+        //    return this.networkController.GetIPAddress();
+        //}
 
-        private void SendBoard()
-        {
-            String board = this.game.getBoard().ToString();
-            this.networkController.SendString(board);
-        }
+        //private void SendBoard()
+        //{
+        //    String board = this.game.getBoard().ToString();
+        //    this.networkController.SendString(board);
+        //}
 
-        private void RecieveBoard()
-        {
-            String board = this.networkController.RecieveString();
-            this.game = new Game(Board.FromString(board));
-        }
+        //private void RecieveBoard()
+        //{
+        //    String board = this.networkController.RecieveString();
+        //    this.game = new Game(Board.FromString(board));
+        //}
 
         public List<Point> GetAvailableMoves(Point originCoordinate)
         {
@@ -337,9 +310,9 @@ namespace Stratego
             return false;
         }
 
-        public Point GetRevealedPiece()
+        public Point[] GetRevealedPieces()
         {
-            return this.game.GetRevealedPiece();
+            return this.game.GetRevealedPieces();
         }
 
     }

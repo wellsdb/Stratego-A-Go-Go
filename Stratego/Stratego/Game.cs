@@ -19,7 +19,7 @@ namespace Stratego
         private Piece.Team currentTeam;
         private Boolean active;
         private Boolean gameOver;
-        private Point revealedPiece;
+        private Point[] revealedPieces;
 
         //Creates a Game with default values
         public Game()
@@ -115,6 +115,7 @@ namespace Stratego
             this.turnCount = 1;
             this.currentTeam = Piece.Team.red;
             this.active = true;
+            this.revealedPieces = new Point[] { new Point(-1, -1), new Point(-1, -1) };
         }
         
         //Attempts to perform a move and returns a Boolean array indicating the result.
@@ -159,7 +160,8 @@ namespace Stratego
                 case Board.Event.GoodMove:
                     // place the piece
                     this.board.placePiece(movingPiece, destination[0], destination[1]);
-                    this.revealedPiece = new Point(-1, -1);
+                    this.revealedPieces[1] = this.revealedPieces[0];
+                    this.revealedPieces[0] = new Point(-1, -1);
                     break;
 
                 case Board.Event.Win:
@@ -171,9 +173,10 @@ namespace Stratego
 
                     // place the piece
                     this.board.placePiece(movingPiece, destination[0], destination[1]);
-
+                    
                     //  reveal the piece
-                    this.revealedPiece = new Point(destination[1], destination[0]);
+                    this.revealedPieces[1] = this.revealedPieces[0];
+                    this.revealedPieces[0] = new Point(destination[1], destination[0]);
 
                     break;
 
@@ -184,8 +187,9 @@ namespace Stratego
                     else
                         this.playerTwo.removePiece();
 
-                    //reveal the piece
-                    this.revealedPiece = new Point(destination[0], destination[1]);
+                    //reveal the piece//  reveal the piece
+                    this.revealedPieces[1] = this.revealedPieces[0];
+                    this.revealedPieces[0] = new Point(destination[1], destination[0]);
 
                     break;
 
@@ -196,6 +200,11 @@ namespace Stratego
 
                     // remove both pieces
                     this.board.placePiece(null, destination[0], destination[1]);
+
+                    //  reveal the piece
+                    this.revealedPieces[1] = this.revealedPieces[0];
+                    this.revealedPieces[0] = new Point(-1, -1);
+
                     break;
 
                 case Board.Event.Flag:
@@ -592,38 +601,38 @@ namespace Stratego
             }
         }
 
-        public Point GetRevealedPiece()
+        public Point[] GetRevealedPieces()
         {
-            return this.revealedPiece;
+            return this.revealedPieces;
         }
 
-        public void SetRevealedPiece(Point coords)
+        public void SetRevealedPieces(Point[] coords)
         {
-            this.revealedPiece = coords;
+            this.revealedPieces = coords;
         }
 
-        private void VerifyGameOver()
-        {
-            //if (!this.playerOne.HasFlag())
-            //{
-            //    this.gameOver = true;
-            //    this.winner = this.playerTwo.GetTeam();
-            //}
-            //else if (!this.playerTwo.HasFlag())
-            //{
-            //    this.gameOver = true;
-            //    this.winner = this.playerOne.GetTeam();
-            //}
-            //else if (!this.playerOne.HasMoveable())
-            //{
-            //    this.gameOver = true;
-            //    this.winner = this.playerTwo.GetTeam();
-            //}
-            //else if (!this.playerTwo.HasMoveable())
-            //{
-            //    this.gameOver = true;
-            //    this.winner = this.playerOne.GetTeam();
-            //}
-        }
+        //private void VerifyGameOver()
+        //{
+        //    //if (!this.playerOne.HasFlag())
+        //    //{
+        //    //    this.gameOver = true;
+        //    //    this.winner = this.playerTwo.GetTeam();
+        //    //}
+        //    //else if (!this.playerTwo.HasFlag())
+        //    //{
+        //    //    this.gameOver = true;
+        //    //    this.winner = this.playerOne.GetTeam();
+        //    //}
+        //    //else if (!this.playerOne.HasMoveable())
+        //    //{
+        //    //    this.gameOver = true;
+        //    //    this.winner = this.playerTwo.GetTeam();
+        //    //}
+        //    //else if (!this.playerTwo.HasMoveable())
+        //    //{
+        //    //    this.gameOver = true;
+        //    //    this.winner = this.playerOne.GetTeam();
+        //    //}
+        //}
     }
 }

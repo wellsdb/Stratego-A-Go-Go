@@ -45,6 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller Tests\StrategoControllerTests.cs" />
+    <Compile Include="GUI Tests\GUIControllerTests.cs" />
+    <Compile Include="GUI Tests\ViewTests.cs" />
     <Compile Include="Network Tests\ConverterTests.cs" />
     <Compile Include="StrategoTests\BoardTests.cs" />
     <Compile Include="StrategoTests\CellTest.cs" />

@@ -39,7 +39,7 @@ namespace GUI
         private Boolean gameOver;
         private List<Point> availableMoves;
         private String ip;
-        private Point revealedPiece;
+        private Point[] revealedPieces;
         //private Boolean toBeUpdated = false;
 
         /// <summary>
@@ -504,6 +504,7 @@ namespace GUI
 
         public void QuitGame()
         {
+            this.board = null;
             //right now, becomes stuck once StrategoController tells the server to stop
 
             //if (!this.hasUpdate)
@@ -556,7 +557,7 @@ namespace GUI
             this.boardString = null;
             this.gameOver = false;
             this.availableMoves = null;
-            this.revealedPiece = new Point(-1, -1);
+            this.revealedPieces = new Point[] {new Point(-1, -1), new Point(-1, -1)};
         }
 
         public GameController.GameType GetGameType()
@@ -584,14 +585,14 @@ namespace GUI
             return this.ip;
         }
 
-        public void SetRevealedPiece(Point coords)
+        public void SetRevealedPieces(Point[] coords)
         {
-            this.revealedPiece = coords;
+            this.revealedPieces = coords;
         }
 
-        public Point GetRevealedPiece()
+        public Point[] GetRevealedPieces()
         {
-            return this.revealedPiece;
+            return this.revealedPieces;
         }
 
     }

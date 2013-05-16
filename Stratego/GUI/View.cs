@@ -410,7 +410,7 @@ namespace GUI
             if (this.controller.GetGameType() == GameController.GameType.Network)
                 teamToPaint = this.controller.GetOwnerTeam();
 
-            Point revealed = this.controller.GetRevealedPiece();
+            Point[] revealed = this.controller.GetRevealedPieces();
 
             if (b != null)
             {
@@ -496,7 +496,7 @@ namespace GUI
             }
         }
 
-        private void PaintPieces(Graphics g, Board b, Piece.Team teamToPaint, Point revealed)
+        private void PaintPieces(Graphics g, Board b, Piece.Team teamToPaint, Point[] revealed)
         {
             for (int v = 9; v > -1; v--)
             {
@@ -544,15 +544,32 @@ namespace GUI
                        
                     }            
                 }
-                if (revealed.X != -1 || revealed.Y != -1)
+                int x = revealed[0].X;
+                int y = revealed[0].Y;
+
+                if (x != -1 || y != -1)
                 {
-                    Piece p = b.getCell(revealed.Y, revealed.X).getPiece();
+                    Piece p = b.getCell(y, x).getPiece();
                     if (p != null)
                     {
-                        Piece.Team t = b.getCell(revealed.Y, revealed.X).getPiece().getTeam();
-                        this.DrawPiece(g, p, t, revealed.X, revealed.Y);
+                        Piece.Team t = b.getCell(y, x).getPiece().getTeam();
+                        this.DrawPiece(g, p, t, x, y);
                     }
                 }
+
+                x = revealed[1].X;
+                y = revealed[1].Y;
+
+                if (x != -1 || y != -1)
+                {
+                    Piece p = b.getCell(y, x).getPiece();
+                    if (p != null)
+                    {
+                        Piece.Team t = b.getCell(y, x).getPiece().getTeam();
+                        this.DrawPiece(g, p, t, x, y);
+                    }
+                }
+
             }
         }
 
