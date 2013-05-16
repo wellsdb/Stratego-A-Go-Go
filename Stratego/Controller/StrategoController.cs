@@ -600,7 +600,7 @@ namespace Controller
             }            
             this.gui.SetAttempt(attempt[0]);
             this.gui.SetGameOver(attempt[1]);
-            this.gui.SetRevealedPiece(this.game.GetRevealedPiece());
+            this.gui.SetRevealedPieces(this.game.GetRevealedPieces());
             //this.gui.SetToBeUpdated(true);
             this.gui.Update();
         }

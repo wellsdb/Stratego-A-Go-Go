@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
-using System.Drawing;
+using System.Threading.Tasks;
 
 namespace Stratego
 {
@@ -174,31 +174,6 @@ namespace Stratego
             //}
         }
 
-        //public Boolean[] PerformOtherMove(short[] move)
-        //{
-        //    Int16 v = move[0];
-        //    Int16 h = move[1];
-        //    Int16 currentV = move[2];
-        //    Int16 currentH = move[3];
-            
-        //    Board.Direction dir = DirectionCalc(v, h, currentV, currentH);
-        //    Int16 dist = DistanceCalc(v, h, currentV, currentH, dir);
-
-        //    Boolean[] attempt = this.game.movePiece(currentV, currentH, dir, dist);
-
-        //    if ((!attempt[0]) & (!attempt[1]))
-        //        return attempt;
-        //    if (this.gameType == GameType.Hotseat)
-        //        return attempt;
-        //    if (this.gameType == GameType.Network)
-        //    {
-        //        return attempt;
-        //    }
-
-        //    else
-        //        return attempt;
-        //}
-
         public void clearCurrentSelection()
         {
             this.currentSelection = null;
@@ -333,9 +308,9 @@ namespace Stratego
             return false;
         }
 
-        public Point GetRevealedPiece()
+        public Point[] GetRevealedPieces()
         {
-            return this.game.GetRevealedPiece();
+            return this.game.GetRevealedPieces();
         }
 
     }

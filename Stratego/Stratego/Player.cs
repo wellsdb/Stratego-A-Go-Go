@@ -9,7 +9,7 @@ namespace Stratego
     public class Player
     {
 
-        public static  readonly Int16 DEFAULT_PIECECOUNT = 40;
+        public static readonly Int16 DEFAULT_PIECECOUNT = 40;
         public static readonly String DEFAULT_NAME = "Napoleon";
 
         private Int16 pieceCount;

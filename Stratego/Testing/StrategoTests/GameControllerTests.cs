@@ -109,48 +109,84 @@ namespace Testing.StrategoTests
         }
 
         [Test()]
-        public void TestSetSendPort()
+        public void TestOwnerPlayerGet()
         {
-            GameController target = new GameController();
+            GameController c = new GameController();
 
-            Assert.AreEqual((int)NetworkController.Port.Zero, target.GetSendPort());
+            c.StartHotseatGame();
+            String r = "none";
+            Assert.AreEqual(r, c.GetOwnerPlayer());
 
-            target.SetSendPort(3001);
-            Assert.AreEqual((int)NetworkController.Port.One, target.GetSendPort());
+            c.CreateQuickNetworkGame();    
+            r = "red";
+            Assert.AreEqual(r, c.GetOwnerPlayer());
+
+            c.JoinQuickNetworkGame();
+            r = "blue";
+            Assert.AreEqual(r, c.GetOwnerPlayer());
         }
 
         [Test()]
-        public void TestSetRecievePort()
+        public void TestOwnerTeamGet()
         {
-            GameController target = new GameController();
+            //GameController c = new GameController();
 
-            Assert.AreEqual((int)NetworkController.Port.One, target.GetRecievePort());
+            //c.StartHotseatGame();
+            //Piece.Team r = Piece.Team.red;
+            //Assert.AreEqual(r, c.GetOwnerPlayer());
 
-            target.SetRecievePort(3002);
-            Assert.AreEqual((int)NetworkController.Port.Two, target.GetRecievePort());
+            //c.CreateNetworkGame();
+            //r = "red";
+            //Assert.AreEqual(r, c.GetOwnerPlayer());
+
+            //c.JoinNetworkGame();
+            //r = "blue";
+            //Assert.AreEqual(r, c.GetOwnerPlayer());
         }
 
-        [Test()]
-        public void TestSetSendIP()
-        {
-            GameController target = new GameController();
+        //[Test()]
+        //public void TestSetSendPort()
+        //{
+        //    GameController target = new GameController();
 
-            Assert.AreEqual("127.0.0.1", target.GetSendIP());
+        //    Assert.AreEqual((int)NetworkController.Port.Zero, target.GetSendPort());
 
-            target.SetSendIP("127.0.0.2");
-            Assert.AreEqual("127.0.0.2", target.GetSendIP());
-        }
+        //    target.SetSendPort(3001);
+        //    Assert.AreEqual((int)NetworkController.Port.One, target.GetSendPort());
+        //}
 
-        [Test()]
-        public void TestSendBoard()
-        {
+        //[Test()]
+        //public void TestSetRecievePort()
+        //{
+        //    GameController target = new GameController();
 
-        }
+        //    Assert.AreEqual((int)NetworkController.Port.One, target.GetRecievePort());
 
-        [Test()]
-        public void TestRecieveBoard()
-        {
+        //    target.SetRecievePort(3002);
+        //    Assert.AreEqual((int)NetworkController.Port.Two, target.GetRecievePort());
+        //}
 
-        }
+        //[Test()]
+        //public void TestSetSendIP()
+        //{
+        //    GameController target = new GameController();
+
+        //    Assert.AreEqual("127.0.0.1", target.GetSendIP());
+
+        //    target.SetSendIP("127.0.0.2");
+        //    Assert.AreEqual("127.0.0.2", target.GetSendIP());
+        //}
+
+        //[Test()]
+        //public void TestSendBoard()
+        //{
+
+        //}
+
+        //[Test()]
+        //public void TestRecieveBoard()
+        //{
+
+        //}
     }
 }

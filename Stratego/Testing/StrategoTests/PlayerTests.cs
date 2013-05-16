@@ -71,5 +71,17 @@ namespace Testing.StrategoTests
                 target.addPiece();
             Assert.AreEqual(countHigh, target.getPieceCount());
         }
+
+        [Test()]
+        public void TestPlayerHasFlagGetSet()
+        {
+            Player p = new Player();
+            
+            p.SetHasFlag(true);
+            Assert.True(p.GetHasFlag());
+
+            p.SetHasFlag(false);
+            Assert.False(p.GetHasFlag());
+        }
     }
 }
