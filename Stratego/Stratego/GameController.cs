@@ -75,7 +75,7 @@ namespace Stratego
             //this.networkController.StartServer();
             //Thread.Sleep(100);
             //String joiner = networkController.RecieveString();
-            this.game = new Game(Board.GetTestBoard());
+            this.game = new Game(Board.GetPrePlacedBoard());
             this.gameType = GameType.Network;
             this.ownerPlayer = Piece.Team.red;
             this.game.startGame();
@@ -108,7 +108,7 @@ namespace Stratego
             //this.networkController.StartServer();
             //Thread.Sleep(100);
             //networkController.SendString("Join");
-            this.game = new Game(Board.GetTestBoard());
+            this.game = new Game(Board.GetPrePlacedBoard());
             this.gameType = GameType.Network;
             this.ownerPlayer = Piece.Team.blue;
             this.game.startGame();
