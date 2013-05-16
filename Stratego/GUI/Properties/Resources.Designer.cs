@@ -63,39 +63,209 @@ namespace GUI.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap _2photseatbutton {
+        internal static System.Drawing.Bitmap activatedwidebutton {
             get {
-                object obj = ResourceManager.GetObject("_2photseatbutton", resourceCulture);
+                object obj = ResourceManager.GetObject("activatedwidebutton", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Black&apos;s turn.
+        /// </summary>
+        internal static string black {
+            get {
+                return ResourceManager.GetString("black", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Black wins!.
+        /// </summary>
+        internal static string blackwin {
+            get {
+                return ResourceManager.GetString("blackwin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Blue&apos;s turn.
+        /// </summary>
+        internal static string blue {
+            get {
+                return ResourceManager.GetString("blue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Blue wins!.
+        /// </summary>
+        internal static string bluewin {
+            get {
+                return ResourceManager.GetString("bluewin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You cannot move there!.
+        /// </summary>
+        internal static string cantmove {
+            get {
+                return ResourceManager.GetString("cantmove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Colorblind Mode.
+        /// </summary>
+        internal static string colorblind {
+            get {
+                return ResourceManager.GetString("colorblind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create a Game.
+        /// </summary>
+        internal static string create {
+            get {
+                return ResourceManager.GetString("create", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Easy Mode.
+        /// </summary>
+        internal static string easy {
+            get {
+                return ResourceManager.GetString("easy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exit.
+        /// </summary>
+        internal static string exit {
+            get {
+                return ResourceManager.GetString("exit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hotseat Mode.
+        /// </summary>
+        internal static string hotseat {
+            get {
+                return ResourceManager.GetString("hotseat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Join a Game.
+        /// </summary>
+        internal static string join {
+            get {
+                return ResourceManager.GetString("join", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Menu.
+        /// </summary>
+        internal static string menu {
+            get {
+                return ResourceManager.GetString("menu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Network Mode.
+        /// </summary>
+        internal static string network {
+            get {
+                return ResourceManager.GetString("network", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Red&apos;s turn.
+        /// </summary>
+        internal static string red {
+            get {
+                return ResourceManager.GetString("red", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Red wins!.
+        /// </summary>
+        internal static string redwin {
+            get {
+                return ResourceManager.GetString("redwin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Russian Mode.
+        /// </summary>
+        internal static string russian {
+            get {
+                return ResourceManager.GetString("russian", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        internal static string settings {
+            get {
+                return ResourceManager.GetString("settings", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap exitbutton {
+        internal static System.Drawing.Bitmap smallbutton {
             get {
-                object obj = ResourceManager.GetObject("exitbutton", resourceCulture);
+                object obj = ResourceManager.GetObject("smallbutton", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Idioma: Español.
+        /// </summary>
+        internal static string spanish {
+            get {
+                return ResourceManager.GetString("spanish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to White&apos;s turn.
+        /// </summary>
+        internal static string white {
+            get {
+                return ResourceManager.GetString("white", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to White wins!.
+        /// </summary>
+        internal static string whitewin {
+            get {
+                return ResourceManager.GetString("whitewin", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap mainmenubutton {
+        internal static System.Drawing.Bitmap widebutton {
             get {
-                object obj = ResourceManager.GetObject("mainmenubutton", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap tuitorialbutton {
-            get {
-                object obj = ResourceManager.GetObject("tuitorialbutton", resourceCulture);
+                object obj = ResourceManager.GetObject("widebutton", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
