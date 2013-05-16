@@ -17,7 +17,7 @@ namespace GUI
     /// </summary>
     public class GUIController
     {
-        public enum UserInput { Hotseat, CreateNetwork, JoinNetwork, Settings, Exit, Tile, Move, Save, Load, RussianMode, Editor, Colorblind, Easy, SpanishLanguage, QuitGame };
+        public enum UserInput { QuickHotseat, CustomHotseat, CreateQuickNetwork, CreateCustomNetwork, JoinNetwork, Settings, Exit, Tile, Move, Save, Load, RussianMode, Editor, Colorblind, Easy, SpanishLanguage, QuitGame };
         public enum DisplayMode { Console, Window };
         private View view;
         private ConsoleDisplay display;
@@ -40,6 +40,7 @@ namespace GUI
         private List<Point> availableMoves;
         private String ip;
         private Point revealedPiece;
+        private String saveLoad;
         //private Boolean toBeUpdated = false;
 
         /// <summary>
@@ -199,12 +200,21 @@ namespace GUI
                 {
                     switch (this.ui)
                     {
-                        case UserInput.Hotseat:
+                        case UserInput.QuickHotseat:
                             this.view.Invalidate();
                             this.view.UpdateBoard();
                             this.view.UpdatePlayer(this.playerTeam);
                             break;
-                        case UserInput.CreateNetwork:
+                        case UserInput.CustomHotseat:
+                            this.view.Invalidate();
+                            this.view.UpdateBoard();
+                            this.view.UpdatePlayer(this.playerTeam);
+                            break;
+                        case UserInput.CreateQuickNetwork:
+                            this.view.UpdateBoard();
+                            this.view.UpdatePlayer(this.playerTeam);
+                            break;
+                        case UserInput.CreateCustomNetwork:
                             this.view.UpdateBoard();
                             this.view.UpdatePlayer(this.playerTeam);
                             break;
@@ -267,12 +277,18 @@ namespace GUI
                 {
                     switch (this.ui)
                     {
-                        case UserInput.Hotseat:
+                        case UserInput.QuickHotseat:
                             //this.display.UpdateBoard(this.board);
                             this.display.UpdatePlayer(this.playerName);
                             break;
-                        case UserInput.CreateNetwork:
+                        case UserInput.CustomHotseat:
+                            break;
+                        case UserInput.CreateQuickNetwork:
                          //   this.display.UpdateBoard(this.board);
+                            this.display.UpdatePlayer(this.playerName);
+                            break;
+                        case UserInput.CreateCustomNetwork:
+                            //   this.display.UpdateBoard(this.board);
                             this.display.UpdatePlayer(this.playerName);
                             break;
                         case UserInput.JoinNetwork:
@@ -360,33 +376,59 @@ namespace GUI
         /// <summary>
         /// Handles the user calling a hotseat game
         /// </summary>
-        public void HotSeatGamePress()
+        public void QuickHotseatPress()
         {
             if (!this.hasUpdate)
             {
-                this.ui = UserInput.Hotseat;
+                this.ui = UserInput.QuickHotseat;
                 this.hasUpdate = true;
             }
+        }
+
+        internal void CustomHotseatPress()
+        {
+            this.ui = UserInput.CustomHotseat;
+            this.hasUpdate = true;
         }
 
         /// <summary>
         /// Handles the user creating a network game
         /// </summary>
-        public void CreateNetworkGamePress()
+        public void CreateQuickNetworkGamePress()
         {
             if (!this.hasUpdate)
             {
-                this.ui = UserInput.CreateNetwork;
+                this.ui = UserInput.CreateQuickNetwork;
                 this.ip = "";
                 this.hasUpdate = true;
             }
         }
 
-        public void CreateNetworkGamePress(String ip)
+        public void CreateCustomNetworkGamePress()
         {
             if (!this.hasUpdate)
             {
-                this.ui = UserInput.CreateNetwork;
+                this.ui = UserInput.CreateCustomNetwork;
+                this.ip = "";
+                this.hasUpdate = true;
+            }
+        }
+
+        public void CreateQuickNetworkGamePress(String ip)
+        {
+            if (!this.hasUpdate)
+            {
+                this.ui = UserInput.CreateQuickNetwork;
+                this.ip = ip;
+                this.hasUpdate = true;
+            }
+        }
+
+        public void CreateCustomNetworkGamePress(String ip)
+        {
+            if (!this.hasUpdate)
+            {
+                this.ui = UserInput.CreateCustomNetwork;
                 this.ip = ip;
                 this.hasUpdate = true;
             }
@@ -473,7 +515,7 @@ namespace GUI
             if (!this.hasUpdate)
             {
                 this.ui = UserInput.Save;
-
+                this.saveLoad = name;
                 this.hasUpdate = true;
             }
         }
@@ -481,11 +523,12 @@ namespace GUI
         /// <summary>
         /// Handles the user loading a game
         /// </summary>
-        public void LoadGamePress()
+        public void LoadGamePress(String name)
         {
             if (!this.hasUpdate)
             {
                 this.ui = UserInput.Load;
+                this.saveLoad = name;
                 this.hasUpdate = true;
             }
         }
@@ -543,6 +586,11 @@ namespace GUI
             return this.gameOver;
         }
 
+        public String GetSaveLoad()
+        {
+            return this.saveLoad;
+        }
+
         public void ResetGameInformation()
         {
             this.hasUpdate = false;
@@ -593,6 +641,5 @@ namespace GUI
         {
             return this.revealedPiece;
         }
-
     }
 }

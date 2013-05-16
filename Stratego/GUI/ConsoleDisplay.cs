@@ -90,10 +90,10 @@ namespace GUI
                 switch (command)
                 {
                     case "HOTSEAT":
-                        this.g.HotSeatGamePress();
+                        this.g.QuickHotseatPress();
                         break;
                     case "CREATENETWORK":
-                        this.g.CreateNetworkGamePress();
+                        this.g.CreateQuickNetworkGamePress();
                         break;
                     case "JOINNETWORK":
                         this.g.JoinNetworkGamePress();

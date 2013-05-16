@@ -12,6 +12,8 @@ namespace Stratego
         public enum Direction { N, E, S, W };
         public enum Event { GoodMove, BadMove, Win, Loss, Tie, Flag };
         public enum BattleMode { Normal, Reverse };
+        private short redCount = 0;
+        private short blueCount = 0;
 
         private BattleMode mode = BattleMode.Normal;
 
@@ -336,6 +338,33 @@ namespace Stratego
         public BattleMode GetBattleMode()
         {
             return this.mode;
+        }
+
+        public short getRedCount()
+        {
+            return this.redCount;
+        }
+
+        public short getBlueCount()
+        {
+            return this.blueCount;
+        }
+
+        public void placementPiece(Piece p, int v, int h)
+        {
+            if (this.getCell(v, h).getTerrain() == Cell.Terrain.Land & this.getCell(v, h).getPiece() == null)
+                cells[v, h].setPiece(p);
+            if (p != null)
+            {
+                if (p.getTeam() == Piece.Team.blue)
+                {
+                    this.blueCount++;
+                }
+                else
+                {
+                    this.redCount++;
+                }
+            }
         }
 
         public Piece getPiece(int v, int h)

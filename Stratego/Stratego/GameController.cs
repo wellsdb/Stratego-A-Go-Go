@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Network;
 using System.Threading;
 using System.Drawing;
 
@@ -14,7 +13,6 @@ namespace Stratego
         public enum GameType { Hotseat, Network };
         private Game game;
         private GameType gameType;
-        private NetworkController networkController;
         private Int16[] currentSelection;
         private Piece.Team ownerPlayer;
         private Board.BattleMode battleMode = Board.BattleMode.Normal;
@@ -22,7 +20,6 @@ namespace Stratego
 
         public GameController()
         {
-            this.networkController = new NetworkController();
             this.game = new Game();
         }
 
@@ -58,10 +55,19 @@ namespace Stratego
             this.game = new Game(Board.GetPrePlacedBoard());
             this.gameType = GameType.Hotseat;            
             this.game.startGame();
+            this.game.setPlacement(false);
             this.game.getBoard().setBattleMode(this.battleMode);
         }
 
-        public void CreateNetworkGame()
+        public void StartCustomHotseatGame()
+        {
+            this.game = new Game(Board.GetDefaultBoard());
+            this.gameType = GameType.Hotseat;
+            this.game.startGame();
+            this.game.getBoard().setBattleMode(this.battleMode);
+        }
+
+        public void CreateQuickNetworkGame()
         {
             //this.networkController.SetIP(NetworkController.LOCALHOST_IP);         
             //this.networkController.SetSendPort(NetworkController.Port.One);
@@ -73,11 +79,27 @@ namespace Stratego
             this.gameType = GameType.Network;
             this.ownerPlayer = Piece.Team.red;
             this.game.startGame();
+            this.game.setPlacement(false);
             this.game.getBoard().setBattleMode(this.battleMode);            
         }
 
+        public void CreateCustomNetworkGame()
+        {
+            //this.networkController.SetIP(NetworkController.LOCALHOST_IP);         
+            //this.networkController.SetSendPort(NetworkController.Port.One);
+            //this.networkController.SetRecievePort(NetworkController.Port.Zero);
+            //this.networkController.StartServer();
+            //Thread.Sleep(100);
+            //String joiner = networkController.RecieveString();
+            this.game = new Game(Board.GetDefaultBoard());
+            this.gameType = GameType.Network;
+            this.ownerPlayer = Piece.Team.red;
+            this.game.startGame();
+            this.game.getBoard().setBattleMode(this.battleMode);
+        }
+
         //public void JoinNetworkGame(String ip)
-        public void JoinNetworkGame()
+        public void JoinQuickNetworkGame()
         {
             //this.networkController.SetIP(ip);
             //this.networkController.SetIP(NetworkController.LOCALHOST_IP);
@@ -87,6 +109,24 @@ namespace Stratego
             //Thread.Sleep(100);
             //networkController.SendString("Join");
             this.game = new Game(Board.GetTestBoard());
+            this.gameType = GameType.Network;
+            this.ownerPlayer = Piece.Team.blue;
+            this.game.startGame();
+            this.game.setPlacement(false);
+            this.game.getBoard().setBattleMode(this.battleMode);
+            //this.WaitForTurn();
+        }
+
+        public void JoinCustomNetworkGame()
+        {
+            //this.networkController.SetIP(ip);
+            //this.networkController.SetIP(NetworkController.LOCALHOST_IP);
+            //this.networkController.SetSendPort(NetworkController.Port.Zero);
+            //this.networkController.SetRecievePort(NetworkController.Port.One);
+            //this.networkController.StartServer();
+            //Thread.Sleep(100);
+            //networkController.SendString("Join");
+            this.game = new Game(Board.GetDefaultBoard());
             this.gameType = GameType.Network;
             this.ownerPlayer = Piece.Team.blue;
             this.game.startGame();
@@ -268,50 +308,6 @@ namespace Stratego
             Int16 dist = DistanceCalc(newV, hewH, oldV, oldH, dir);
 
             return this.game.movePiece(oldV, oldH, dir, dist);
-        }
-
-
-
-        public void SetSendPort(int port)
-        {
-            this.networkController.SetSendPort((NetworkController.Port)port);
-        }
-
-        public void SetRecievePort(int port)
-        {
-            this.networkController.SetRecievePort((NetworkController.Port)port);
-        }
-
-        public void SetSendIP(String ip)
-        {
-            this.networkController.SetIP(ip);
-        }
-
-        public int GetSendPort()
-        {
-            return (int)this.networkController.GetSendPort();
-        }
-
-        public int GetRecievePort()
-        {
-            return (int)this.networkController.GetRecievePort();
-        }
-
-        public String GetSendIP()
-        {
-            return this.networkController.GetIPAddress();
-        }
-
-        private void SendBoard()
-        {
-            String board = this.game.getBoard().ToString();
-            this.networkController.SendString(board);
-        }
-
-        private void RecieveBoard()
-        {
-            String board = this.networkController.RecieveString();
-            this.game = new Game(Board.FromString(board));
         }
 
         public List<Point> GetAvailableMoves(Point originCoordinate)

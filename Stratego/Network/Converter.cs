@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Stratego;
 
 namespace Network
 {
@@ -38,6 +39,22 @@ namespace Network
             //short[] moveArray = { (short)temp[0], (short)temp[2], (short)temp[4], (short)temp[6] };
             //Console.WriteLine("Move from string: " + moveArray[0] + "," + moveArray[1] + "," +moveArray[2] + "," +moveArray[3]);
             return moveArray;
+        }
+
+        public static String PlaceToString(short v, short h, String team, short num)
+        {
+            return v + " " + h + " " + team + " " + num;
+        }
+
+        public static Object[] StringToPlace(String place)
+        {
+            String[] tempArray = place.Split();
+
+            Object[] placeArray = { Convert.ToInt16(tempArray[0]), Convert.ToInt16(tempArray[1]), Convert.ToString(tempArray[2]), Convert.ToInt16(tempArray[3]) };
+            return placeArray;
+
+
+
         }
 
         //public Byte[] BoardToByte(String board)

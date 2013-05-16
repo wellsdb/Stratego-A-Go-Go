@@ -45,6 +45,10 @@
             this.menulabel = new System.Windows.Forms.Label();
             this.joinlabel = new System.Windows.Forms.Label();
             this.createlabel = new System.Windows.Forms.Label();
+            this.savebutton = new System.Windows.Forms.PictureBox();
+            this.loadbutton = new System.Windows.Forms.PictureBox();
+            this.savelabel = new System.Windows.Forms.Label();
+            this.loadlabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.returntomenubutton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.exitbutton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.settingsbutton)).BeginInit();
@@ -52,6 +56,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.networkbutton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.createbutton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.joinbutton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.savebutton)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.loadbutton)).BeginInit();
             this.SuspendLayout();
             // 
             // board
@@ -241,11 +247,59 @@
             this.createlabel.Visible = false;
             this.createlabel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CreateButtonClick);
             // 
+            // savebutton
+            // 
+            this.savebutton.Image = global::GUI.Properties.Resources.smallbutton;
+            this.savebutton.Location = new System.Drawing.Point(327, 536);
+            this.savebutton.Name = "savebutton";
+            this.savebutton.Size = new System.Drawing.Size(200, 100);
+            this.savebutton.TabIndex = 15;
+            this.savebutton.TabStop = false;
+            this.savebutton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.SaveButtonClick);
+            // 
+            // loadbutton
+            // 
+            this.loadbutton.Image = global::GUI.Properties.Resources.smallbutton;
+            this.loadbutton.Location = new System.Drawing.Point(562, 536);
+            this.loadbutton.Name = "loadbutton";
+            this.loadbutton.Size = new System.Drawing.Size(200, 100);
+            this.loadbutton.TabIndex = 16;
+            this.loadbutton.TabStop = false;
+            this.loadbutton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.LoadButtonClick);
+            // 
+            // savelabel
+            // 
+            this.savelabel.AutoSize = true;
+            this.savelabel.BackColor = System.Drawing.Color.White;
+            this.savelabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.savelabel.Location = new System.Drawing.Point(390, 572);
+            this.savelabel.Name = "savelabel";
+            this.savelabel.Size = new System.Drawing.Size(67, 29);
+            this.savelabel.TabIndex = 17;
+            this.savelabel.Text = "Save";
+            this.savelabel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.SaveButtonClick);
+            // 
+            // loadlabel
+            // 
+            this.loadlabel.AutoSize = true;
+            this.loadlabel.BackColor = System.Drawing.Color.White;
+            this.loadlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.loadlabel.Location = new System.Drawing.Point(630, 572);
+            this.loadlabel.Name = "loadlabel";
+            this.loadlabel.Size = new System.Drawing.Size(67, 29);
+            this.loadlabel.TabIndex = 18;
+            this.loadlabel.Text = "Load";
+            this.loadlabel.MouseClick += new System.Windows.Forms.MouseEventHandler(this.LoadButtonClick);
+            // 
             // View
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(828, 678);
+            this.Controls.Add(this.loadlabel);
+            this.Controls.Add(this.savelabel);
+            this.Controls.Add(this.loadbutton);
+            this.Controls.Add(this.savebutton);
             this.Controls.Add(this.settingslabel);
             this.Controls.Add(this.settingsbutton);
             this.Controls.Add(this.networklabel);
@@ -272,6 +326,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.networkbutton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.createbutton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.joinbutton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.savebutton)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.loadbutton)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -296,5 +352,9 @@
         private System.Windows.Forms.Label menulabel;
         private System.Windows.Forms.Label joinlabel;
         private System.Windows.Forms.Label createlabel;
+        private System.Windows.Forms.PictureBox savebutton;
+        private System.Windows.Forms.PictureBox loadbutton;
+        private System.Windows.Forms.Label savelabel;
+        private System.Windows.Forms.Label loadlabel;
     }
 }

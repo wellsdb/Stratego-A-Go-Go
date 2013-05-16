@@ -23,6 +23,8 @@ namespace GUI
         private Boolean spanish;
         private CultureInfo CultureInfo { get; set; }
         private Boolean settingsMenu = false;
+        private Boolean askingHotseat;
+        private Boolean askingNetwork;
 
         private static readonly Color LAND_COLOR_NORMAL = Color.Green;
         private static readonly Color LAKE_COLOR_NORMAL = Color.Aquamarine;
@@ -92,12 +94,10 @@ namespace GUI
             {
                 if (player == Piece.Team.red)
                 {
-                    //TeamLabel.Text = GUI.Properties.Resources.ResourceManager.GetString("black", CultureInfo);
                     this.SetTeamLabel("black");
                 }
                 else
                 {
-                    //TeamLabel.Text = GUI.Properties.Resources.ResourceManager.GetString("white", CultureInfo);
                     this.SetTeamLabel("white");
                 }
             }
@@ -105,12 +105,10 @@ namespace GUI
             {
                 if (player == Piece.Team.red)
                 {
-                    //TeamLabel.Text = GUI.Properties.Resources.ResourceManager.GetString("red", CultureInfo);
                     this.SetTeamLabel("red");
                 }
                 else
                 {
-                    //TeamLabel.Text = GUI.Properties.Resources.ResourceManager.GetString("blue", CultureInfo);
                     this.SetTeamLabel("blue");
                 }
 
@@ -138,9 +136,7 @@ namespace GUI
         {
             if (!settingsMenu)
             {
-                this.controller.HotSeatGamePress();
-
-                //mode = 2;
+                this.askingHotseat = true;
                 networkbutton.Visible = false;
                 networklabel.Visible = false;
                 hotseatbutton.Visible = false;
@@ -149,6 +145,7 @@ namespace GUI
                 settingslabel.Visible = false;
                 exitbutton.Visible = false;
                 exitlabel.Visible = false;
+                IPBox.Visible = true;
 
                 returntomenubutton.Visible = true;
                 menulabel.Visible = true;
@@ -234,15 +231,7 @@ namespace GUI
         private void CreateButtonClick(object sender, MouseEventArgs e)
         {
             //get IP
-            String ip = IPBox.Text;
-            if (ip != "")
-                this.controller.CreateNetworkGamePress(ip);
-            else 
-                this.controller.CreateNetworkGamePress();
-
-            board.Visible = true;
-            board.Invalidate();
-            TeamLabel.Visible = true;
+            this.askingNetwork = true;
 
             //UpdatePlayer();
         }
@@ -314,6 +303,7 @@ namespace GUI
                 settingslabel.Visible = true;
                 exitbutton.Visible = true;
                 exitlabel.Visible = true;
+                this.askingHotseat = false;
 
                 createbutton.Visible = false;
                 createlabel.Visible = false;
@@ -358,6 +348,56 @@ namespace GUI
                 settingsbutton.Image = GUI.Properties.Resources.widebutton;
                 exitbutton.Image = GUI.Properties.Resources.widebutton;
                 this.loadLanguages();
+            }
+        }
+
+        private void SaveButtonClick(object sender, MouseEventArgs e)
+        {
+            if (askingHotseat)
+            {
+                controller.QuickHotseatPress();
+                this.askingHotseat = false;
+            }
+            else if (askingNetwork)
+            {
+                String ip = IPBox.Text;
+                if (ip != "")
+                    this.controller.CreateQuickNetworkGamePress(ip);
+                else
+                    this.controller.CreateQuickNetworkGamePress();
+
+                board.Visible = true;
+                board.Invalidate();
+                TeamLabel.Visible = true;
+            }
+            else
+            {
+                controller.SaveGamePress(IPBox.Text);
+            }
+        }
+
+        private void LoadButtonClick(object sender, MouseEventArgs e)
+        {
+            if (askingHotseat)
+            {
+                controller.CustomHotseatPress();
+                this.askingHotseat = false;
+            }
+            else if (askingNetwork)
+            {
+                String ip = IPBox.Text;
+                if (ip != "")
+                    this.controller.CreateCustomNetworkGamePress(ip);
+                else
+                    this.controller.CreateCustomNetworkGamePress();
+
+                board.Visible = true;
+                board.Invalidate();
+                TeamLabel.Visible = true;
+            }
+            else
+            {
+                controller.LoadGamePress(IPBox.Text);
             }
         }
 
