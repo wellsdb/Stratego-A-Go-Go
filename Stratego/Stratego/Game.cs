@@ -20,6 +20,7 @@ namespace Stratego
         private Boolean active;
         private Boolean gameOver;
         private Point[] revealedPieces;
+        private Boolean placement;
 
         //Creates a Game with default values
         public Game()
@@ -109,6 +110,24 @@ namespace Stratego
             this.currentTeam = current;
         }
 
+        //Gets whether or not the game is in the placement phase.
+        public Boolean getPlacement()
+        {
+            return this.placement;
+        }
+
+        //Sets whether or not the game is in the placement phase.
+        public void setPlacement(Boolean set)
+        {
+            this.placement = set;
+        }
+
+        //Gets whether or not the game is active.
+        public Boolean isActive()
+        {
+            return this.active;
+        }
+
         //Starts the game by setting the turnCount to 1, setting the player in control of the turn to Red, and setting the active field to true.
         public void startGame()
         {
@@ -116,6 +135,7 @@ namespace Stratego
             this.currentTeam = Piece.Team.red;
             this.active = true;
             this.revealedPieces = new Point[] { new Point(-1, -1), new Point(-1, -1) };
+            this.placement = true;
         }
         
         //Attempts to perform a move and returns a Boolean array indicating the result.
@@ -125,7 +145,7 @@ namespace Stratego
         //TODO: assign victory condition checking to another method.
         public Boolean[] movePiece(Int16 v, Int16 h, Board.Direction direction, Int16 distance)
         {
-            if (!this.active)
+            if (!this.active & !this.placement)
                 return new Boolean[2] {false, false};
 
             Piece movingPiece = this.board.getPiece(v, h);
@@ -219,13 +239,14 @@ namespace Stratego
         }
         
         //Sets the current turn to the other player and if appropriate, increments the turncount
-        private void swapTurn()
+        public void swapTurn()
         {
             if (this.currentTeam == Piece.Team.red)
                 this.currentTeam = Piece.Team.blue;
             else
             {
                 this.currentTeam = Piece.Team.red;
+                if (!this.placement)
                 this.turnCount++;
             }
         }
@@ -486,101 +507,101 @@ namespace Stratego
                         }
                         else if (square == "Lake")
                         {
-                            temp.getCell(i, j).setTerrain(Cell.Terrain.Land);
+                            temp.getCell(i, j).setTerrain(Cell.Terrain.Lake);
                         }
-                        else if (square == "flag red")
+                        else if (square == "flagred")
                         {
                             temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.flag), i, j);
                         }
-                        else if (square == "flag blue")
+                        else if (square == "flagblue")
                         {
                             temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.flag), i, j);
                         }
-                        else if (square == "spy red")
+                        else if (square == "spyred")
                         {
                             temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.spy), i, j);
                         }
-                        else if (square == "spy blue")
+                        else if (square == "spyblue")
                         {
                             temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.spy), i, j);
                         }
-                        else if (square == "scout red")
+                        else if (square == "scoutred")
                         {
                             temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.scout), i, j);
                         }
-                        else if (square == "scout blue")
+                        else if (square == "scoutblue")
                         {
                             temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.scout), i, j);
                         }
-                        else if (square == "miner red")
+                        else if (square == "minerred")
                         {
                             temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.miner), i, j);
                         }
-                        else if (square == "miner blue")
+                        else if (square == "minerblue")
                         {
                             temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.miner), i, j);
                         }
-                        else if (square == "sergeant red")
+                        else if (square == "sergeantred")
                         {
                             temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.sergeant), i, j);
                         }
-                        else if (square == "sergeant blue")
+                        else if (square == "sergeantblue")
                         {
                             temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.sergeant), i, j);
                         }
-                        else if (square == "lieutenant red")
+                        else if (square == "lieutenantred")
                         {
                             temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.lieutenant), i, j);
                         }
-                        else if (square == "lieutenant blue")
+                        else if (square == "lieutenantblue")
                         {
                             temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.lieutenant), i, j);
                         }
-                        else if (square == "captain red")
+                        else if (square == "captainred")
                         {
                             temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.captain), i, j);
                         }
-                        else if (square == "captain blue")
+                        else if (square == "captainblue")
                         {
                             temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.captain), i, j);
                         }
-                        else if (square == "major red")
+                        else if (square == "majorred")
                         {
                             temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.major), i, j);
                         }
-                        else if (square == "major blue")
+                        else if (square == "majorblue")
                         {
                             temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.major), i, j);
                         }
-                        else if (square == "colonel red")
+                        else if (square == "colonelred")
                         {
                             temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.colonel), i, j);
                         }
-                        else if (square == "colonel blue")
+                        else if (square == "colonelblue")
                         {
                             temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.colonel), i, j);
                         }
-                        else if (square == "general red")
+                        else if (square == "generalred")
                         {
                             temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.general), i, j);
                         }
-                        else if (square == "general blue")
+                        else if (square == "generalblue")
                         {
                             temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.general), i, j);
                         }
-                        else if (square == "marshal red")
+                        else if (square == "marshalred")
                         {
                             temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.marshal), i, j);
                         }
-                        else if (square == "marshal blue")
+                        else if (square == "marshalblue")
                         {
                             temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.marshal), i, j);
                         }
-                        else if (square == "bomb red")
+                        else if (square == "bombred")
                         {
                             temp.placePiece(new Piece(Piece.Team.red, Piece.Rank.bomb), i, j);
                         }
-                        else if (square == "bomb blue")
+                        else if (square == "bombblue")
                         {
                             temp.placePiece(new Piece(Piece.Team.blue, Piece.Rank.bomb), i, j);
                         }

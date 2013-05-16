@@ -117,11 +117,11 @@ namespace Testing.StrategoTests
             String r = "none";
             Assert.AreEqual(r, c.GetOwnerPlayer());
 
-            c.CreateNetworkGame();    
+            c.CreateQuickNetworkGame();    
             r = "red";
             Assert.AreEqual(r, c.GetOwnerPlayer());
 
-            c.JoinNetworkGame();
+            c.JoinQuickNetworkGame();
             r = "blue";
             Assert.AreEqual(r, c.GetOwnerPlayer());
         }

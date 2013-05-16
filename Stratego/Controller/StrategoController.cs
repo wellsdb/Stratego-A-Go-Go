@@ -33,6 +33,8 @@ namespace Controller
         private GUIController gui;
         private GameController game;
         private NetworkController network;
+        private Boolean waiting;
+        private Boolean toSwitch;
         //private GameController.GameType type;
 
         /// <summary>
@@ -96,18 +98,24 @@ namespace Controller
             //Boolean updated = false;
             while (true)
             {
-                Thread.Sleep(100);
+                Thread.Sleep(50);
                 //Console.Write("Checking GUI");
                 if (this.gui.HasUpdate())
                 {
                     GUI.GUIController.UserInput input = this.gui.GetInput();
                     switch (input)
                     {
-                        case GUI.GUIController.UserInput.Hotseat:
-                            this.NewHotSeatGame();
+                        case GUI.GUIController.UserInput.QuickHotseat:
+                            this.QuickHotSeatGame();
                             break;
-                        case GUI.GUIController.UserInput.CreateNetwork:
-                            this.CreateNetworkGame();
+                        case GUI.GUIController.UserInput.CustomHotseat:
+                            this.CustomHotSeatGame();
+                            break;
+                        case GUI.GUIController.UserInput.CreateQuickNetwork:
+                            this.CreateQuickNetworkGame();
+                            break;
+                        case GUI.GUIController.UserInput.CreateCustomNetwork:
+                            this.CreateCustomNetworkGame();
                             break;
                         case GUI.GUIController.UserInput.JoinNetwork:
                             this.JoinNetworkGame();
@@ -115,7 +123,6 @@ namespace Controller
                         case GUI.GUIController.UserInput.Settings:
                             //this.Se
                             throw new Exception("Settings are not yet implemented!");
-                            break;
                         case GUI.GUIController.UserInput.Exit:
                             this.Exit();
                             break;
@@ -129,10 +136,10 @@ namespace Controller
                                 this.gui.SetAttempt(false);
                             break;
                         case GUI.GUIController.UserInput.Save:
-                            this.SaveGame();
+                            this.SaveGame(this.gui.GetSaveLoad());
                             break;
                         case GUI.GUIController.UserInput.Load:
-                            this.LoadGame();
+                            this.LoadGame(this.gui.GetSaveLoad());
                             break;
                         case GUI.GUIController.UserInput.RussianMode:
                             this.RussianToggle();
@@ -142,7 +149,6 @@ namespace Controller
                             break;
                         default:
                             throw new Exception("A bad input was recieved from the GUI.");
-                            break;
                     }
                     //new Thread(new ThreadStart(this.gui.ResetUpdate)).Start();
                     //Thread.Sleep(100);
@@ -169,15 +175,41 @@ namespace Controller
             //Boolean updated = false;
             while (true)
             {
-                Thread.Sleep(400);
+                Thread.Sleep(200);
                 if (network.HasUpdate())
                 {
                     Byte[] data = network.GetData();
                     String message = new ASCIIEncoding().GetString(data);
+                    Console.WriteLine("<" + message + ">");
+                    if (this.waiting)
+                    {
+                        message = message.Substring(0, 5);
+                        if (message == "quick")
+                        {
+                            this.game.JoinQuickNetworkGame();
+                        }
+                        else if (message == "custo")
+                        {
+                            this.game.JoinCustomNetworkGame();
+                        }
+                        this.gui.SetBoard(this.game.GetBoard());
+                        this.gui.SetCurrentTeam(this.game.GetCurrentTeam());
+                        this.gui.SetOwnerTeam(Piece.Team.blue);
+                        this.gui.SetGameType(GameController.GameType.Network);
+                        this.waiting = false;
+                    }
                     //assume move at this point
-                    short[] move = NetworkConverter.StringToMove(message);
-                    //Console.WriteLine(message);
-                    this.MoveAttempt(move);
+                    else if (!game.GetGame().getPlacement())
+                    {
+                        short[] move = NetworkConverter.StringToMove(message);
+                        this.MoveAttempt(move);
+                    }
+                    else
+                    {
+                        Object[] place = NetworkConverter.StringToPlace(message);
+                        this.PlaceAttempt(place);
+                        if (this.toSwitch) game.GetGame().setPlacement(false);
+                    }
                     this.network.ResetUpdate();
                     new Thread(new ThreadStart(this.gui.Update)).Start();
                 }
@@ -185,9 +217,9 @@ namespace Controller
         }
 
         /// <summary>
-        /// Starts a new hotseat game with calls to the game and the GUI
+        /// Starts a new preset hotseat game with calls to the game and the GUI
         /// </summary>
-        private void NewHotSeatGame()
+        private void QuickHotSeatGame()
         {
             this.gui.ResetGameInformation();
             this.game.StartHotseatGame();
@@ -200,9 +232,23 @@ namespace Controller
         }
 
         /// <summary>
+        /// Starts a new hotseat game where you place your pieces.
+        /// </summary>
+        private void CustomHotSeatGame()
+        {
+            this.gui.ResetGameInformation();
+            this.game.StartCustomHotseatGame();
+            this.gui.SetBoard(this.game.GetBoard());
+            this.gui.SetCurrentTeam(this.game.GetCurrentTeam());
+            this.gui.SetOwnerTeam(Piece.Team.red);
+            this.gui.SetGameType(GameController.GameType.Hotseat);
+            this.gui.Update();
+        }
+
+        /// <summary>
         /// Creates a new network game with calls to the game, network, and gui
         /// </summary>
-        private void CreateNetworkGame()
+        private void CreateQuickNetworkGame()
         {
             this.gui.ResetGameInformation();
             this.network.SetSendPort(NetworkController.Port.One);
@@ -215,7 +261,30 @@ namespace Controller
                 this.network.SetIP(ip);
 
             this.network.StartServer();
-            this.game.CreateNetworkGame();
+            this.game.CreateQuickNetworkGame();
+            this.network.SendString("quick");
+            this.gui.SetBoard(this.game.GetBoard());
+            this.gui.SetCurrentTeam(this.game.GetCurrentTeam());
+            this.gui.SetOwnerTeam(Piece.Team.red);
+            this.gui.SetGameType(GameController.GameType.Network);
+            this.gui.Update();
+        }
+
+        private void CreateCustomNetworkGame()
+        {
+            this.gui.ResetGameInformation();
+            this.network.SetSendPort(NetworkController.Port.One);
+            this.network.SetRecievePort(NetworkController.Port.Two);
+
+            String ip = this.gui.GetIP();
+            if (ip == "")
+                this.network.SetIP(NetworkController.LOCALHOST_IP);
+            else
+                this.network.SetIP(ip);
+
+            this.network.StartServer();
+            this.game.CreateCustomNetworkGame();
+            this.network.SendString("custo");
             this.gui.SetBoard(this.game.GetBoard());
             this.gui.SetCurrentTeam(this.game.GetCurrentTeam());
             this.gui.SetOwnerTeam(Piece.Team.red);
@@ -240,13 +309,10 @@ namespace Controller
 
             //this.network.StartServer();
             //CHANGE FOR DIFFERENT IP's
-            this.game.JoinNetworkGame();
-            this.gui.SetBoard(this.game.GetBoard());
-            this.gui.SetCurrentTeam(this.game.GetCurrentTeam());
-            this.gui.SetOwnerTeam(Piece.Team.blue);
-            this.gui.SetGameType(GameController.GameType.Network);
+
             //this.gui.SetToBeUpdated(true);
             this.network.StartServer();
+            this.waiting = true;
         }
 
         private void QuitGame()
@@ -254,13 +320,19 @@ namespace Controller
             this.network.Stop();            
         }
 
-        private void SaveGame()
+        private void SaveGame(String file)
         {
-
+            this.game.GetGame().saveFile(file);
         }
 
-        private void LoadGame()
+        private void LoadGame(String file)
         {
+            this.gui.ResetGameInformation();
+            this.game.StartHotseatGame();
+            this.game.GetGame().loadFile(file);
+            this.gui.SetBoard(this.game.GetBoard());
+            this.gui.SetGameType(GameController.GameType.Hotseat);
+            this.gui.Update();
 
         }
 
@@ -276,50 +348,224 @@ namespace Controller
                     short v = clicked[0];
                     short h = clicked[1];
 
-                    short[] currentSelection = this.game.getCurrentSelection();
 
-                    Board board = this.game.GetBoard();
-
-                    Piece piece = board.getCell(v, h).getPiece();
-
-                    if (currentSelection == null)
+                    if (this.game.GetGame().getPlacement())
                     {
-                        if (piece != null)
+                        
+                        Stratego.Piece.Team team = this.game.GetGame().getCurrentTurn();
+                        short count1 = this.game.GetGame().getBoard().getRedCount();
+                        short count2 = this.game.GetGame().getBoard().getBlueCount();
+
+
+
+                        if (count1 < 40 | count2 < 40)
                         {
-                            Piece.Team activeTeam = this.game.GetCurrentTeam();
-                            Piece.Team pieceTeam = piece.getTeam();
-                            if (activeTeam == pieceTeam)
+                            Cell.Terrain terrain = this.game.GetBoard().getCell(v, h).getTerrain();
+                            Piece piece = this.game.GetGame().getBoard().getCell(v, h).getPiece();
+
+
+                            if (terrain == Cell.Terrain.Land && piece == null)
                             {
-                                //this.currentSelection = selected;
-                                this.game.setCurrentSelection(v, h);
-                                this.gui.SetSelection(new short[] { v, h });
-                                this.gui.SetAvailableMoves(this.game.GetAvailableMoves(new Point(h, v)));
-                                this.gui.Update();
+                                if (count1 > count2)
+                                {
+                                    if (v > 5)
+                                    {
+                                        this.PlaceAttempt(new Object[] { v, h, this.game.GetGame().getCurrentTurn(), count2 });
+                                        count2++;
+                                    }
+
+                                }
+                                else
+                                {
+                                    if (v < 4)
+                                    {
+                                        this.PlaceAttempt( new Object[] {v, h, this.game.GetGame().getCurrentTurn(), count1 });
+                                        count1++;
+                                    }
+                                }
+
                             }
-                            // Console.WriteLine(this.controller.GetGame().getBoard().getCell(v, h).getPiece().getRank());
+                            if (count1 == 40 | count2 == 40)
+                            {
+                                this.game.GetGame().swapTurn();
+                                this.gui.SetCurrentTeam(this.game.GetCurrentTeam());
+                                this.gui.SetBoard(this.game.GetBoard());
+                                this.gui.Update();
+                                if (team == Piece.Team.blue)
+                                {
+                                    this.game.GetGame().setPlacement(false);
+                                }
+                                else
+                                {
+                                    this.toSwitch = true;
+                                }
+
+                                this.game.GetGame().swapTurn();
+                                this.gui.SetBoard(this.game.GetBoard());
+                                this.gui.SetCurrentTeam(this.game.GetCurrentTeam());
+                                this.gui.Update();
+
+                                Console.WriteLine("Switched");
+                            }
+
                         }
+
                     }
                     else
                     {
-                        short currentV = currentSelection[0];
-                        short currentH = currentSelection[1];
-                        this.game.clearCurrentSelection();
-                        this.gui.SetSelection(null);
+                        short[] currentSelection = this.game.getCurrentSelection();
 
-                        if (currentV != v || currentH != h)
+                        Board board = this.game.GetBoard();
+
+                        Piece piece = board.getCell(v, h).getPiece();
+
+                        if (currentSelection == null)
                         {
-                            this.gui.SetSelection(null);
-                            this.MoveAttempt(new short[] { v, h, currentV, currentH });
+                            if (piece != null)
+                            {
+                                Piece.Team activeTeam = this.game.GetCurrentTeam();
+                                Piece.Team pieceTeam = piece.getTeam();
+                                if (activeTeam == pieceTeam)
+                                {
+                                    //this.currentSelection = selected;
+                                    this.game.setCurrentSelection(v, h);
+                                    this.gui.SetSelection(new short[] { v, h });
+                                    this.gui.SetAvailableMoves(this.game.GetAvailableMoves(new Point(h, v)));
+                                    this.gui.Update();
+                                }
+                                // Console.WriteLine(this.controller.GetGame().getBoard().getCell(v, h).getPiece().getRank());
+                            }
                         }
                         else
                         {
+                            short currentV = currentSelection[0];
+                            short currentH = currentSelection[1];
                             this.game.clearCurrentSelection();
                             this.gui.SetSelection(null);
-                            this.gui.Update();
+
+                            if (currentV != v || currentH != h)
+                            {
+                                this.gui.SetSelection(null);
+                                this.MoveAttempt(new short[] { v, h, currentV, currentH });
+                            }
+                            else
+                            {
+                                this.game.clearCurrentSelection();
+                                this.gui.SetSelection(null);
+                                this.gui.Update();
+                            }
                         }
                     }
                 }
             }
+        }
+
+        //Helper method to place pieces at the start of the game.
+        private Boolean placement(short v, short h, Stratego.Piece.Team team, short pieceCount)
+        {
+            Boolean valid = false;
+            Piece place;
+            if (pieceCount < 8)
+            {
+                place = new Piece(team, Piece.Rank.scout);
+                this.game.GetGame().getBoard().placementPiece(place, v, h);
+                valid = true;
+            }
+            else if (pieceCount < 13)
+            {
+                place = new Piece(team, Piece.Rank.miner);
+                this.game.GetGame().getBoard().placementPiece(place, v, h);
+                valid = true;
+            }
+            else if (pieceCount < 17)
+            {
+                place = new Piece(team, Piece.Rank.sergeant);
+                this.game.GetGame().getBoard().placementPiece(place, v, h);
+                valid = true;
+            }
+            else if (pieceCount < 21)
+            {
+                place = new Piece(team, Piece.Rank.lieutenant);
+                this.game.GetGame().getBoard().placementPiece(place, v, h);
+                valid =  true;
+
+            }
+            else if (pieceCount < 25)
+            {
+                place = new Piece(team, Piece.Rank.captain);
+                this.game.GetGame().getBoard().placementPiece(place, v, h);
+                valid = true;
+
+            }
+            else if (pieceCount < 28)
+            {
+                place = new Piece(team, Piece.Rank.major);
+                this.game.GetGame().getBoard().placementPiece(place, v, h);
+                valid = true;
+
+            }
+            else if (pieceCount < 30)
+            {
+                place = new Piece(team, Piece.Rank.colonel);
+                this.game.GetGame().getBoard().placementPiece(place, v, h);
+                valid = true;
+
+            }
+            else if (pieceCount < 31)
+            {
+                place = new Piece(team, Piece.Rank.general);
+                this.game.GetGame().getBoard().placementPiece(place, v, h);
+                valid = true;
+
+            }
+            else if (pieceCount < 32)
+            {
+                place = new Piece(team, Piece.Rank.marshal);
+                this.game.GetGame().getBoard().placementPiece(place, v, h);
+                valid = true;
+
+            }
+            else if (pieceCount < 33)
+            {
+                place = new Piece(team, Piece.Rank.spy);
+                this.game.GetGame().getBoard().placementPiece(place, v, h);
+                valid = true;
+
+            }
+            else if (pieceCount < 39)
+            {
+                place = new Piece(team, Piece.Rank.bomb);
+                this.game.GetGame().getBoard().placementPiece(place, v, h);
+                valid = true;
+
+            }
+            else if (pieceCount < 40)
+            {
+                place = new Piece(team, Piece.Rank.flag);
+                this.game.GetGame().getBoard().placementPiece(place, v, h);
+                valid = true;
+
+            }
+
+            if (pieceCount == 40)
+            {
+                this.game.GetGame().swapTurn();
+                this.gui.SetCurrentTeam(this.game.GetCurrentTeam());
+                this.gui.SetBoard(this.game.GetBoard());
+                this.gui.Update();
+                this.game.GetGame().setPlacement(false);
+                valid = true;
+            }
+
+            if (valid)
+            {
+                this.game.GetGame().swapTurn();
+                this.gui.SetBoard(this.game.GetBoard());
+                this.gui.SetCurrentTeam(this.game.GetCurrentTeam());
+                this.gui.Update();
+            }
+
+            return valid;
         }
 
         /// <summary>
@@ -357,6 +603,32 @@ namespace Controller
             this.gui.SetRevealedPieces(this.game.GetRevealedPieces());
             //this.gui.SetToBeUpdated(true);
             this.gui.Update();
+        }
+
+        private void PlaceAttempt(Object[] place)
+        {
+            Piece.Team movingTeam = game.GetCurrentTeam();
+
+            Boolean attempt = this.placement((short) place[0], (short) place[1], movingTeam, (short) place[3]);
+            if (attempt)
+            {
+                this.gui.SetBoard(this.game.GetBoard());
+                this.gui.SetCurrentTeam(this.game.GetCurrentTeam());
+                if (this.game.GetGameType() == GameController.GameType.Network)
+                {
+                    Boolean sent = false;
+                    if (this.game.GetOwnerTeam() == movingTeam)
+                    {
+                        Console.WriteLine("Sending..." + NetworkConverter.PlaceToString((short)place[0], (short)place[1], place[2].ToString(), (short)place[3]));
+                        sent = this.network.SendString(NetworkConverter.PlaceToString((short)place[0], (short)place[1], place[2].ToString(), (short)place[3]));
+                    }
+                }
+            }
+                    this.gui.SetAttempt(attempt);
+                    this.gui.Update();
+                
+
+
         }
         
         /// <summary>
