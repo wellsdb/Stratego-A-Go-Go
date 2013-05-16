@@ -68,6 +68,15 @@ namespace Stratego
             return b;
         }
 
+        public static Board GetPrePlacedBoard()
+        {
+            Board b = Board.GetDefaultBoard();
+
+
+
+            return b;
+        }
+
         public static Board FromString(String board)
         {
             Board temp = new Board();
@@ -302,6 +311,9 @@ namespace Stratego
                 if (destinationP.getTeam() == p.getTeam())
                     return false;
 
+            if (dist > 1 && destinationP != null)
+                return false;
+
             return true;
         }
 
@@ -320,6 +332,9 @@ namespace Stratego
                 return Event.Flag;
 
             Piece currentPiece = cells[y, x].getPiece();
+
+            if (dist > 1)
+                return Event.BadMove;
 
             Piece.Combat battleResult = Piece.Battle(currentPiece, destPiece, this.mode);
 

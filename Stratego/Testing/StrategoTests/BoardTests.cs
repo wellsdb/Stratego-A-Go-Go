@@ -1045,5 +1045,35 @@ namespace Testing.StrategoTests
             Assert.AreEqual(test, b.GetAvailableMoves(new Point(5, 2)));
         }
 
+        [Test()]
+        public void TestThatScoutsCannotStrikeAndMoveSimultaneously()
+        {
+            Board b = new Board();
+            b.placePiece(RedScout, 7, 4);
+            b.placePiece(BlueScout, 2, 5);
+
+            b.placePiece(BlueNotScout, 9, 4);
+            b.placePiece(BlueNotScout, 4, 4);
+            b.placePiece(BlueNotScout, 7, 7);
+            b.placePiece(BlueNotScout, 7, 0);
+            
+            b.placePiece(RedNotScout, 6, 5);
+            b.placePiece(RedNotScout, 2, 8);
+            b.placePiece(RedNotScout, 0, 5);
+            b.placePiece(RedNotScout, 2, 0);
+
+            Board.Event expected = Board.Event.BadMove;
+            
+            Assert.AreEqual(expected, b.moveEvent(7, 4, Board.Direction.N, 2));
+            Assert.AreEqual(expected, b.moveEvent(7, 4, Board.Direction.S, 3));
+            Assert.AreEqual(expected, b.moveEvent(7, 4, Board.Direction.E, 3));
+            Assert.AreEqual(expected, b.moveEvent(7, 4, Board.Direction.W, 4));
+
+            Assert.AreEqual(expected, b.moveEvent(2, 5, Board.Direction.N, 4));
+            Assert.AreEqual(expected, b.moveEvent(2, 5, Board.Direction.S, 2));
+            Assert.AreEqual(expected, b.moveEvent(2, 5, Board.Direction.E, 3));
+            Assert.AreEqual(expected, b.moveEvent(2, 5, Board.Direction.W, 5));
+        }
+
     }
 }

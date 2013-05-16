@@ -17,8 +17,8 @@ namespace Stratego
         private Player playerTwo;
         private Int16 turnCount;
         private Piece.Team currentTeam;
-        private short[] currentSelection;
         private Boolean active;
+        private Boolean gameOver;
 
         //Creates a Game with default values
         public Game()
@@ -41,22 +41,7 @@ namespace Stratego
             this.currentTeam = Piece.Team.none;
             this.active = false;
         }
-
-        public short[] getCurrentSelection()
-        {
-            return this.currentSelection;
-        }
-
-        public void setCurrentSelection(short[] selected)
-        {
-            this.currentSelection = selected;
-        }
-
-        public void clearCurrentSelection()
-        {
-            this.currentSelection = null;
-        }
-
+        
         //Gets this Game's board
         public Board getBoard()
         {
@@ -161,6 +146,8 @@ namespace Stratego
             // move is valid
             // get the effect of the move
             Board.Event moveEvent = this.board.moveEvent(v, h, direction, distance);
+
+
 
             //place an empty piece on the old cell
             this.board.placePiece(null, v, h);
@@ -595,6 +582,30 @@ namespace Stratego
                 if (file != null)
                     file.Close();
             }
-        }                
+        }
+
+        private void VerifyGameOver()
+        {
+            //if (!this.playerOne.HasFlag())
+            //{
+            //    this.gameOver = true;
+            //    this.winner = this.playerTwo.GetTeam();
+            //}
+            //else if (!this.playerTwo.HasFlag())
+            //{
+            //    this.gameOver = true;
+            //    this.winner = this.playerOne.GetTeam();
+            //}
+            //else if (!this.playerOne.HasMoveable())
+            //{
+            //    this.gameOver = true;
+            //    this.winner = this.playerTwo.GetTeam();
+            //}
+            //else if (!this.playerTwo.HasMoveable())
+            //{
+            //    this.gameOver = true;
+            //    this.winner = this.playerOne.GetTeam();
+            //}
+        }
     }
 }

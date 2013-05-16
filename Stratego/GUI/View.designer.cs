@@ -39,7 +39,7 @@
             this.networkbutton = new System.Windows.Forms.PictureBox();
             this.createbutton = new System.Windows.Forms.PictureBox();
             this.joinbutton = new System.Windows.Forms.PictureBox();
-            this.textBox = new System.Windows.Forms.TextBox();
+            this.IPBox = new System.Windows.Forms.TextBox();
             this.TeamLabel = new System.Windows.Forms.Label();
             this.exitlabel = new System.Windows.Forms.Label();
             this.menulabel = new System.Windows.Forms.Label();
@@ -138,7 +138,6 @@
             this.hotseatbutton.Size = new System.Drawing.Size(400, 100);
             this.hotseatbutton.TabIndex = 1;
             this.hotseatbutton.TabStop = false;
-            this.hotseatbutton.Click += new System.EventHandler(this.hotseatbutton_Click);
             this.hotseatbutton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HotseatButtonClick);
             // 
             // networkbutton
@@ -173,13 +172,13 @@
             this.joinbutton.Visible = false;
             this.joinbutton.MouseClick += new System.Windows.Forms.MouseEventHandler(this.JoinButtonClick);
             // 
-            // textBox
+            // IPBox
             // 
-            this.textBox.Location = new System.Drawing.Point(432, 48);
-            this.textBox.Name = "textBox";
-            this.textBox.Size = new System.Drawing.Size(200, 20);
-            this.textBox.TabIndex = 5;
-            this.textBox.Visible = false;
+            this.IPBox.Location = new System.Drawing.Point(562, 457);
+            this.IPBox.Name = "IPBox";
+            this.IPBox.Size = new System.Drawing.Size(200, 20);
+            this.IPBox.TabIndex = 5;
+            this.IPBox.Visible = false;
             // 
             // TeamLabel
             // 
@@ -190,7 +189,6 @@
             this.TeamLabel.TabIndex = 4;
             this.TeamLabel.Text = "Red\'s Turn";
             this.TeamLabel.Visible = false;
-            this.TeamLabel.Click += new System.EventHandler(this.label1_Click);
             // 
             // exitlabel
             // 
@@ -257,7 +255,7 @@
             this.Controls.Add(this.joinlabel);
             this.Controls.Add(this.menulabel);
             this.Controls.Add(this.exitlabel);
-            this.Controls.Add(this.textBox);
+            this.Controls.Add(this.IPBox);
             this.Controls.Add(this.joinbutton);
             this.Controls.Add(this.createbutton);
             this.Controls.Add(this.TeamLabel);
@@ -290,7 +288,7 @@
         private System.Windows.Forms.PictureBox networkbutton;
         private System.Windows.Forms.PictureBox createbutton;
         private System.Windows.Forms.PictureBox joinbutton;
-        private System.Windows.Forms.TextBox textBox;
+        private System.Windows.Forms.TextBox IPBox;
         private System.Windows.Forms.Label networklabel;
         private System.Windows.Forms.Label settingslabel;
         private System.Windows.Forms.Label hotseatlabel;

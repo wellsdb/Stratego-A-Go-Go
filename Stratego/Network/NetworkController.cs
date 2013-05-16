@@ -81,6 +81,12 @@ namespace Network
             this.server.Start();
         }
 
+        public void Stop()
+        {
+            //stop the server
+            this.server.Stop();
+        }
+
         private Byte[] GetDataFromContainer(ByteContainer cont)
         {
             return cont.ReadData();

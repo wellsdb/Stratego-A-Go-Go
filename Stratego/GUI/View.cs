@@ -11,31 +11,48 @@ using System.Globalization;
 
 namespace GUI
 {
-    public partial class View : Form
+    public partial class View : Form //, FrontEnd
     {
         public short h;
         public short v;
-        public short mode;
+        //public short mode;
         private GUIController controller;
         private Boolean Russian;
         private Boolean colorBlind;
         private Boolean easy;
         private Boolean spanish;
         private CultureInfo CultureInfo { get; set; }
+        private Boolean settingsMenu = false;
+
+        private static readonly Color LAND_COLOR_NORMAL = Color.Green;
+        private static readonly Color LAKE_COLOR_NORMAL = Color.Aquamarine;
+        private static readonly Color SELECTION_COLOR_NORMAL = Color.BlanchedAlmond;
+        private static readonly Color AVAILABLE_COLOR_NORMAL = Color.Purple;
+        private static readonly Color RED_TEAM_COLOR_NORMAL = Color.DarkRed;
+        private static readonly Color BLUE_TEAM_COLOR_NORMAL = Color.DarkBlue;
+
+        private static readonly Color LAND_COLOR_RUSSIAN = Color.White;
+        private static readonly Color LAKE_COLOR_RUSSIAN = Color.LightBlue;
+        private static readonly Color SELECTION_COLOR_RUSSIAN = Color.Yellow;
+        private static readonly Color AVAILABLE_COLOR_BLIND = Color.LightGray;
+        private static readonly Color RED_TEAM_COLOR_BLIND = Color.Black;
+        private static readonly Color BLUE_TEAM_COLOR_BLIND = Color.White;
 
         public View()
         {
 
         }
-
+        
         public View(GUIController controller)
         {
             this.controller = controller;
-            mode = 0;
+            //mode = 0;
             CultureInfo = CultureInfo.CurrentCulture;
 
             InitializeComponent();
             this.loadLanguages();
+
+            this.board.Visible = false;
         }
 
         private void loadLanguages()
@@ -69,40 +86,61 @@ namespace GUI
             menulabel.Refresh();
         }
 
-        private void UpdateTeamLabel()
+        public void UpdatePlayer(Piece.Team player)
         {
             if (this.colorBlind)
             {
-                if (this.controller.GetGame().getCurrentTurn() == Stratego.Piece.Team.red)
+                if (player == Piece.Team.red)
                 {
-                    TeamLabel.Text = GUI.Properties.Resources.ResourceManager.GetString("black", CultureInfo);
+                    //TeamLabel.Text = GUI.Properties.Resources.ResourceManager.GetString("black", CultureInfo);
+                    this.SetTeamLabel("black");
                 }
                 else
                 {
-                    TeamLabel.Text = GUI.Properties.Resources.ResourceManager.GetString("white", CultureInfo);
+                    //TeamLabel.Text = GUI.Properties.Resources.ResourceManager.GetString("white", CultureInfo);
+                    this.SetTeamLabel("white");
                 }
             }
             else
             {
-                if (this.controller.GetGame().getCurrentTurn() == Stratego.Piece.Team.red)
+                if (player == Piece.Team.red)
                 {
-                    TeamLabel.Text = GUI.Properties.Resources.ResourceManager.GetString("red", CultureInfo);
+                    //TeamLabel.Text = GUI.Properties.Resources.ResourceManager.GetString("red", CultureInfo);
+                    this.SetTeamLabel("red");
                 }
                 else
                 {
-                    TeamLabel.Text = GUI.Properties.Resources.ResourceManager.GetString("blue", CultureInfo);
+                    //TeamLabel.Text = GUI.Properties.Resources.ResourceManager.GetString("blue", CultureInfo);
+                    this.SetTeamLabel("blue");
                 }
 
             }
-            TeamLabel.Refresh();
-            //TeamLabel.Text = this.controller.GetGame().getCurrentTurn().ToString() + "'s turn.";
+            
+        }
+
+        delegate void SetTeamCallback(String text);
+
+        private void SetTeamLabel(String team)
+        {
+            if (this.TeamLabel.InvokeRequired)
+            {
+                SetTeamCallback d = new SetTeamCallback(SetTeamLabel);
+                this.Invoke(d, new object[] { team });
+            }
+            else
+            {
+                this.TeamLabel.Text = GUI.Properties.Resources.ResourceManager.GetString(team, CultureInfo);
+                this.TeamLabel.Refresh();
+            }
         }
 
         private void HotseatButtonClick(object sender, MouseEventArgs e)
         {
-            if (mode == 0)
+            if (!settingsMenu)
             {
-                mode = 2;
+                this.controller.HotSeatGamePress();
+
+                //mode = 2;
                 networkbutton.Visible = false;
                 networklabel.Visible = false;
                 hotseatbutton.Visible = false;
@@ -118,9 +156,8 @@ namespace GUI
                 board.Visible = true;
                 board.Invalidate();
                 TeamLabel.Visible = true;
-                UpdateTeamLabel();
             }
-            else if (mode == 3)
+            else
             {
                 if (this.colorBlind)
                 {
@@ -139,9 +176,8 @@ namespace GUI
 
         private void NetworkButtonClick(object sender, MouseEventArgs e)
         {
-            if (mode == 0)
+            if (!settingsMenu)
             {
-                mode = 1;
                 networkbutton.Visible = false;
                 networklabel.Visible = false;
                 hotseatbutton.Visible = false;
@@ -158,11 +194,12 @@ namespace GUI
                 joinbutton.Visible = true;
                 joinlabel.Visible = true;
 
-                textBox.Visible = true;
+                IPBox.Visible = true;
 
             }
-            else if (mode == 3)
+            else
             {
+                this.controller.RussianPress();
                 if (this.Russian)
                 {
                     this.Russian = false;
@@ -182,28 +219,35 @@ namespace GUI
         private void JoinButtonClick(object sender, MouseEventArgs e)
         {
             //controller.JoinNetworkGame(textBox.Text);
+            this.controller.JoinNetworkGamePress();
 
             board.Visible = true;
             board.Invalidate();
             TeamLabel.Visible = true;
-            UpdateTeamLabel();
+            //UpdatePlayer();
         }
 
         private void CreateButtonClick(object sender, MouseEventArgs e)
         {
-            //controller.CreateNetworkGame();
+            //get IP
+            String ip = IPBox.Text;
+            if (ip != "")
+                this.controller.CreateNetworkGamePress(ip);
+            else 
+                this.controller.CreateNetworkGamePress();
 
             board.Visible = true;
             board.Invalidate();
             TeamLabel.Visible = true;
-            UpdateTeamLabel();
+
+            //UpdatePlayer();
         }
 
         private void SettingsButtonClick(object sender, MouseEventArgs e)
         {
-            if (mode == 0)
+            if (!settingsMenu)
             {
-                mode = 3;
+                this.settingsMenu = true;
                 this.loadSettingsLanguages();
                 if (Russian) networkbutton.Image = GUI.Properties.Resources.activatedwidebutton;
                 if (colorBlind) hotseatbutton.Image = GUI.Properties.Resources.activatedwidebutton;
@@ -212,7 +256,7 @@ namespace GUI
                 returntomenubutton.Visible = true;
                 menulabel.Visible = true;
             }
-            else if (mode == 3)
+            else
             {
                 if (this.easy)
                 {
@@ -231,12 +275,11 @@ namespace GUI
 
         private void ExitButtonClick(object sender, MouseEventArgs e)
         {
-            if (mode == 0)
+            if (!settingsMenu)
             {
-                mode = 9;
-                this.Close();
+                this.controller.ExitPress();
             }
-            else if (mode == 3)
+            else
             {
                 if (this.spanish)
                 {
@@ -256,11 +299,8 @@ namespace GUI
 
         private void BackToMenuClick(object sender, MouseEventArgs e)
         {
-            if (mode == 1 || mode == 2)
+            if (!settingsMenu)
             {
-                mode = 0;
-                board.Visible = false;
-
                 hotseatbutton.Visible = true;
                 hotseatlabel.Visible = true;
                 hotseatlabel.BringToFront();
@@ -275,21 +315,21 @@ namespace GUI
                 createlabel.Visible = false;
                 joinbutton.Visible = false;
                 joinlabel.Visible = false;
-                textBox.Visible = false;
+                IPBox.Visible = false;
                 returntomenubutton.Visible = false;
                 menulabel.Visible = false;
                 TeamLabel.Visible = false;
 
                 board.Visible = false;
-                board.Invalidate();
 
+                this.controller.QuitGame();
                 //this.controller.Stop();
 
                 //this.controller = new GameController();
             }
-            else if (mode == 3)
+            else
             {
-                this.mode = 0;
+                this.settingsMenu = false;
                 hotseatbutton.Visible = true;
                 hotseatlabel.Visible = true;
                 hotseatlabel.BringToFront();
@@ -304,18 +344,16 @@ namespace GUI
                 createlabel.Visible = false;
                 joinbutton.Visible = false;
                 joinlabel.Visible = false;
-                textBox.Visible = false;
+                IPBox.Visible = false;
                 returntomenubutton.Visible = false;
                 menulabel.Visible = false;
                 TeamLabel.Visible = false;
-
 
                 networkbutton.Image = GUI.Properties.Resources.widebutton;
                 hotseatbutton.Image = GUI.Properties.Resources.widebutton;
                 settingsbutton.Image = GUI.Properties.Resources.widebutton;
                 exitbutton.Image = GUI.Properties.Resources.widebutton;
                 this.loadLanguages();
-
             }
         }
 
@@ -324,89 +362,13 @@ namespace GUI
             Point p = new Point(e.X, e.Y);
             h = (short)(Math.Floor((decimal)p.X / 40));
             v = (short)(9 - (Math.Floor((decimal)p.Y / 40)));
-            System.Console.WriteLine(h);
-            System.Console.WriteLine(v);
-            short[] selected = new short[2];
-            selected[0] = v;
-            selected[1] = h;
+            //System.Console.WriteLine(h);
+            //System.Console.WriteLine(v);
+            //short[] selected = new short[2];
+            //selected[0] = v;
+            //selected[1] = h;
 
-            if (this.controller.GetGame().getCurrentSelection() == null)
-            {
-                if (this.controller.GetGame().getBoard().getCell(v, h).getPiece() != null)
-                {
-                    if ((this.controller.GetGame().getCurrentTurn() == Piece.Team.blue & this.controller.GetGame().getBoard().getCell(v, h).getPiece().getTeam() == Piece.Team.blue) | (this.controller.GetGame().getCurrentTurn() == Piece.Team.red & this.controller.GetGame().getBoard().getCell(v, h).getPiece().getTeam() == Piece.Team.red))
-                        this.controller.GetGame().setCurrentSelection(selected);
-                    Console.WriteLine(this.controller.GetGame().getBoard().getCell(v, h).getPiece().getRank());
-                }
-            }
-            else if (this.controller.GetGame().getCurrentSelection()[0] == v & this.controller.GetGame().getCurrentSelection()[1] == h)
-                this.controller.GetGame().clearCurrentSelection();
-            else
-            {
-                Stratego.Board.Direction move = Board.Direction.N;
-                short distance = 0;
-                if (this.controller.GetGame().getCurrentSelection()[0] == v & this.controller.GetGame().getCurrentSelection()[1] > h)
-                {
-                    move = Board.Direction.W;
-                    distance = (short)(this.controller.GetGame().getCurrentSelection()[1] - h);
-                }
-                else if (this.controller.GetGame().getCurrentSelection()[0] == v & this.controller.GetGame().getCurrentSelection()[1] < h)
-                {
-                    move = Board.Direction.E;
-                    distance = (short)-(this.controller.GetGame().getCurrentSelection()[1] - h);
-                }
-                else if (this.controller.GetGame().getCurrentSelection()[0] > v & this.controller.GetGame().getCurrentSelection()[1] == h)
-                {
-                    move = Board.Direction.S;
-                    distance = (short)(this.controller.GetGame().getCurrentSelection()[0] - v);
-                }
-                else if (this.controller.GetGame().getCurrentSelection()[0] < v & this.controller.GetGame().getCurrentSelection()[1] == h)
-                {
-                    move = Board.Direction.N;
-                    distance = (short)-(this.controller.GetGame().getCurrentSelection()[0] - v);
-                }
-                Console.WriteLine(move);
-                Console.WriteLine(distance);
-
-
-                if (distance != 0)
-                {
-                    Boolean[] attempt = this.controller.GetGame().movePiece(this.controller.GetGame().getCurrentSelection()[0], this.controller.GetGame().getCurrentSelection()[1], move, distance);
-                    if (!attempt[0])
-                        Console.WriteLine(GUI.Properties.Resources.ResourceManager.GetString("cantmove", CultureInfo));
-                    else
-                    {
-                        this.controller.GetGame().clearCurrentSelection();
-                        UpdateTeamLabel();
-                        if (attempt[1])
-                        {
-                            if (this.colorBlind)
-                            {
-                                if (this.controller.GetGame().getCurrentTurn() == Piece.Team.red)
-                                {
-                                    TeamLabel.Text = GUI.Properties.Resources.ResourceManager.GetString("blackwin", CultureInfo);
-                                }
-                                else
-                                {
-                                    TeamLabel.Text = GUI.Properties.Resources.ResourceManager.GetString("whitewin", CultureInfo);
-                                }
-                            }
-                            else
-                            {
-                                if (this.controller.GetGame().getCurrentTurn() == Piece.Team.red)
-                                {
-                                    TeamLabel.Text = GUI.Properties.Resources.ResourceManager.GetString("redwin", CultureInfo);
-                                }
-                                else
-                                {
-                                    TeamLabel.Text = GUI.Properties.Resources.ResourceManager.GetString("bluewin", CultureInfo);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            this.board.Invalidate();
+            this.controller.TilePress(v, h);            
         }
 
         //private void GameOver(Piece.Team t)
@@ -414,104 +376,163 @@ namespace GUI
         //    Console.WriteLine(t.ToString() + " has won!");
         //}
 
+
+        //public void UpdateBoard(Stratego.Board board)
+        //{
+
+        //}
+
+        public void UpdateBoard()
+        {
+            this.panel1_Paint(null, null);
+        }
+
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            if (mode == 1 | mode == 2 | mode == 3)
+            //if (mode == 1 | mode == 2 | mode == 3)
+            //{
+            Graphics g = board.CreateGraphics();
+
+            Board b = this.controller.GetBoard();
+            short[] selection = this.controller.GetSelection();
+            List<Point> availableMoves = this.controller.GetAvailableMoves();
+            
+            Piece.Team teamToPaint = this.controller.GetCurrentTeam();
+            if (this.controller.GetGameType() == GameController.GameType.Network)
+                teamToPaint = this.controller.GetOwnerTeam();
+            
+            if (b != null)
             {
-                Graphics g = board.CreateGraphics();
-                Pen black = new Pen(Color.Black);
-
-                SolidBrush bempty = new SolidBrush(Color.Green);
-                if (this.Russian)
+                if (b.getCell(0, 0) != null)
                 {
-                    bempty.Color = Color.White;
+                    this.PaintTerrain(g, b, selection);
+                    if (!this.controller.GetGameOver())
+                        this.PaintAvailable(g, availableMoves);
+                    this.PaintPieces(g, b, teamToPaint);
                 }
-                SolidBrush blake = new SolidBrush(Color.Aquamarine);
-                SolidBrush bclick = new SolidBrush(Color.BlanchedAlmond);
+            }
+        }
 
-                for (int v = 9; v > -1; v--)
+        private void PaintTerrain(Graphics g, Board b, short[] selection)
+        {
+            Pen pen = new Pen(Color.Black);
+            SolidBrush bland = new SolidBrush(LAND_COLOR_NORMAL);
+            SolidBrush blake = new SolidBrush(LAKE_COLOR_NORMAL);
+            SolidBrush bclick = new SolidBrush(SELECTION_COLOR_NORMAL);
+            if (this.Russian)
+            {
+                bland.Color = LAND_COLOR_RUSSIAN;
+                blake.Color = LAKE_COLOR_RUSSIAN;
+                bclick.Color = SELECTION_COLOR_RUSSIAN;
+            }
+
+            
+            for (int v = 9; v > -1; v--)
+            {
+                for (int h = 0; h < 10; h++)
                 {
-                    for (int h = 0; h < 10; h++)
+                    if (selection != null)
                     {
-                        if (this.controller.GetGame().getCurrentSelection() != null)
+                        if (selection[0] == v && selection[1] == h)
                         {
-                            if (this.controller.GetGame().getCurrentSelection()[0] == v & this.controller.GetGame().getCurrentSelection()[1] == h)
+                            if (this.Russian)
                             {
-                                if (this.Russian)
-                                {
-                                    black.Color = Color.Red;
-                                }
-                                else
-                                {
-                                    black.Color = Color.Yellow;
-                                }
+                                pen.Color = Color.Red;
                             }
                             else
                             {
-                                black.Color = Color.Black;
+                                pen.Color = Color.Yellow;
                             }
-                        }
-                        if (this.controller.getBoard().getCell(v, h).getTerrain().Equals(Cell.Terrain.Land))
-                        {
-                            g.DrawRectangle(black, h * 40, (9 - v) * 40, 39, 39);
-                            g.FillRectangle(bempty, h * 40 + 1, (9 - v) * 40 + 1, 38, 38);
-                        }
-                        else if (this.controller.getBoard().getCell(v, h).getTerrain().Equals(Cell.Terrain.Lake))
-                        {
-                            g.DrawRectangle(black, h * 40, (9 - v) * 40, 39, 39);
-                            g.FillRectangle(blake, h * 40 + 1, (9 - v) * 40 + 1, 39, 39);
                         }
                         else
                         {
-                            g.DrawRectangle(black, h * 40, (9 - v) * 40, 39, 39);
-                            g.FillRectangle(bclick, h * 40 + 1, (9 - v) * 40 + 1, 39, 39);
+                            pen.Color = Color.Black;
                         }
+                    }
+                    if (b.getCell(v, h).getTerrain().Equals(Cell.Terrain.Land))
+                    {
+                        g.DrawRectangle(pen, h * 40, (9 - v) * 40, 39, 39);
+                        g.FillRectangle(bland, h * 40 + 1, (9 - v) * 40 + 1, 38, 38);
+                    }
+                    else if (b.getCell(v, h).getTerrain().Equals(Cell.Terrain.Lake))
+                    {
+                        g.DrawRectangle(pen, h * 40, (9 - v) * 40, 39, 39);
+                        g.FillRectangle(blake, h * 40 + 1, (9 - v) * 40 + 1, 39, 39);
+                    }
+                    else
+                    {
+                        g.DrawRectangle(pen, h * 40, (9 - v) * 40, 39, 39);
+                        g.FillRectangle(bclick, h * 40 + 1, (9 - v) * 40 + 1, 39, 39);
+                    }
+                }
+            }
+        }
 
-                        Piece draw = this.controller.getBoard().getCell(v, h).getPiece();
+        private void PaintAvailable(Graphics g, List<Point> availableMoves)
+        {
+            if (availableMoves != null)
+            {
+                SolidBrush bavailable = new SolidBrush(AVAILABLE_COLOR_NORMAL);
+                if (colorBlind)
+                    bavailable = new SolidBrush(AVAILABLE_COLOR_BLIND);
+                //black.Color = Color.Purple;
+                //bempty.Color = Color.Purple;
+                foreach (Point move in availableMoves)
+                {
+                    //g.DrawRectangle(black, move.X * 40, (9 - move.Y) * 40, 39, 39);
+                    g.FillRectangle(bavailable, move.X * 40 + 1, (9 - move.Y) * 40 + 1, 38, 38);
+                }
+            }
+        }
 
-
-
-
-
-
-
-                        if (draw != null)
+        private void PaintPieces(Graphics g, Board b, Piece.Team teamToPaint)
+        {
+            for (int v = 9; v > -1; v--)
+            {
+                for (int h = 0; h < 10; h++)
+                {
+                        Piece currentPiece = b.getCell(v, h).getPiece();                        
+                        
+                        if (currentPiece != null)
                         {
                             SolidBrush color;
-                            if (draw.getTeam() == Piece.Team.blue)
+                            Piece.Team team = currentPiece.getTeam();
+
+                            if (team == Piece.Team.blue)
                             {
                                 if (colorBlind)
                                 {
-                                    color = new SolidBrush(Color.White);
+                                    color = new SolidBrush(BLUE_TEAM_COLOR_BLIND);
                                 }
                                 else
                                 {
-                                    color = new SolidBrush(Color.DarkBlue);
+                                    color = new SolidBrush(BLUE_TEAM_COLOR_NORMAL);
                                 }
                             }
-                            else if (draw.getTeam() == Piece.Team.red)
+                            else if (team == Piece.Team.red)
                             {
                                 if (colorBlind)
                                 {
-                                    color = new SolidBrush(Color.Black);
+                                    color = new SolidBrush(RED_TEAM_COLOR_BLIND);
                                 }
                                 else
                                 {
-                                    color = new SolidBrush(Color.DarkRed);
+                                    color = new SolidBrush(RED_TEAM_COLOR_NORMAL);
                                 }
                             }
                             else
                             {
                                 color = new SolidBrush(Color.Black);
-                            }
+                            }                            
+
                             Rectangle piece = new Rectangle(h * 40 + 5, (9 - v) * 40 + 5, 30, 30);
                             g.DrawEllipse(new Pen(Color.Black, 3), piece);
                             g.FillEllipse(color, piece);
 
-                            if (this.controller.GetGame().getCurrentTurn() == draw.getTeam() | this.easy)
+                            if (teamToPaint == team || this.easy)
                             {
                                 String rank;
-                                switch (draw.getRank())
+                                switch (currentPiece.getRank())
                                 {
                                     case Piece.Rank.bomb:
                                         rank = "B";
@@ -554,7 +575,7 @@ namespace GUI
                                         break;
                                 }
                                 SolidBrush pencil;
-                                if (draw.getTeam() == Piece.Team.blue & this.colorBlind)
+                                if (team == Piece.Team.blue && this.colorBlind)
                                 {
                                     pencil = new SolidBrush(Color.Black);
                                 }
@@ -567,24 +588,51 @@ namespace GUI
                                     new Font("Times New Roman", 12.0f),
                                     pencil,
                                     new PointF(h * 40 + 14, (9 - v) * 40 + 10));
-
                             }
-                        }
-                    }
+                        }                
                 }
             }
-
         }
 
-        private void hotseatbutton_Click(object sender, EventArgs e)
+        //private void hotseatbutton_Click(object sender, EventArgs e)
+        //{
+
+        //}
+
+        //private void label1_Click(object sender, EventArgs e)
+        //{
+
+        //}
+
+
+        public void GameOver(Piece.Team team)
         {
-
+             if (this.colorBlind)
+             {
+                 if (team == Piece.Team.red)
+                 {
+                     //TeamLabel.Text = GUI.Properties.Resources.ResourceManager.GetString("blackwin", CultureInfo);
+                     this.SetTeamLabel("blackwin");
+                 }
+                 else
+                 {
+                     //TeamLabel.Text = GUI.Properties.Resources.ResourceManager.GetString("whitewin", CultureInfo);
+                     this.SetTeamLabel("whitewin");
+                 }
+             }
+             else
+             {
+                 if (team == Piece.Team.red)
+                 {
+                     //TeamLabel.Text = GUI.Properties.Resources.ResourceManager.GetString("redwin", CultureInfo);
+                     this.SetTeamLabel("redwin");
+                 }
+                 else
+                 {
+                     //TeamLabel.Text = GUI.Properties.Resources.ResourceManager.GetString("bluewin", CultureInfo);
+                     this.SetTeamLabel("bluewin");
+                 }
+             }
         }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
     }
 }

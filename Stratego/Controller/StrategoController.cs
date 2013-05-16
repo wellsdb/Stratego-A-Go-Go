@@ -8,6 +8,7 @@ using Stratego;
 using Network;
 using GUI;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace Controller
 {
@@ -49,8 +50,8 @@ namespace Controller
             //gui = new GUIController(GUIController.DisplayMode.Console);
 
             game = new GameController();
-            game.StartHotseatGame();
-            gui = new GUIController(GUIController.DisplayMode.Window, game.GetGame());
+            //game.StartHotseatGame();
+            gui = new GUIController(GUIController.DisplayMode.Window);
             network = new NetworkController();
             
             //initialize components
@@ -136,6 +137,9 @@ namespace Controller
                         case GUI.GUIController.UserInput.RussianMode:
                             this.RussianToggle();
                             break;
+                        case GUI.GUIController.UserInput.QuitGame:
+                            this.QuitGame();
+                            break;
                         default:
                             throw new Exception("A bad input was recieved from the GUI.");
                             break;
@@ -183,9 +187,13 @@ namespace Controller
         /// </summary>
         private void NewHotSeatGame()
         {
+            this.gui.ResetGameInformation();
             this.game.StartHotseatGame();
-            this.gui.SetBoard(this.game.GetBoard().ToString());
-            this.gui.SetPlayer(this.game.GetCurrentPlayer());
+            this.gui.SetBoard(this.game.GetBoard());
+            this.gui.SetCurrentTeam(this.game.GetCurrentTeam());
+            this.gui.SetOwnerTeam(Piece.Team.red);
+            this.gui.SetGameType(GameController.GameType.Hotseat);
+            this.gui.Update();
             //this.gui.SetToBeUpdated(true);
         }
 
@@ -194,14 +202,23 @@ namespace Controller
         /// </summary>
         private void CreateNetworkGame()
         {
+            this.gui.ResetGameInformation();
             this.network.SetSendPort(NetworkController.Port.One);
             this.network.SetRecievePort(NetworkController.Port.Two);
-            //this.network.StartServer();
-            this.game.CreateNetworkGame();
-            this.gui.SetBoard(this.game.GetBoard().ToString());
-            this.gui.SetPlayer(this.game.GetCurrentPlayer());
-            //this.gui.SetToBeUpdated(true);
+
+            String ip = this.gui.GetIP();
+            if (ip == "")
+                this.network.SetIP(NetworkController.LOCALHOST_IP);
+            else
+                this.network.SetIP(ip);
+
             this.network.StartServer();
+            this.game.CreateNetworkGame();
+            this.gui.SetBoard(this.game.GetBoard());
+            this.gui.SetCurrentTeam(this.game.GetCurrentTeam());
+            this.gui.SetOwnerTeam(Piece.Team.red);
+            this.gui.SetGameType(GameController.GameType.Network);
+            this.gui.Update();
         }
 
         /// <summary>
@@ -209,21 +226,30 @@ namespace Controller
         /// </summary>
         private void JoinNetworkGame()
         {
+            this.gui.ResetGameInformation();
             this.network.SetSendPort(NetworkController.Port.Two);
             this.network.SetRecievePort(NetworkController.Port.One);
-            this.network.SetIP(NetworkController.LOCALHOST_IP);
+
+            String ip = this.gui.GetIP();
+            if (ip == "")
+                this.network.SetIP(NetworkController.LOCALHOST_IP);
+            else
+                this.network.SetIP(ip);
+
             //this.network.StartServer();
             //CHANGE FOR DIFFERENT IP's
             this.game.JoinNetworkGame();
-            this.gui.SetBoard(this.game.GetBoard().ToString());
-            this.gui.SetPlayer(this.game.GetCurrentPlayer());
+            this.gui.SetBoard(this.game.GetBoard());
+            this.gui.SetCurrentTeam(this.game.GetCurrentTeam());
+            this.gui.SetOwnerTeam(Piece.Team.blue);
+            this.gui.SetGameType(GameController.GameType.Network);
             //this.gui.SetToBeUpdated(true);
             this.network.StartServer();
         }
 
         private void QuitGame()
         {
-
+            this.network.Stop();            
         }
 
         private void SaveGame()
@@ -238,7 +264,60 @@ namespace Controller
 
         private void TileSelection()
         {
+            //if (!this.game.GetGameOver())
+            if (true)
+            {
+                //if owner's turn
+                if (this.game.GetGameType() == GameController.GameType.Hotseat || this.game.GetOwnerTeam() == this.game.GetCurrentTeam())
+                {
+                    short[] clicked = this.gui.GetSingleCoords();
+                    short v = clicked[0];
+                    short h = clicked[1];
 
+                    short[] currentSelection = this.game.getCurrentSelection();
+
+                    Board board = this.game.GetBoard();
+
+                    Piece piece = board.getCell(v, h).getPiece();
+
+                    if (currentSelection == null)
+                    {
+                        if (piece != null)
+                        {
+                            Piece.Team activeTeam = this.game.GetCurrentTeam();
+                            Piece.Team pieceTeam = piece.getTeam();
+                            if (activeTeam == pieceTeam)
+                            {
+                                //this.currentSelection = selected;
+                                this.game.setCurrentSelection(v, h);
+                                this.gui.SetSelection(new short[] { v, h });
+                                this.gui.SetAvailableMoves(this.game.GetAvailableMoves(new Point(h, v)));
+                                this.gui.Update();
+                            }
+                            // Console.WriteLine(this.controller.GetGame().getBoard().getCell(v, h).getPiece().getRank());
+                        }
+                    }
+                    else
+                    {
+                        short currentV = currentSelection[0];
+                        short currentH = currentSelection[1];
+                        this.game.clearCurrentSelection();
+                        this.gui.SetSelection(null);
+
+                        if (currentV != v || currentH != h)
+                        {
+                            this.gui.SetSelection(null);
+                            this.MoveAttempt(new short[] { v, h, currentV, currentH });
+                        }
+                        else
+                        {
+                            this.game.clearCurrentSelection();
+                            this.gui.SetSelection(null);
+                            this.gui.Update();
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -249,17 +328,21 @@ namespace Controller
         /// <param name="coords">The coordinates of the starting and ending cells</param>
         private void MoveAttempt(short[] coords)
         {
-            String movingPC = game.GetCurrentPlayer();
-            bool[] attempt = this.game.AttemptMove(coords[2], coords[3], coords[0], coords[1]);
+            Piece.Team movingTeam = game.GetCurrentTeam();
+            bool[] attempt = this.game.AttemptMove(coords[0], coords[1], coords[2], coords[3]);
+
+            //backwards console version
+            //bool[] attempt = this.game.AttemptMove(coords[2], coords[3], coords[0], coords[1]);
             if (attempt[0])
             {
-                this.gui.SetBoard(this.game.GetBoard().ToString());
-                this.gui.SetPlayer(this.game.GetCurrentPlayer());
+                this.gui.SetBoard(this.game.GetBoard());
+                //this.gui.SetPlayer(this.game.GetCurrentPlayer());
+                this.gui.SetCurrentTeam(this.game.GetCurrentTeam());
 
                 if (this.game.GetGameType() == GameController.GameType.Network)
                 {
                     Boolean sent = false;
-                    if (this.game.GetOwnerPlayer() == movingPC)
+                    if (this.game.GetOwnerTeam() == movingTeam)
                     {
                         //Console.WriteLine("Sending: " + NetworkConverter.MoveToString(coords[0], coords[1], coords[2], coords[3]));
                         sent = this.network.SendString(NetworkConverter.MoveToString(coords[0], coords[1], coords[2], coords[3]));
@@ -270,6 +353,7 @@ namespace Controller
             this.gui.SetAttempt(attempt[0]);
             this.gui.SetGameOver(attempt[1]);
             //this.gui.SetToBeUpdated(true);
+            this.gui.Update();
         }
         
         /// <summary>
@@ -282,8 +366,11 @@ namespace Controller
 
         private void RussianToggle()
         {
-            //toggle russian mode
-            //this.gui.setRussianMode(true/false)
+            Board.BattleMode mode = this.game.GetBattleMode();
+            if (mode == Board.BattleMode.Normal)
+                this.game.SetBattleMode(Board.BattleMode.Reverse);
+            else
+                this.game.SetBattleMode(Board.BattleMode.Normal);
         }
 
         private void GameRecieved()

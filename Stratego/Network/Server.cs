@@ -69,7 +69,8 @@ namespace Network
         public void Stop()
         {
             this.listenThread.Abort();
-            this.listenThread.Join();
+            this.tcpListener.Stop();
+            //this.listenThread.Join();
         }
 
 

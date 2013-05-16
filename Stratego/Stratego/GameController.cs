@@ -18,6 +18,7 @@ namespace Stratego
         private Int16[] currentSelection;
         private Piece.Team ownerPlayer;
         private Board.BattleMode battleMode = Board.BattleMode.Normal;
+        private Boolean gameOver;
 
         public GameController()
         {
@@ -36,16 +37,27 @@ namespace Stratego
             return this.ownerPlayer.ToString();
         }
 
+        public Piece.Team GetOwnerTeam()
+        {
+            return this.ownerPlayer;
+        }
+
         public String GetCurrentPlayer()
         {
             return this.game.getCurrentTurn().ToString();
         }
 
+        public Piece.Team GetCurrentTeam()
+        {
+            return this.game.getCurrentTurn();
+        }
+
         public void StartHotseatGame()
         {
             this.game = new Game(Board.GetTestBoard());
-            this.gameType = GameType.Hotseat;
+            this.gameType = GameType.Hotseat;            
             this.game.startGame();
+            this.game.getBoard().setBattleMode(this.battleMode);
         }
 
         public void CreateNetworkGame()
@@ -59,7 +71,8 @@ namespace Stratego
             this.game = new Game(Board.GetTestBoard());
             this.gameType = GameType.Network;
             this.ownerPlayer = Piece.Team.red;
-            this.game.startGame();            
+            this.game.startGame();
+            this.game.getBoard().setBattleMode(this.battleMode);            
         }
 
         //public void JoinNetworkGame(String ip)
@@ -76,6 +89,7 @@ namespace Stratego
             this.gameType = GameType.Network;
             this.ownerPlayer = Piece.Team.blue;
             this.game.startGame();
+            this.game.getBoard().setBattleMode(this.battleMode);
             //this.WaitForTurn();
         }
 
@@ -168,7 +182,7 @@ namespace Stratego
         {
             this.game.loadFile(fileName);
         }
-
+        
         public static Boolean ValidateLinearMove(Int16 v, Int16 h, Int16 currentV, Int16 currentH)
         {
             if (v == currentV)
@@ -239,16 +253,13 @@ namespace Stratego
                 //this.WaitForTurn();
             }
             return result;
-        }
-
-        
+        }                
 
         public Boolean[] AttemptMove(Int16 newV, Int16 hewH, short oldV, short oldH)
         {            
 
             if (!ValidateLinearMove(newV, hewH, oldV, oldH))
             {
-                //this.clearCurrentSelection();
                 return new Boolean[2] { false, false };
             }
 
@@ -256,8 +267,9 @@ namespace Stratego
             Int16 dist = DistanceCalc(newV, hewH, oldV, oldH, dir);
 
             return this.game.movePiece(oldV, oldH, dir, dist);
-
         }
+
+
 
         public void SetSendPort(int port)
         {
@@ -316,6 +328,12 @@ namespace Stratego
         public Board.BattleMode GetBattleMode()
         {
             return this.battleMode;
+        }
+
+        public Boolean GetGameOver()
+        {
+            //return this.game.over
+            return false;
         }
 
     }

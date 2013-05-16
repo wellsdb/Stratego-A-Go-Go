@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
+using Stratego;
+using System.Drawing;
 
 namespace GUI
 {
@@ -15,20 +17,28 @@ namespace GUI
     /// </summary>
     public class GUIController
     {
-        public enum UserInput { Hotseat, CreateNetwork, JoinNetwork, Settings, Exit, Tile, Move, Save, Load, RussianMode, Editor, Colorblind, Easy, SpanishLanguage };
+        public enum UserInput { Hotseat, CreateNetwork, JoinNetwork, Settings, Exit, Tile, Move, Save, Load, RussianMode, Editor, Colorblind, Easy, SpanishLanguage, QuitGame };
         public enum DisplayMode { Console, Window };
         private View view;
         private ConsoleDisplay display;
+        private FrontEnd frontend;
         private Boolean hasUpdate;
         private UserInput ui;
         private short[] singleCoords;
         private short[] doubleCoords;
+        private short[] selection;
         private DisplayMode mode;
-        private String player;
+        private String playerName;
+        private Piece.Team playerTeam;
+        private Piece.Team ownerTeam;
+        private GameController.GameType gameType;
         private Boolean attempt;
-        private Stratego.Game game;
+        //private Stratego.Game game;
         private Stratego.Board board;
+        private String boardString;
         private Boolean gameOver;
+        private List<Point> availableMoves;
+        private String ip;
         //private Boolean toBeUpdated = false;
 
         /// <summary>
@@ -45,7 +55,7 @@ namespace GUI
         /// or console). Currently only supports console.
         /// </summary>
         /// <param name="mode"></param>
-        public GUIController(DisplayMode mode, Stratego.Game game)
+        public GUIController(DisplayMode mode)
         {
             this.mode = mode;
             
@@ -60,13 +70,9 @@ namespace GUI
                 //v.Show();
                 //v.Visible = true;
                 //v.Activate();
-                this.game = game;
-                this.board = game.getBoard();
                 this.view = new View(this);
                 Thread ShowViewThread = new Thread(new ThreadStart(ShowView));
                 ShowViewThread.Start();
-
-                //throw new Exception("Window display mode not yet covered.");
             }
             else
                 throw new Exception("Bad display mode");
@@ -76,26 +82,54 @@ namespace GUI
         {
             Application.Run(this.view);
         }
-        
+
+        public void SetSelection(short[] selection)
+        {
+            if (selection == null)
+                this.availableMoves = null;
+            this.selection = selection;
+        }
+
+        public short[] GetSelection()
+        {
+            return this.selection;
+        }
+
         /// <summary>
         /// Directs the GUI to update itself by refreshing its display
         /// of the board, current player, and if applicable, game winner.
         /// </summary>
         public void Update()
         {
-            if (this.gameOver)
-                  this.display.GameOver(this.player);
-             else
-                 this.display.UpdatePlayer(this.player);            
-            this.display.Prompt();
+            if (this.mode == DisplayMode.Window)
+            {
+                this.view.UpdateBoard();
+                if (this.gameOver)
+                    this.view.GameOver(this.playerTeam);
+                else
+                    this.view.UpdatePlayer(this.playerTeam);
+            }
+            if (this.mode == DisplayMode.Console)
+            {
+                if (this.gameOver)
+                    this.display.GameOver(this.playerName);
+                else
+                    this.display.UpdatePlayer(this.playerName);
+                this.display.Prompt();
+            }
         }
 
-        public Stratego.Game GetGame()
+        //public Stratego.Game GetGame()
+        //{
+        //    return this.game;
+        //}
+
+        public String GetBoardString()
         {
-            return this.game;
+            return this.boardString;
         }
 
-        public Stratego.Board getBoard()
+        public Stratego.Board GetBoard()
         {
             return this.board;
         }
@@ -113,9 +147,14 @@ namespace GUI
         /// the gui.
         /// </summary>
         /// <param name="board">String representation of board to be displayed</param>
-        public void SetBoard(String board)
+        public void SetBoardString(String board)
         {
-            this.board = Stratego.Board.FromString(board);
+            this.boardString = board;
+        }
+
+        public void SetBoard(Stratego.Board board)
+        {
+            this.board = board;
         }
         
         /// <summary>
@@ -125,7 +164,7 @@ namespace GUI
         /// <param name="player">Player to display for the current turn</param>
         public void SetPlayer(String player)
         {
-            this.player = player;
+            this.playerName = player;
         }
 
         /// <summary>
@@ -153,68 +192,138 @@ namespace GUI
         /// </summary>
         public void ResetUpdate()
         {
-            if (this.hasUpdate)
+            if (this.mode == DisplayMode.Window)
             {
-                switch (this.ui)
+                if (this.hasUpdate)
                 {
-                    case UserInput.Hotseat:
-                        //this.display.UpdateBoard(this.board);
-                        this.display.UpdatePlayer(this.player);
-                        break;
-                    case UserInput.CreateNetwork:
-                     //   this.display.UpdateBoard(this.board);
-                        this.display.UpdatePlayer(this.player);
-                        break;
-                    case UserInput.JoinNetwork:
-                      //  this.display.UpdateBoard(this.board);
-                        this.display.UpdatePlayer(this.player);
-                        break;
-                    case UserInput.Settings:
-                        break;
-                    case UserInput.Exit:
-                        break;
-                    case UserInput.Tile:
-                        break;
-                    case UserInput.Move:
-                        if (this.attempt)
-                        {
-                    //        this.display.UpdateBoard(this.board);
-                            if (this.gameOver)
-                                this.display.GameOver(this.player);
-                            else
-                                this.display.UpdatePlayer(this.player);
-                        }
-                        else                        
-                            this.display.MoveFailed();
-                        this.hasUpdate = false;
-                        break;
-                    case UserInput.Save:
-                        break;
-                    case UserInput.Load:
-                        break;
-                    case UserInput.RussianMode:
-                        //do something
-                        //tell it to repaint
-                        break;
-                    
-                    case UserInput.Editor:
+                    switch (this.ui)
+                    {
+                        case UserInput.Hotseat:
+                            this.view.UpdateBoard();
+                            this.view.UpdatePlayer(this.playerTeam);
+                            break;
+                        case UserInput.CreateNetwork:
+                            this.view.UpdateBoard();
+                            this.view.UpdatePlayer(this.playerTeam);
+                            break;
+                        case UserInput.JoinNetwork:
+                            //this.view.Wait();
+                            break;
+                        case UserInput.Settings:
+                            break;
+                        case UserInput.Exit:
+                            break;
+                        case UserInput.Tile:
+                            break;
+                        case UserInput.Move:
+                            if (this.attempt)
+                            {
+                                this.view.UpdateBoard();
+                                if (this.gameOver)
+                                    this.view.GameOver(this.playerTeam);
+                                else
+                                    this.view.UpdatePlayer(this.playerTeam);
+                            }
+                            //else
+                            //    this.view.MoveFailed();
+                            //this.hasUpdate = false;
+                            break;
+                        case UserInput.Save:
+                            break;
+                        case UserInput.Load:
+                            break;
+                        case UserInput.RussianMode:
+                            //do something
+                            //tell it to repaint
+                            break;
 
-                        break;
+                        case UserInput.Editor:
 
-                    case UserInput.Colorblind:
+                            break;
 
-                        break;
-                    case UserInput.Easy:
+                        case UserInput.Colorblind:
 
-                        break;
-                    case UserInput.SpanishLanguage:
+                            break;
+                        case UserInput.Easy:
 
-                        break;
-                    default:
-                        throw new Exception("GUIController reseting bad input type.");
+                            break;
+                        case UserInput.SpanishLanguage:
+
+                            break;
+                        default:
+                            throw new Exception("GUIController reseting bad input type.");
+                    }
+                    this.hasUpdate = false;
+                    //new Thread(new ThreadStart(this.display.Prompt)).Start();
                 }
-                this.hasUpdate = false;
-                new Thread(new ThreadStart(this.display.Prompt)).Start();
+            }
+
+
+            if (this.mode == DisplayMode.Console)
+            {
+                if (this.hasUpdate)
+                {
+                    switch (this.ui)
+                    {
+                        case UserInput.Hotseat:
+                            //this.display.UpdateBoard(this.board);
+                            this.display.UpdatePlayer(this.playerName);
+                            break;
+                        case UserInput.CreateNetwork:
+                         //   this.display.UpdateBoard(this.board);
+                            this.display.UpdatePlayer(this.playerName);
+                            break;
+                        case UserInput.JoinNetwork:
+                          //  this.display.UpdateBoard(this.board);
+                            this.display.UpdatePlayer(this.playerName);
+                            break;
+                        case UserInput.Settings:
+                            break;
+                        case UserInput.Exit:
+                            break;
+                        case UserInput.Tile:
+                            break;
+                        case UserInput.Move:
+                            if (this.attempt)
+                            {
+                        //        this.display.UpdateBoard(this.board);
+                                if (this.gameOver)
+                                    this.display.GameOver(this.playerName);
+                                else
+                                    this.display.UpdatePlayer(this.playerName);
+                            }
+                            else                        
+                                this.display.MoveFailed();
+                            this.hasUpdate = false;
+                            break;
+                        case UserInput.Save:
+                            break;
+                        case UserInput.Load:
+                            break;
+                        case UserInput.RussianMode:
+                            //do something
+                            //tell it to repaint
+                            break;
+                    
+                        case UserInput.Editor:
+
+                            break;
+
+                        case UserInput.Colorblind:
+
+                            break;
+                        case UserInput.Easy:
+
+                            break;
+                        case UserInput.SpanishLanguage:
+
+                            break;
+                        default:
+                            throw new Exception("GUIController reseting bad input type.");
+                    }
+                    this.hasUpdate = false;
+                    new Thread(new ThreadStart(this.display.Prompt)).Start();
+                }
             }
             //this.ui = -1;
         }
@@ -266,6 +375,17 @@ namespace GUI
             if (!this.hasUpdate)
             {
                 this.ui = UserInput.CreateNetwork;
+                this.ip = "";
+                this.hasUpdate = true;
+            }
+        }
+
+        public void CreateNetworkGamePress(String ip)
+        {
+            if (!this.hasUpdate)
+            {
+                this.ui = UserInput.CreateNetwork;
+                this.ip = ip;
                 this.hasUpdate = true;
             }
         }
@@ -278,6 +398,17 @@ namespace GUI
             if (!this.hasUpdate)
             {
                 this.ui = UserInput.JoinNetwork;
+                this.ip = "";
+                this.hasUpdate = true;
+            }
+        }
+
+        public void JoinNetworkGamePress(String ip)
+        {
+            if (!this.hasUpdate)
+            {
+                this.ui = UserInput.JoinNetwork;
+                this.ip = ip;
                 this.hasUpdate = true;
             }
         }
@@ -366,6 +497,87 @@ namespace GUI
                 this.ui = UserInput.RussianMode;
                 this.hasUpdate = true;
             }
+        }
+
+        public void QuitGame()
+        {
+            //right now, becomes stuck once StrategoController tells the server to stop
+
+            //if (!this.hasUpdate)
+            //{
+            //    this.ui = UserInput.QuitGame;
+            //    this.hasUpdate = true;
+            //}
+        }
+
+        public short[] GetSingleCoords()
+        {
+            return this.singleCoords;
+        }
+
+        public Piece.Team GetCurrentTeam()
+        {
+            return this.playerTeam;
+        }
+
+        public void SetCurrentTeam(Piece.Team team)
+        {
+            this.playerTeam = team;
+        }
+
+        public void SetAvailableMoves(List<Point> coords)
+        {
+            this.availableMoves = coords;
+        }
+
+        public List<Point> GetAvailableMoves()
+        {
+            return this.availableMoves;
+        }
+
+        public Boolean GetGameOver()
+        {
+            return this.gameOver;
+        }
+
+        public void ResetGameInformation()
+        {
+            this.hasUpdate = false;
+            this.singleCoords = null;
+            this.doubleCoords = null;
+            this.selection = null;
+            this.playerName = null;
+            this.playerTeam = Piece.Team.red;
+            this.attempt = false;
+            this.board = null;
+            this.boardString = null;
+            this.gameOver = false;
+            this.availableMoves = null;
+        }
+
+        public GameController.GameType GetGameType()
+        {
+            return this.gameType;
+        }
+
+        public void SetGameType(GameController.GameType gameType)
+        {
+            this.gameType = gameType;
+        }
+
+        public Piece.Team GetOwnerTeam()
+        {
+            return this.ownerTeam;
+        }
+
+        public void SetOwnerTeam(Piece.Team ownerTeam)
+        {
+            this.ownerTeam = ownerTeam;
+        }
+
+        public String GetIP()
+        {
+            return this.ip;
         }
 
     }

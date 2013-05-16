@@ -15,6 +15,10 @@ namespace Stratego
         private Int16 pieceCount;
         private String name;
 
+        private Boolean hasFlag;
+        private Boolean hasMoveable;
+
+
         public Player()
         {
             this.pieceCount = DEFAULT_PIECECOUNT;
@@ -25,12 +29,16 @@ namespace Stratego
         {
             this.pieceCount = DEFAULT_PIECECOUNT;
             this.name = name;
+            this.hasFlag = true;
+            this.hasMoveable = true;
         }
 
         public Player(Int16 pieceCount, String name)
         {
             this.pieceCount = pieceCount;
             this.name = name;
+            this.hasFlag = true;
+            this.hasMoveable = true;
         }
 
         public void setName(String name)
@@ -56,6 +64,16 @@ namespace Stratego
         public String getName()
         {
             return this.name;
+        }
+
+        public Boolean GetHasFlag()
+        {
+            return this.hasFlag;
+        }
+
+        public void SetHasFlag(Boolean hasFlag)
+        {
+            this.hasFlag = hasFlag;
         }
         
     }

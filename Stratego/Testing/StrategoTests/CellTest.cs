@@ -5,19 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using Stratego;
 using NUnit.Framework;
-//using Rhino.Mocks;
+using Rhino.Mocks;
 
 namespace Testing.StrategoTests
 {
     [TestFixture()]
     public class CellTest
     {
-        // private MockRepository mocks;
+        private MockRepository mocks;
 
         [SetUp()]
         public void Setup()
         {
-            //      mocks = new MockRepository();
+            mocks = new MockRepository();
         }
 
         [Test()]
@@ -55,7 +55,7 @@ namespace Testing.StrategoTests
             Cell target1 = new Cell(dummyPiece1);
             Cell target2 = new Cell(dummyPiece2);
             Cell target3 = new Cell();
-            Cell target4 = new Cell();s
+            Cell target4 = new Cell();
 
             target3.setPiece(dummyPiece1);
             target4.setPiece(dummyPiece2);
